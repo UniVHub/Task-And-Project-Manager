@@ -4,7 +4,7 @@ Table Project {
   Name varchar [not null]
   Description text
   CreationDate datetime [not null]
-  TerminationDate datetime [not null]
+  TerminationDate datetime
 }
 
 // Task Table
@@ -14,7 +14,7 @@ Table Task {
   Name varchar [not null]
   Description text
   CreationDate datetime [not null]
-  TerminationDate datetime [not null]
+  TerminationDate datetime
 }
 
 // Log Table
