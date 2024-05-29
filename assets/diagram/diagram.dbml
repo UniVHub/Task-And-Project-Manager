@@ -1,0 +1,44 @@
+// Project Table
+Table Project {
+  ID int [pk, increment]
+  Name varchar [not null]
+  Description text
+  CreationDate datetime [not null]
+  TerminationDate datetime [not null]
+}
+
+// Task Table
+Table Task {
+  ID int [pk, increment]
+  ProjectID int [not null, ref: > Project.ID]
+  Name varchar [not null]
+  Description text
+  CreationDate datetime [not null]
+  TerminationDate datetime [not null]
+}
+
+// Log Table
+Table Log {
+  ID int [pk, increment]
+  Operation Operation [not null]
+  Entity Entity [not null]
+  EntityID int [not null]
+  Timestamp datetime [not null]
+}
+
+Enum Operation {
+  CREATION
+  MODIFICATION
+  DELETION
+  RETRIEVAL
+}
+
+// Enum for Entity
+Enum Entity {
+  PROJECT
+  TASK
+}
+
+
+// Relationships
+//Ref: Task.ProjectID > Project.ID
