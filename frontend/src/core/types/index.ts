@@ -1,7 +1,7 @@
 export interface ProjectInterface {
-  id: number;
-  Name: string;
-  Description: string;
-  CreationDate: string;
-  TerminationDate: string;
+  id?: number;
+  name: string;
+  description: string;
+  creationDate: string;
+  terminationDate: string | null;
 }

@@ -1,20 +1,20 @@
 import { ProjectInterface } from "@/core/types";
 
-const baseUrlProject = "https://retoolapi.dev/hsSzQy";
+const baseUrlProject = "https://retoolapi.dev/wbgTjE";
 
 
 export const getProjects = async () => {
-  const response = await fetch(`${baseUrlProject}/manager-project`);
+  const response = await fetch(`${baseUrlProject}/data`);
   return response.json();
 };
 
 export const getProject = async (id: string) => {
-  const response = await fetch(`${baseUrlProject}/manager-project/${id}`);
+  const response = await fetch(`${baseUrlProject}/data/${id}`);
   return response.json();
 }
 
 export const createProject = async (project: ProjectInterface) => {
-  const response = await fetch(`${baseUrlProject}/manager-project`, {
+  const response = await fetch(`${baseUrlProject}/data`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -25,7 +25,7 @@ export const createProject = async (project: ProjectInterface) => {
 }
 
 export const updateProject = async (project: ProjectInterface) => {
-  const response = await fetch(`${baseUrlProject}/manager-project/${project.id}`, {
+  const response = await fetch(`${baseUrlProject}/data/${project.id}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
@@ -36,7 +36,7 @@ export const updateProject = async (project: ProjectInterface) => {
 }
 
 export const deleteProject = async (id: string) => {
-  const response = await fetch(`${baseUrlProject}/manager-project/${id}`, {
+  const response = await fetch(`${baseUrlProject}/data/${id}`, {
     method: "DELETE",
   });
   return response.json();

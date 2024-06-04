@@ -1,12 +1,14 @@
 import { ProjectInterface } from "@/core/types";
-import { truncateString } from "../utils";
+import { truncateString } from "../../utils";
 import { Project } from "./Project";
+import { useState } from "react";
 
 interface ProjectsProps {
   projects: ProjectInterface[];
 }
 
 export const Projects: React.FC<ProjectsProps> = ({ projects }) => {
+
   return (
     <div className="mt-6 overflow-x-auto">
       <table className="table">

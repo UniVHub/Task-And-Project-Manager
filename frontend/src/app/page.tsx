@@ -3,7 +3,9 @@ import { ProjectInterface } from "@/core/types";
 import { AddIcon } from "../core/components/icons";
 import { useEffect, useState } from "react";
 import { getProjects } from "@/core/api";
-import { Projects } from "@/core/components/Projects";
+import { Projects } from "@/core/components/Project/Projects";
+import { ModalNewProject } from "@/core/components/Project/ModalNewProject";
+import { ProjectProvider } from "@/core/context/projectToEditContext";
 
 export default function Home() {
   const [projects, setProjects] = useState<ProjectInterface[]>([]);
@@ -16,19 +18,25 @@ export default function Home() {
     getProjectsData();
   }, []);
 
-  useEffect(() => {
-    console.log(projects);
-  }, [projects]);
+  const handleOpenModal = () => {
+    const modal = document.getElementById("my_modal") as HTMLDialogElement;
+    if (modal) {
+      modal.showModal();
+    }
+  };
 
   return (
-    <main>
-      <div className="mr-10 mt-16 flex justify-end md:mr-24">
-        <button className="btn">
+    <div>
+      <div className="mt-16 flex justify-end">
+        <button className="btn" onClick={handleOpenModal}>
           Add Project
           <AddIcon />
         </button>
       </div>
-      <Projects projects={projects} />
-    </main>
+      <ProjectProvider>
+        <Projects projects={projects} />
+        <ModalNewProject />
+      </ProjectProvider>
+    </div>
   );
 }
