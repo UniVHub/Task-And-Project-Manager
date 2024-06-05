@@ -3,17 +3,18 @@ import React, { useEffect, useId, useState } from "react";
 import { toast } from "sonner";
 import { ProjectInterface, ProjectFormInterface } from "@/core/types";
 
-/**
- * Props for the FormNewProject component.
- */
 interface FormNewProjectProps {
   projectToEdit: ProjectInterface | {};
   saveProject: (project: ProjectFormInterface) => void;
+  isClosed: boolean;
+  setIsClosed: (isClosed: boolean) => void;
 }
 
 export const FormNewProject: React.FC<FormNewProjectProps> = ({
   projectToEdit,
   saveProject,
+  isClosed,
+  setIsClosed,
 }) => {
   const [dataForm, setDataForm] = useState({
     name: "",
@@ -35,6 +36,14 @@ export const FormNewProject: React.FC<FormNewProjectProps> = ({
       setDataForm((prevState) => ({ ...prevState, ...projectToEdit }));
     }
   }, [projectToEdit]);
+
+  useEffect(() => {
+    if (isClosed) {
+      clearDataForm();
+    }
+    setIsClosed(false);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[isClosed])
 
   const handleSubmit = (e: { preventDefault: () => void }) => {
     e.preventDefault();

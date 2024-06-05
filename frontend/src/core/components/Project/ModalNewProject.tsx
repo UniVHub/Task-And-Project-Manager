@@ -1,3 +1,5 @@
+"use client"
+import { useState } from "react";
 import { FormNewProject } from "./FormNewProject";
 import { ProjectFormInterface, ProjectInterface } from "@/core/types";
 
@@ -15,9 +17,12 @@ export const ModalNewProject: React.FC<ModalNewProjectProps> = ({
   handleCloseModal,
   saveProject,
 }) => {
+  const [isClosed, setIsClosed] = useState(false);
+
   const handleClose = (e: { preventDefault: () => void }) => {
     e.preventDefault();
     handleCloseModal();
+    setIsClosed(true);
   };
 
   return (
@@ -33,6 +38,8 @@ export const ModalNewProject: React.FC<ModalNewProjectProps> = ({
             <FormNewProject
               projectToEdit={projectToEdit}
               saveProject={saveProject}
+              isClosed={isClosed}
+              setIsClosed={setIsClosed}
             />
           </div>
           <div className="flex justify-end">
