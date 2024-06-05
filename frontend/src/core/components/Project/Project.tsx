@@ -1,22 +1,20 @@
-import { useProjectContext } from "@/core/context/projectToEditContext";
-import { ProjectInterface } from "../../types";
-import { formatDate, truncateString } from "../../utils";
+import { ProjectInterface } from "@/core/types";
+import { formatDate, truncateString } from "@/core/utils";
 
-export const Project = ({
-  project,
-  index,
-}: {
+/**
+ * Represents the props for the Project component.
+ */
+interface ProjectProps {
   project: ProjectInterface;
-  index: number;
-}) => {
-  const { setProjectToEdit } = useProjectContext();
+  setProjectToEdit: (project: ProjectInterface) => void;
+  handleOpenModal: () => void;
+}
 
-  const handleOpenModal = () => {
-    const modal = document.getElementById("my_modal") as HTMLDialogElement;
-    if (modal) {
-      modal.showModal();
-    }
-  };
+export const Project: React.FC<ProjectProps> = ({
+  project,
+  setProjectToEdit,
+  handleOpenModal,
+}) => {
 
   const handleDetails = () => {
     console.log("Details");
@@ -32,8 +30,7 @@ export const Project = ({
   };
 
   return (
-    <tr key={project.id}>
-      <th>{index + 1}</th>
+    <tr>
       <td>{truncateString(project.name, 38)}</td>
       <td>{truncateString(project.description, 20)}</td>
       <td>{formatDate(project.creationDate)}</td>

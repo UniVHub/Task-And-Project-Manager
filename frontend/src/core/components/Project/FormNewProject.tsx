@@ -1,73 +1,46 @@
 "use client";
 import React, { useEffect, useId, useState } from "react";
 import { toast } from "sonner";
-import { createProject } from "../../api";
-import { useProjectContext } from "@/core/context/projectToEditContext";
-import { updateProject } from "../../api";
+import { ProjectInterface, ProjectFormInterface } from "@/core/types";
 
-export const FormNewProject = () => {
-  const { projectToEdit, setProjectToEdit } = useProjectContext();
+interface FormNewProjectProps {
+  projectToEdit: ProjectInterface | {};
+  saveProject: (project: ProjectFormInterface) => void;
+}
 
-  const [project, setProject] = useState({
-    name: projectToEdit ? projectToEdit.name : "",
-    description: projectToEdit ? projectToEdit.description : "",
+export const FormNewProject: React.FC<FormNewProjectProps> = ({
+  projectToEdit,
+  saveProject,
+}) => {
+  const [dataForm, setDataForm] = useState({
+    name: "",
+    description: "",
   });
-
-  useEffect(() => {
-    console.log(projectToEdit)
-    if (projectToEdit) {
-      setProject({
-        name: projectToEdit.name,
-        description: projectToEdit.description,
-      });
-    } else {
-      setProject({ name: "", description: "" });
-    }
-  },[projectToEdit])
 
   const name = useId();
   const description = useId();
 
-  const closeModal = () => {
-    const modal = document.getElementById("my_modal") as HTMLDialogElement;
-    if (modal) {
-      modal.close();
-    }
+  const clearDataForm = () => {
+    setDataForm({
+      name: "",
+      description: "",
+    });
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  useEffect(() => {
+    if (Object.keys(projectToEdit).length > 0) {
+      setDataForm((prevState) => ({ ...prevState, ...projectToEdit }));
+    }
+  }, [projectToEdit]);
+
+  const handleSubmit = (e: { preventDefault: () => void }) => {
     e.preventDefault();
-    if (!project.name || !project.description) {
+    if (dataForm.name.trim() === "" || dataForm.description.trim() === "") {
       toast.error("Please fill all fields");
       return;
     }
-
-    if (!projectToEdit) {
-      const newProject = {
-        ...project,
-        creationDate: new Date().toISOString(),
-        terminationDate: null,
-      };
-
-      createProject(newProject).then(() => {
-        toast.success("Project created successfully");
-      });
-    } else {
-      const newProject = {
-        ...project,
-        id: projectToEdit.id,
-        creationDate: projectToEdit.creationDate,
-        terminationDate: projectToEdit.terminationDate,
-      };
-      updateProject(newProject).then(() => {
-        toast.success("Project updated successfully");
-      });
-
-      setProjectToEdit(null);
-    }
-    
-    closeModal();
-    setProject({ name: "", description: "" });
+    saveProject(dataForm);
+    clearDataForm();
   };
 
   return (
@@ -81,8 +54,8 @@ export const FormNewProject = () => {
           id={name}
           placeholder="Enter project's name"
           className="input input-bordered mt-2 w-full"
-          value={project.name}
-          onChange={(e) => setProject({ ...project, name: e.target.value })}
+          value={dataForm.name}
+          onChange={(e) => setDataForm({ ...dataForm, name: e.target.value })}
         />
       </div>
       <div className="mb-5">
@@ -93,16 +66,18 @@ export const FormNewProject = () => {
           id={description}
           className="textarea textarea-bordered mt-2 w-full"
           placeholder="Enter project's description"
-          value={project.description}
+          value={dataForm.description}
           onChange={(e) =>
-            setProject({ ...project, description: e.target.value })
+            setDataForm({ ...dataForm, description: e.target.value })
           }
         />
       </div>
       <input
         type="submit"
         className="transtion-all w-full cursor-pointer bg-indigo-600 p-3 font-bold uppercase text-white hover:bg-indigo-700"
-        value={"Create Project"}
+        value={
+          (Object.keys(projectToEdit).length>0) ? "Edit Project" : "Create Project"
+        }
       />
     </form>
   );

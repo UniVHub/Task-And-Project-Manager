@@ -1,20 +1,25 @@
 import { ProjectInterface } from "@/core/types";
-import { truncateString } from "../../utils";
 import { Project } from "./Project";
-import { useState } from "react";
 
+/**
+ * Props for the Projects component.
+ */
 interface ProjectsProps {
   projects: ProjectInterface[];
+  setProjectToEdit: (project: ProjectInterface) => void;
+  handleOpenModal: () => void;
 }
 
-export const Projects: React.FC<ProjectsProps> = ({ projects }) => {
-
+export const Projects: React.FC<ProjectsProps> = ({
+  projects,
+  setProjectToEdit,
+  handleOpenModal,
+}) => {
   return (
     <div className="mt-6 overflow-x-auto">
       <table className="table">
         <thead>
           <tr>
-            <th></th>
             <th>Name</th>
             <th>Description</th>
             <th>Creation Date</th>
@@ -24,7 +29,12 @@ export const Projects: React.FC<ProjectsProps> = ({ projects }) => {
         </thead>
         <tbody>
           {projects.map((project, index) => (
-            <Project project={project} index={index} key={project.id} />
+            <Project
+              key={project.id}
+              project={project}
+              setProjectToEdit={setProjectToEdit}
+              handleOpenModal={handleOpenModal}
+            />
           ))}
         </tbody>
       </table>

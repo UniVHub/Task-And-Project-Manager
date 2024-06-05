@@ -1,16 +1,23 @@
-import { useProjectContext } from "@/core/context/projectToEditContext";
 import { FormNewProject } from "./FormNewProject";
+import { ProjectFormInterface, ProjectInterface } from "@/core/types";
 
-export const ModalNewProject = () => {
-  const { projectToEdit, setProjectToEdit } = useProjectContext();
+/**
+ * Props for the ModalNewProject component.
+ */
+interface ModalNewProjectProps {
+  projectToEdit: ProjectInterface | {};
+  handleCloseModal: () => void;
+  saveProject: (project: ProjectFormInterface) => void;
+}
 
-  const handleCloseModal = (e: { preventDefault: () => void }) => {
+export const ModalNewProject: React.FC<ModalNewProjectProps> = ({
+  projectToEdit,
+  handleCloseModal,
+  saveProject,
+}) => {
+  const handleClose = (e: { preventDefault: () => void }) => {
     e.preventDefault();
-    const modal = document.getElementById("my_modal") as HTMLDialogElement;
-    if (modal) {
-      modal.close();
-      setProjectToEdit(null);
-    }
+    handleCloseModal();
   };
 
   return (
@@ -18,14 +25,19 @@ export const ModalNewProject = () => {
       <dialog id="my_modal" className="modal modal-bottom sm:modal-middle">
         <div className="modal-box">
           <h3 className="text-lg font-bold capitalize">
-            {projectToEdit ? "Edit Project" : "Create new project"}
+            {Object.keys(projectToEdit).length > 0
+              ? "Edit Project"
+              : "Create new project"}
           </h3>
           <div className="py-4">
-            <FormNewProject />
+            <FormNewProject
+              projectToEdit={projectToEdit}
+              saveProject={saveProject}
+            />
           </div>
           <div className="flex justify-end">
             <button
-              onClick={handleCloseModal}
+              onClick={handleClose}
               className="btn btn-circle btn-ghost btn-sm absolute right-2 top-2"
             >
               ✕

@@ -1,3 +1,7 @@
+/**
+ * Renders the logo as an SVG element.
+ * @returns The JSX element representing the logo.
+ */
 export function Logo(): JSX.Element {
   return (
     <svg
@@ -45,6 +49,10 @@ export function Logo(): JSX.Element {
   );
 }
 
+/**
+ * Renders the add icon as an SVG element.
+ * @returns The JSX element representing the logo.
+ */
 export function AddIcon(): JSX.Element {
   return (
     <svg
