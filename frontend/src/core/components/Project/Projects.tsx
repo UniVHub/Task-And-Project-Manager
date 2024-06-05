@@ -16,7 +16,7 @@ export const Projects: React.FC<ProjectsProps> = ({
   handleOpenModal,
 }) => {
   return (
-    <div className="mt-6 overflow-x-auto">
+    <div className="mt-6 overflow-x-auto overflow-y-hidden">
       <table className="table">
         <thead>
           <tr>

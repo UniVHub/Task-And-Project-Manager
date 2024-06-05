@@ -1,10 +1,8 @@
 import "./globals.css";
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Metadata } from "next";
 import { Header } from "../core/components/Header/Header";
 import { Toaster } from "sonner";
-
-const inter = Inter({ subsets: ["latin"] });
+import { inter } from "@/core/fonts";
 
 export const metadata: Metadata = {
   title: "Project Manager",
@@ -13,7 +11,7 @@ export const metadata: Metadata = {
 
 /**
  * Root layout component for the application.
- * 
+ *
  * @param children - The child components to render within the layout.
  * @returns The rendered layout component.
  */
@@ -24,8 +22,8 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" data-theme="dracula">
-      <body className={inter.className}>
-        <div className="flex min-h-screen flex-col px-5 py-10">
+      <body className={`${inter.className} antialiased`}>
+        <div className="flex min-h-screen flex-col overflow-y-auto px-5 py-10">
           <Toaster />
           <Header />
           {children}

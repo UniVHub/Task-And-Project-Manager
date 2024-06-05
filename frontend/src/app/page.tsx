@@ -55,7 +55,7 @@ export default function Home() {
 
   return (
     <div>
-      <div className="mt-16 flex justify-end">
+      <div className="mt-12 flex justify-end">
         <button className="btn" onClick={handleOpenModal}>
           Add Project
           <AddIcon />

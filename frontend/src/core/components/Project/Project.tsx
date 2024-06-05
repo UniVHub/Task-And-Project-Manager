@@ -1,5 +1,7 @@
 import { ProjectInterface } from "@/core/types";
 import { formatDate, truncateString } from "@/core/utils";
+import clsx from "clsx";
+import Link from "next/link";
 
 /**
  * Represents the props for the Project component.
@@ -15,7 +17,6 @@ export const Project: React.FC<ProjectProps> = ({
   setProjectToEdit,
   handleOpenModal,
 }) => {
-
   const handleDetails = () => {
     console.log("Details");
   };
@@ -34,26 +35,35 @@ export const Project: React.FC<ProjectProps> = ({
       <td>{truncateString(project.name, 38)}</td>
       <td>{truncateString(project.description, 20)}</td>
       <td>{formatDate(project.creationDate)}</td>
-      <td>
+      <td
+        className={clsx({
+          "text-secondary": !project.terminationDate,
+        })}
+      >
         {project.terminationDate
           ? formatDate(project.terminationDate)
           : "The project is still active"}
       </td>
       <td>
-        <details className="dropdown">
-          <summary className="btn btn-xs m-1">Actions</summary>
-          <ul className="menu dropdown-content z-[1] w-52 rounded-box bg-base-100 p-2 shadow">
+        <div className="dropdown dropdown-left">
+          <div tabIndex={0} role="button" className="btn btn-xs m-1">
+            Actions
+          </div>
+          <ul
+            tabIndex={0}
+            className="menu dropdown-content z-[1] w-52 rounded-box bg-base-100 p-2 shadow"
+          >
             <li>
-              <a onClick={handleDetails}>Details</a>
+              <button onClick={handleDetails}>Details</button>
             </li>
             <li>
-              <a onClick={handleEdit}>Edit</a>
+              <button onClick={handleEdit}>Edit</button>
             </li>
             <li>
-              <a onClick={handleDelete}>Delete</a>
+              <button onClick={handleDelete}>Delete</button>
             </li>
           </ul>
-        </details>
+        </div>
       </td>
     </tr>
   );
