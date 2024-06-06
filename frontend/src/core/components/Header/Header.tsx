@@ -1,6 +1,6 @@
 import Image from "next/image";
 
-export const Header = () => {
+export default function Header() {
   return (
     <header className="flex items-center justify-center gap-5">
       <div>

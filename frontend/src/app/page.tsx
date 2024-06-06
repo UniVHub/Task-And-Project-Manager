@@ -1,9 +1,8 @@
-import { Suspense } from "react";
-import { Projects } from "@/core/components/Project/Projects";
-import { ModalNewProject } from "@/core/components/Project/ModalNewProject";
+import AddButton from "@/core/components/Project/AddButton";
 import Search from "@/core/components/Project/Search";
-import { CreateInvoice } from "@/core/components/Project/buttons";
-import { AddButton } from "@/core/components/Project/AddButton";
+import ModalNewProject from "@/core/components/Project/ModalNewProject";
+import { Suspense } from "react";
+import Projects from "@/core/components/Project/Projects";
 import { TableSkeleton } from "@/core/components/skeletons";
 import { getFilteredProjectsPages } from "@/core/api";
 import Pagination from "@/core/components/Project/Pagination";

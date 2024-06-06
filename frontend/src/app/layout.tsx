@@ -1,6 +1,6 @@
 import "./globals.css";
+import Header from "../core/components/Header/Header";
 import { Metadata } from "next";
-import { Header } from "../core/components/Header/Header";
 import { Toaster } from "sonner";
 import { inter } from "@/core/fonts";
 import { ProjectProvider } from "@/core/context/projectToEditContext";

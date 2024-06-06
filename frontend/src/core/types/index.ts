@@ -9,7 +9,6 @@ export interface ProjectInterface {
   terminationDate: string | null;
 }
 
-
 /**
  * Represents a project form.
  */

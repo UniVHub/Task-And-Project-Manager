@@ -10,11 +10,11 @@ interface FormNewProjectProps {
   setIsClosed: (isClosed: boolean) => void;
 }
 
-export const FormNewProject: React.FC<FormNewProjectProps> = ({
+export default function FormNewProject({
   saveProject,
   isClosed,
   setIsClosed,
-}) => {
+}: FormNewProjectProps) {
   const { projectToEdit } = useContext(ProjectContext);
 
   const [dataForm, setDataForm] = useState({
@@ -96,4 +96,4 @@ export const FormNewProject: React.FC<FormNewProjectProps> = ({
       />
     </form>
   );
-};
+}

@@ -15,9 +15,7 @@ interface ProjectProps {
   project: ProjectInterface;
 }
 
-export const Project: React.FC<ProjectProps> = ({
-  project,
-}) => {
+export default function Project({ project }: ProjectProps) {
   const { setProjectToEdit } = useContext(ProjectContext);
 
   const handleOpenModal = () => {
@@ -81,4 +79,4 @@ export const Project: React.FC<ProjectProps> = ({
       </td>
     </tr>
   );
-};
+}

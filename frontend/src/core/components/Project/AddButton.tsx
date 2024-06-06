@@ -6,8 +6,7 @@ import { FolderPlusIcon } from "@heroicons/react/24/outline";
  * Renders a button component for adding a project.
  * @returns The rendered AddButton component.
  */
-
-export const AddButton = () => {
+export default function AddButton(){
   const handleOpenModal = () => {
     const modal = document.getElementById("my_modal") as HTMLDialogElement;
     if (modal) {

@@ -1,8 +1,8 @@
+import Project from "./Project";
 import { ProjectInterface } from "@/core/types";
-import { Project } from "./Project";
 import { getPaginatedProjects, getProjects } from "@/core/api";
 
-export async function Projects({
+export default async function Projects({
   query,
   currentPage,
 }: {

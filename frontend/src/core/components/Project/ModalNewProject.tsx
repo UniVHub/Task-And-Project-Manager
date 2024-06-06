@@ -1,12 +1,12 @@
 "use client";
+import FormNewProject from "./FormNewProject";
 import { useContext, useState } from "react";
-import { FormNewProject } from "./FormNewProject";
 import { ProjectFormInterface } from "@/core/types";
 import { ProjectContext } from "@/core/context/projectToEditContext";
 import { createProject, updateProject } from "@/core/api";
 import { toast } from "sonner";
 
-export function ModalNewProject() {
+export default function ModalNewProject() {
   const { projectToEdit, setProjectToEdit } = useContext(ProjectContext);
 
   const [isClosed, setIsClosed] = useState(false);
