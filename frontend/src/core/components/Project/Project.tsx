@@ -54,7 +54,12 @@ export const Project: React.FC<ProjectProps> = ({
             className="menu dropdown-content z-[1] w-52 rounded-box bg-base-100 p-2 shadow"
           >
             <li>
-              <button onClick={handleDetails}>Details</button>
+              <Link
+              // href={`/projects/${project.id}`}
+              href={`/project/`}
+              >
+                <p>Details</p>
+              </Link>
             </li>
             <li>
               <button onClick={handleEdit}>Edit</button>
