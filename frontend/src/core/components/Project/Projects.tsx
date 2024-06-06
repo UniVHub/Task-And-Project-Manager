@@ -11,7 +11,7 @@ export default async function Projects({
 }) {
   const projects = await getPaginatedProjects(currentPage);
   return (
-    <div className="overflow-x-auto overflow-y-hidden">
+    <div className="relative overflow-x-auto overflow-y-hidden">
       <table className="table">
         <thead>
           <tr>
@@ -23,8 +23,13 @@ export default async function Projects({
           </tr>
         </thead>
         <tbody>
-          {projects.map((project: ProjectInterface) => (
-            <Project key={project.id} project={project} />
+          {projects.map((project: ProjectInterface, index: number) => (
+            <Project
+              key={project.id}
+              project={project}
+              index={index}
+              numberOfProjects={projects.length}
+            />
           ))}
         </tbody>
       </table>

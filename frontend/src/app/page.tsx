@@ -6,6 +6,7 @@ import Projects from "@/core/components/Project/Projects";
 import { TableSkeleton } from "@/core/components/skeletons";
 import { getFilteredProjectsPages } from "@/core/api";
 import Pagination from "@/core/components/Project/Pagination";
+import Breadcrumbs from "@/core/components/Project/Breadcrumbds";
 
 export default async function Home({
   searchParams,
@@ -36,6 +37,8 @@ export default async function Home({
       </div>
 
       <ModalNewProject />
+
+    
     </>
   );
 }

@@ -1,7 +1,7 @@
 "use client";
 import React, { useContext, useEffect, useId, useState } from "react";
 import { toast } from "sonner";
-import { ProjectInterface, ProjectFormInterface } from "@/core/types";
+import { ProjectFormInterface } from "@/core/types";
 import { ProjectContext } from "@/core/context/projectToEditContext";
 
 interface FormNewProjectProps {

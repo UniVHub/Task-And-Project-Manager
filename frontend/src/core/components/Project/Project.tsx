@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import { ProjectInterface } from "@/core/types";
 import { formatDate, truncateString } from "@/core/utils";
 import clsx from "clsx";
@@ -7,15 +7,22 @@ import { toast } from "sonner";
 import { deleteProject } from "@/core/api";
 import { useContext } from "react";
 import { ProjectContext } from "@/core/context/projectToEditContext";
+import { number } from "zod";
 
 /**
  * Represents the props for the Project component.
  */
 interface ProjectProps {
   project: ProjectInterface;
+  index: number;
+  numberOfProjects: number;
 }
 
-export default function Project({ project }: ProjectProps) {
+export default function Projecst({
+  project,
+  index,
+  numberOfProjects,
+}: ProjectProps) {
   const { setProjectToEdit } = useContext(ProjectContext);
 
   const handleOpenModal = () => {
@@ -33,8 +40,8 @@ export default function Project({ project }: ProjectProps) {
   const handleDelete = () => {
     deleteProject(String(project.id)).then(() => {
       toast.success("Project deleted successfully");
-      (document.activeElement as HTMLElement)?.blur();
     });
+    (document.activeElement as HTMLElement)?.blur();
   };
 
   return (
@@ -52,18 +59,25 @@ export default function Project({ project }: ProjectProps) {
           : "The project is still active"}
       </td>
       <td>
-        <div className="dropdown dropdown-left">
+        <div
+          className={clsx("dropdown", {
+            "dropdown-bottom dropdown-left": index === 0,
+            "dropdown-top dropdown-left": index === numberOfProjects - 1,
+            "dropdown-end dropdown-left":
+              index !== 0 && index !== numberOfProjects - 1,
+          })}
+        >
           <div tabIndex={0} role="button" className="btn btn-xs m-1">
             Actions
           </div>
           <ul
             tabIndex={0}
-            className="menu dropdown-content z-[1] w-52 rounded-box bg-base-300 p-2 shadow"
+            className="menu dropdown-content z-[1] w-52 rounded-box bg-base-100 p-2 shadow"
           >
             <li>
               <Link
                 // href={`/projects/${project.id}`}
-                href={`/project/`}
+                href={`/project/${project.id}`}
               >
                 <p>Details</p>
               </Link>

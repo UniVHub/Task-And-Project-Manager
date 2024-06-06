@@ -1,5 +1,19 @@
-import { ProjectFormInterface, ProjectInterface } from "@/core/types";
-import { unstable_noStore as noStore } from "next/cache";
+"use server";
+
+import { ProjectFormInterface } from "@/core/types";
+import { z } from "zod";
+import { revalidatePath } from "next/cache";
+
+const ProjectFormSchema = z.object({
+  id: z.number(),
+  name: z.string(),
+  description: z.string(),
+  creationDate: z.string(),
+  terminationDate: z.string().nullable(),
+});
+
+const CreateProjectSchema = ProjectFormSchema.omit({ id: true });
+
 /**
  * The base URL for the project API.
  */
@@ -10,9 +24,13 @@ const baseUrlProject = "https://retoolapi.dev/wbgTjE";
  * @returns A Promise that resolves to the JSON response containing the projects.
  */
 export const getProjects = async () => {
-  noStore();
-  const response = await fetch(`${baseUrlProject}/data`);
-  return response.json();
+  try {
+    const response = await fetch(`${baseUrlProject}/data`);
+    return response.json();
+  } catch (error) {
+    console.error(error);
+    throw new Error("Error fetching projects");
+  }
 };
 
 /**
@@ -21,9 +39,15 @@ export const getProjects = async () => {
  * @returns A Promise that resolves to the project data.
  */
 export const getProject = async (id: string) => {
-  noStore();
-  const response = await fetch(`${baseUrlProject}/data/${id}`);
-  return response.json();
+  try {
+    const response = await fetch(`${baseUrlProject}/data/${id}`);
+    const data = await response.json();
+    console.log(data);
+    return data;
+  } catch (error) {
+    console.error(error);
+    throw new Error("Error fetching project");
+  }
 };
 
 /**
@@ -32,15 +56,22 @@ export const getProject = async (id: string) => {
  * @returns A Promise that resolves to the response data as JSON.
  */
 export const createProject = async (project: ProjectFormInterface) => {
-  noStore();
-  const response = await fetch(`${baseUrlProject}/data`, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(project),
-  });
-  return response.json();
+  const validProject = CreateProjectSchema.parse(project);
+
+  try {
+    const response = await fetch(`${baseUrlProject}/data`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(validProject),
+    });
+    revalidatePath("/");
+    return response.json();
+  } catch (error) {
+    console.error(error);
+    throw new Error("Error creating project");
+  }
 };
 
 /**
@@ -49,15 +80,22 @@ export const createProject = async (project: ProjectFormInterface) => {
  * @returns A Promise that resolves to the updated project data.
  */
 export const updateProject = async (project: ProjectFormInterface) => {
-  noStore();
-  const response = await fetch(`${baseUrlProject}/data/${project.id}`, {
-    method: "PUT",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify(project),
-  });
-  return response.json();
+  const validProject = ProjectFormSchema.parse(project);
+
+  try {
+    const response = await fetch(`${baseUrlProject}/data/${project.id}`, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(validProject),
+    });
+    revalidatePath("/");
+    return response.json();
+  } catch (error) {
+    console.error(error);
+    throw new Error("Error updating project");
+  }
 };
 
 /**
@@ -66,11 +104,16 @@ export const updateProject = async (project: ProjectFormInterface) => {
  * @returns A Promise that resolves to the JSON response from the server.
  */
 export const deleteProject = async (id: string) => {
-  noStore();
-  const response = await fetch(`${baseUrlProject}/data/${id}`, {
-    method: "DELETE",
-  });
-  return response.json();
+  try {
+    const response = await fetch(`${baseUrlProject}/data/${id}`, {
+      method: "DELETE",
+    });
+    revalidatePath("/");
+    return response.json();
+  } catch (error) {
+    console.error(error);
+    throw new Error("Error deleting project");
+  }
 };
 
 /**
@@ -79,24 +122,23 @@ export const deleteProject = async (id: string) => {
  * @returns A Promise that resolves to the JSON response containing the filtered projects.
  */
 export const getFilteredProjects = async (query: string) => {
-  noStore();
   const response = await fetch(`${baseUrlProject}/data?name=${query}`);
   return response.json();
 };
 
+const ITEMS_PER_PAGE = 8;
+
 /**
  * Retrieves a paginated list of projects from the server.
- * 
+ *
  * @param page - The page number to retrieve.
  * @returns A Promise that resolves to the JSON response containing the paginated projects.
  */
 export const getPaginatedProjects = async (page: number) => {
-  noStore();
-  const response = await fetch(`${baseUrlProject}/data?_page=${page}&_limit=3`);
+  const response = await fetch(`${baseUrlProject}/data?_page=${page}&_limit=${ITEMS_PER_PAGE}`);
   return response.json();
 };
 
-const ITEMS_PER_PAGE = 3;
 /**
  * Retrieves the total number of pages for filtered projects.
  * @returns The total number of pages.
