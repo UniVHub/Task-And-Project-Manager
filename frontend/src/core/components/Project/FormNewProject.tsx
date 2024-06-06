@@ -1,21 +1,22 @@
 "use client";
-import React, { useEffect, useId, useState } from "react";
+import React, { useContext, useEffect, useId, useState } from "react";
 import { toast } from "sonner";
 import { ProjectInterface, ProjectFormInterface } from "@/core/types";
+import { ProjectContext } from "@/core/context/projectToEditContext";
 
 interface FormNewProjectProps {
-  projectToEdit: ProjectInterface | {};
   saveProject: (project: ProjectFormInterface) => void;
   isClosed: boolean;
   setIsClosed: (isClosed: boolean) => void;
 }
 
 export const FormNewProject: React.FC<FormNewProjectProps> = ({
-  projectToEdit,
   saveProject,
   isClosed,
   setIsClosed,
 }) => {
+  const { projectToEdit } = useContext(ProjectContext);
+
   const [dataForm, setDataForm] = useState({
     name: "",
     description: "",
@@ -42,8 +43,8 @@ export const FormNewProject: React.FC<FormNewProjectProps> = ({
       clearDataForm();
     }
     setIsClosed(false);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
-  },[isClosed])
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isClosed]);
 
   const handleSubmit = (e: { preventDefault: () => void }) => {
     e.preventDefault();
@@ -88,7 +89,9 @@ export const FormNewProject: React.FC<FormNewProjectProps> = ({
         type="submit"
         className="transtion-all w-full cursor-pointer bg-indigo-600 p-3 font-bold uppercase text-white hover:bg-indigo-700"
         value={
-          (Object.keys(projectToEdit).length>0) ? "Edit Project" : "Create Project"
+          Object.keys(projectToEdit).length > 0
+            ? "Edit Project"
+            : "Create Project"
         }
       />
     </form>

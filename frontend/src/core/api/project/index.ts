@@ -1,5 +1,5 @@
 import { ProjectFormInterface, ProjectInterface } from "@/core/types";
-
+import { unstable_noStore as noStore } from "next/cache";
 /**
  * The base URL for the project API.
  */
@@ -10,7 +10,11 @@ const baseUrlProject = "https://retoolapi.dev/wbgTjE";
  * @returns A Promise that resolves to the JSON response containing the projects.
  */
 export const getProjects = async () => {
+  noStore();
+  console.log("Fetching revenue data...");
+  await new Promise((resolve) => setTimeout(resolve, 3000));
   const response = await fetch(`${baseUrlProject}/data`);
+    console.log("Data fetch completed after 3 seconds.");
   return response.json();
 };
 
@@ -20,6 +24,7 @@ export const getProjects = async () => {
  * @returns A Promise that resolves to the project data.
  */
 export const getProject = async (id: string) => {
+  noStore();
   const response = await fetch(`${baseUrlProject}/data/${id}`);
   return response.json();
 }
@@ -30,6 +35,7 @@ export const getProject = async (id: string) => {
  * @returns A Promise that resolves to the response data as JSON.
  */
 export const createProject = async (project: ProjectFormInterface) => {
+  noStore();
   const response = await fetch(`${baseUrlProject}/data`, {
     method: "POST",
     headers: {
@@ -46,6 +52,7 @@ export const createProject = async (project: ProjectFormInterface) => {
  * @returns A Promise that resolves to the updated project data.
  */
 export const updateProject = async (project: ProjectFormInterface) => {
+  noStore();
   const response = await fetch(`${baseUrlProject}/data/${project.id}`, {
     method: "PUT",
     headers: {
@@ -62,6 +69,7 @@ export const updateProject = async (project: ProjectFormInterface) => {
  * @returns A Promise that resolves to the JSON response from the server.
  */
 export const deleteProject = async (id: string) => {
+  noStore();
   const response = await fetch(`${baseUrlProject}/data/${id}`, {
     method: "DELETE",
   });

@@ -51,7 +51,7 @@ export const Project: React.FC<ProjectProps> = ({
           </div>
           <ul
             tabIndex={0}
-            className="menu dropdown-content z-[1] w-52 rounded-box bg-base-100 p-2 shadow"
+            className="menu dropdown-content z-[1] w-52 rounded-box bg-base-300 p-2 shadow"
           >
             <li>
               <Link

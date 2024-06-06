@@ -1,16 +1,17 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { ProjectFormInterface, ProjectInterface } from "@/core/types";
 import { AddIcon } from "@/core/components/icons";
 import { createProject, getProjects, updateProject } from "@/core/api";
 import { Projects } from "@/core/components/Project/Projects";
 import { ModalNewProject } from "@/core/components/Project/ModalNewProject";
 import { toast } from "sonner";
+import { ProjectContext } from "@/core/context/projectToEditContext";
 
 export default function Home() {
   const [projects, setProjects] = useState<ProjectInterface[]>([]);
 
-  const [projectToEdit, setProjectToEdit] = useState<ProjectInterface | {}>({});
+  const { setProjectToEdit } = useContext(ProjectContext);
 
   const handleOpenModal = () => {
     const modal = document.getElementById("my_modal") as HTMLDialogElement;
@@ -61,13 +62,8 @@ export default function Home() {
           <AddIcon />
         </button>
       </div>
-      <Projects
-        projects={projects}
-        setProjectToEdit={setProjectToEdit}
-        handleOpenModal={handleOpenModal}
-      />
+      <Projects projects={projects} handleOpenModal={handleOpenModal} />
       <ModalNewProject
-        projectToEdit={projectToEdit}
         handleCloseModal={handleCloseModal}
         saveProject={saveProject}
       />

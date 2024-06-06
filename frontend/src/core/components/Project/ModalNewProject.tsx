@@ -1,23 +1,25 @@
 "use client"
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { FormNewProject } from "./FormNewProject";
 import { ProjectFormInterface, ProjectInterface } from "@/core/types";
+import { ProjectContext } from "@/core/context/projectToEditContext";
 
 /**
  * Props for the ModalNewProject component.
  */
 interface ModalNewProjectProps {
-  projectToEdit: ProjectInterface | {};
   handleCloseModal: () => void;
   saveProject: (project: ProjectFormInterface) => void;
 }
 
 export const ModalNewProject: React.FC<ModalNewProjectProps> = ({
-  projectToEdit,
   handleCloseModal,
   saveProject,
 }) => {
   const [isClosed, setIsClosed] = useState(false);
+
+  const { projectToEdit } = useContext(ProjectContext);
+
 
   const handleClose = (e: { preventDefault: () => void }) => {
     e.preventDefault();
@@ -36,7 +38,6 @@ export const ModalNewProject: React.FC<ModalNewProjectProps> = ({
           </h3>
           <div className="py-4">
             <FormNewProject
-              projectToEdit={projectToEdit}
               saveProject={saveProject}
               isClosed={isClosed}
               setIsClosed={setIsClosed}

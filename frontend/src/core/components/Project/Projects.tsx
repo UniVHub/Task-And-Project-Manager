@@ -1,20 +1,22 @@
 import { ProjectInterface } from "@/core/types";
 import { Project } from "./Project";
+import { useContext } from "react";
+import { ProjectContext } from "@/core/context/projectToEditContext";
 
 /**
  * Props for the Projects component.
  */
 interface ProjectsProps {
   projects: ProjectInterface[];
-  setProjectToEdit: (project: ProjectInterface) => void;
   handleOpenModal: () => void;
 }
 
 export const Projects: React.FC<ProjectsProps> = ({
   projects,
-  setProjectToEdit,
   handleOpenModal,
 }) => {
+  const { setProjectToEdit } = useContext(ProjectContext);
+
   return (
     <div className="mt-6 overflow-x-auto overflow-y-hidden">
       <table className="table">

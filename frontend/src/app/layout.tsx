@@ -3,6 +3,7 @@ import { Metadata } from "next";
 import { Header } from "../core/components/Header/Header";
 import { Toaster } from "sonner";
 import { inter } from "@/core/fonts";
+import { ProjectProvider } from "@/core/context/projectToEditContext";
 
 export const metadata: Metadata = {
   title: "Project Manager",
@@ -26,7 +27,7 @@ export default function RootLayout({
         <div className="flex min-h-screen flex-col overflow-y-auto px-5 py-10">
           <Toaster />
           <Header />
-          {children}
+          <ProjectProvider>{children}</ProjectProvider>
         </div>
       </body>
     </html>
