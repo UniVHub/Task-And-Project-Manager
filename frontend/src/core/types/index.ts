@@ -2,7 +2,7 @@
  * Represents a project.
  */
 export interface ProjectInterface {
-  id?: number;
+  id: number;
   name: string;
   description: string;
   creationDate: string;

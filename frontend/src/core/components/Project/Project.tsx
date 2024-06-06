@@ -2,7 +2,8 @@ import { ProjectInterface } from "@/core/types";
 import { formatDate, truncateString } from "@/core/utils";
 import clsx from "clsx";
 import Link from "next/link";
-
+import { toast } from "sonner";
+import { deleteProject } from "@/core/api";
 /**
  * Represents the props for the Project component.
  */
@@ -27,7 +28,10 @@ export const Project: React.FC<ProjectProps> = ({
   };
 
   const handleDelete = () => {
-    console.log("Delete");
+    deleteProject(String(project.id)).then(() => {
+      toast.success("Project deleted successfully");
+      (document.activeElement as HTMLElement)?.blur(); 
+    });
   };
 
   return (
@@ -55,8 +59,8 @@ export const Project: React.FC<ProjectProps> = ({
           >
             <li>
               <Link
-              // href={`/projects/${project.id}`}
-              href={`/project/`}
+                // href={`/projects/${project.id}`}
+                href={`/project/`}
               >
                 <p>Details</p>
               </Link>
