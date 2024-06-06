@@ -7,6 +7,7 @@ import { Projects } from "@/core/components/Project/Projects";
 import { ModalNewProject } from "@/core/components/Project/ModalNewProject";
 import { toast } from "sonner";
 import { ProjectContext } from "@/core/context/projectToEditContext";
+import { ProjectsSkeleton } from "@/core/components/Project/ProjectsSkeleton";
 
 export default function Home() {
   const [projects, setProjects] = useState<ProjectInterface[]>([]);
@@ -62,7 +63,16 @@ export default function Home() {
           <AddIcon />
         </button>
       </div>
-      <Projects projects={projects} handleOpenModal={handleOpenModal} />
+      {
+        //saber si hay proyectos
+        projects.length === 0 ? (
+          <div className="mt-6 text-center text-gray-500">
+            <ProjectsSkeleton/>
+          </div>
+        ) :(
+          <Projects projects={projects} handleOpenModal={handleOpenModal} />
+        )
+      }
       <ModalNewProject
         handleCloseModal={handleCloseModal}
         saveProject={saveProject}

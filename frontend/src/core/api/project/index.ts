@@ -11,10 +11,7 @@ const baseUrlProject = "https://retoolapi.dev/wbgTjE";
  */
 export const getProjects = async () => {
   noStore();
-  console.log("Fetching revenue data...");
-  await new Promise((resolve) => setTimeout(resolve, 3000));
   const response = await fetch(`${baseUrlProject}/data`);
-    console.log("Data fetch completed after 3 seconds.");
   return response.json();
 };
 
@@ -27,7 +24,7 @@ export const getProject = async (id: string) => {
   noStore();
   const response = await fetch(`${baseUrlProject}/data/${id}`);
   return response.json();
-}
+};
 
 /**
  * Creates a new project.
@@ -44,7 +41,7 @@ export const createProject = async (project: ProjectFormInterface) => {
     body: JSON.stringify(project),
   });
   return response.json();
-}
+};
 
 /**
  * Updates a project in the backend server.
@@ -61,7 +58,7 @@ export const updateProject = async (project: ProjectFormInterface) => {
     body: JSON.stringify(project),
   });
   return response.json();
-}
+};
 
 /**
  * Deletes a project by its ID.
@@ -74,4 +71,4 @@ export const deleteProject = async (id: string) => {
     method: "DELETE",
   });
   return response.json();
-}
+};
