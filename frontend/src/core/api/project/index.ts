@@ -72,3 +72,43 @@ export const deleteProject = async (id: string) => {
   });
   return response.json();
 };
+
+/**
+ * Retrieves filtered projects based on the provided query.
+ * @param query - The search query to filter projects by name.
+ * @returns A Promise that resolves to the JSON response containing the filtered projects.
+ */
+export const getFilteredProjects = async (query: string) => {
+  noStore();
+  const response = await fetch(`${baseUrlProject}/data?name=${query}`);
+  return response.json();
+};
+
+/**
+ * Retrieves a paginated list of projects from the server.
+ * 
+ * @param page - The page number to retrieve.
+ * @returns A Promise that resolves to the JSON response containing the paginated projects.
+ */
+export const getPaginatedProjects = async (page: number) => {
+  noStore();
+  const response = await fetch(`${baseUrlProject}/data?_page=${page}&_limit=3`);
+  return response.json();
+};
+
+const ITEMS_PER_PAGE = 3;
+/**
+ * Retrieves the total number of pages for filtered projects.
+ * @returns The total number of pages.
+ * @throws An error if there is an issue fetching the project pages.
+ */
+export const getFilteredProjectsPages = async () => {
+  try {
+    const projects = await getProjects();
+    const totalPages = Math.ceil(projects.length / ITEMS_PER_PAGE);
+    return totalPages;
+  } catch (error) {
+    console.error(error);
+    throw new Error("Error fetching project pages");
+  }
+};

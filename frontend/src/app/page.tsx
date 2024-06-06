@@ -1,82 +1,42 @@
-"use client";
-import { useContext, useEffect, useState } from "react";
-import { ProjectFormInterface, ProjectInterface } from "@/core/types";
-import { AddIcon } from "@/core/components/icons";
-import { createProject, getProjects, updateProject } from "@/core/api";
+import { Suspense } from "react";
 import { Projects } from "@/core/components/Project/Projects";
 import { ModalNewProject } from "@/core/components/Project/ModalNewProject";
-import { toast } from "sonner";
-import { ProjectContext } from "@/core/context/projectToEditContext";
-import { ProjectsSkeleton } from "@/core/components/Project/ProjectsSkeleton";
+import Search from "@/core/components/Project/Search";
+import { CreateInvoice } from "@/core/components/Project/buttons";
+import { AddButton } from "@/core/components/Project/AddButton";
+import { TableSkeleton } from "@/core/components/skeletons";
+import { getFilteredProjectsPages } from "@/core/api";
+import Pagination from "@/core/components/Project/Pagination";
 
-export default function Home() {
-  const [projects, setProjects] = useState<ProjectInterface[]>([]);
-
-  const { setProjectToEdit } = useContext(ProjectContext);
-
-  const handleOpenModal = () => {
-    const modal = document.getElementById("my_modal") as HTMLDialogElement;
-    if (modal) {
-      modal.showModal();
-    }
+export default async function Home({
+  searchParams,
+}: {
+  searchParams?: {
+    query?: string;
+    page?: string;
   };
+}) {
+  const query = searchParams?.query || "";
+  const currentPage = Number(searchParams?.page) || 1;
 
-  const handleCloseModal = () => {
-    setProjectToEdit({});
-    const modal = document.getElementById("my_modal") as HTMLDialogElement;
-    if (modal) {
-      modal.close();
-    }
-  };
-
-  const saveProject = (project: ProjectFormInterface) => {
-    if (project.id) {
-      updateProject(project).then(() => {
-        toast.success("Project updated successfully");
-      });
-    } else {
-      const newProject = {
-        ...project,
-        creationDate: new Date().toISOString(),
-        terminationDate: null,
-      };
-      createProject(newProject).then(() => {
-        toast.success("Project created successfully");
-      });
-    }
-    handleCloseModal();
-  };
-
-  useEffect(() => {
-    const getProjectsData = async () => {
-      const data = await getProjects();
-      setProjects(data);
-    };
-    getProjectsData();
-  }, []);
+  const totalPages = await getFilteredProjectsPages();
 
   return (
-    <div>
-      <div className="mt-12 flex justify-end">
-        <button className="btn" onClick={handleOpenModal}>
-          Add Project
-          <AddIcon />
-        </button>
+    <>
+      <div className="mb-6 mt-4 flex items-center justify-between gap-2 md:mt-8">
+        <Search placeholder="Search invoices..." />
+        <AddButton />
       </div>
-      {
-        //saber si hay proyectos
-        projects.length === 0 ? (
-          <div className="mt-6 text-center text-gray-500">
-            <ProjectsSkeleton/>
-          </div>
-        ) :(
-          <Projects projects={projects} handleOpenModal={handleOpenModal} />
-        )
-      }
-      <ModalNewProject
-        handleCloseModal={handleCloseModal}
-        saveProject={saveProject}
-      />
-    </div>
+
+      <Suspense key={query + currentPage} fallback={<TableSkeleton />}>
+        <Projects query={query} currentPage={currentPage} />
+      </Suspense>
+
+      <div className="mt-5 flex w-full justify-center">
+        <Pagination totalPages={totalPages} />
+      </div>
+
+      <ModalNewProject />
+    </>
   );
 }

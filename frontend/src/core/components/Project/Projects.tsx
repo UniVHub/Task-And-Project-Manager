@@ -1,24 +1,17 @@
 import { ProjectInterface } from "@/core/types";
 import { Project } from "./Project";
-import { useContext } from "react";
-import { ProjectContext } from "@/core/context/projectToEditContext";
+import { getPaginatedProjects, getProjects } from "@/core/api";
 
-/**
- * Props for the Projects component.
- */
-interface ProjectsProps {
-  projects: ProjectInterface[];
-  handleOpenModal: () => void;
-}
-
-export const Projects: React.FC<ProjectsProps> = ({
-  projects,
-  handleOpenModal,
-}) => {
-  const { setProjectToEdit } = useContext(ProjectContext);
-
+export async function Projects({
+  query,
+  currentPage,
+}: {
+  query: string;
+  currentPage: number;
+}) {
+  const projects = await getPaginatedProjects(currentPage);
   return (
-    <div className="mt-6 overflow-x-auto overflow-y-hidden">
+    <div className="overflow-x-auto overflow-y-hidden">
       <table className="table">
         <thead>
           <tr>
@@ -30,16 +23,11 @@ export const Projects: React.FC<ProjectsProps> = ({
           </tr>
         </thead>
         <tbody>
-          {projects.map((project, index) => (
-            <Project
-              key={project.id}
-              project={project}
-              setProjectToEdit={setProjectToEdit}
-              handleOpenModal={handleOpenModal}
-            />
+          {projects.map((project: ProjectInterface) => (
+            <Project key={project.id} project={project} />
           ))}
         </tbody>
       </table>
     </div>
   );
-};
+}

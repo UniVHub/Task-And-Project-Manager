@@ -1,30 +1,46 @@
-"use client"
+"use client";
 import { useContext, useState } from "react";
 import { FormNewProject } from "./FormNewProject";
-import { ProjectFormInterface, ProjectInterface } from "@/core/types";
+import { ProjectFormInterface } from "@/core/types";
 import { ProjectContext } from "@/core/context/projectToEditContext";
+import { createProject, updateProject } from "@/core/api";
+import { toast } from "sonner";
 
-/**
- * Props for the ModalNewProject component.
- */
-interface ModalNewProjectProps {
-  handleCloseModal: () => void;
-  saveProject: (project: ProjectFormInterface) => void;
-}
+export function ModalNewProject() {
+  const { projectToEdit, setProjectToEdit } = useContext(ProjectContext);
 
-export const ModalNewProject: React.FC<ModalNewProjectProps> = ({
-  handleCloseModal,
-  saveProject,
-}) => {
   const [isClosed, setIsClosed] = useState(false);
 
-  const { projectToEdit } = useContext(ProjectContext);
-
+  const handleCloseModal = () => {
+    setProjectToEdit({});
+    const modal = document.getElementById("my_modal") as HTMLDialogElement;
+    if (modal) {
+      modal.close();
+    }
+  };
 
   const handleClose = (e: { preventDefault: () => void }) => {
     e.preventDefault();
     handleCloseModal();
     setIsClosed(true);
+  };
+
+  const saveProject = (project: ProjectFormInterface) => {
+    if (project.id) {
+      updateProject(project).then(() => {
+        toast.success("Project updated successfully");
+      });
+    } else {
+      const newProject = {
+        ...project,
+        creationDate: new Date().toISOString(),
+        terminationDate: null,
+      };
+      createProject(newProject).then(() => {
+        toast.success("Project created successfully");
+      });
+    }
+    handleCloseModal();
   };
 
   return (
@@ -55,4 +71,4 @@ export const ModalNewProject: React.FC<ModalNewProjectProps> = ({
       </dialog>
     </div>
   );
-};
+}

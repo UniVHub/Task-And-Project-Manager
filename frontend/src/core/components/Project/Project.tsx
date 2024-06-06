@@ -1,25 +1,30 @@
+"use client"
 import { ProjectInterface } from "@/core/types";
 import { formatDate, truncateString } from "@/core/utils";
 import clsx from "clsx";
 import Link from "next/link";
 import { toast } from "sonner";
 import { deleteProject } from "@/core/api";
+import { useContext } from "react";
+import { ProjectContext } from "@/core/context/projectToEditContext";
+
 /**
  * Represents the props for the Project component.
  */
 interface ProjectProps {
   project: ProjectInterface;
-  setProjectToEdit: (project: ProjectInterface) => void;
-  handleOpenModal: () => void;
 }
 
 export const Project: React.FC<ProjectProps> = ({
   project,
-  setProjectToEdit,
-  handleOpenModal,
 }) => {
-  const handleDetails = () => {
-    console.log("Details");
+  const { setProjectToEdit } = useContext(ProjectContext);
+
+  const handleOpenModal = () => {
+    const modal = document.getElementById("my_modal") as HTMLDialogElement;
+    if (modal) {
+      modal.showModal();
+    }
   };
 
   const handleEdit = () => {
@@ -30,7 +35,7 @@ export const Project: React.FC<ProjectProps> = ({
   const handleDelete = () => {
     deleteProject(String(project.id)).then(() => {
       toast.success("Project deleted successfully");
-      (document.activeElement as HTMLElement)?.blur(); 
+      (document.activeElement as HTMLElement)?.blur();
     });
   };
 
