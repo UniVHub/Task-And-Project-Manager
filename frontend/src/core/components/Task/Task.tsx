@@ -1,73 +1,66 @@
 "use client";
-import { ProjectInterface } from "@/core/types";
+import { deleteTask } from "@/core/api";
+import { TaskContext } from "@/core/context/taskToEditContext";
+import { TaskInterface } from "@/core/types";
 import { formatDate, truncateString } from "@/core/utils";
 import clsx from "clsx";
 import Link from "next/link";
+import React, { useContext } from "react";
 import { toast } from "sonner";
-import { deleteProject } from "@/core/api";
-import { useContext } from "react";
-import { ProjectContext } from "@/core/context/projectToEditContext";
 
-/**
- * Represents the props for the Project component.
- */
-interface ProjectProps {
-  project: ProjectInterface;
+interface TaskProps {
+  task: TaskInterface;
   index: number;
-  numberOfProjects: number;
+  numberOfTasks: number;
 }
 
-export default function Project({
-  project,
-  index,
-  numberOfProjects,
-}: ProjectProps) {
-  const { setProjectToEdit } = useContext(ProjectContext);
+export default function Task({ task, index , numberOfTasks}: TaskProps) {
+  const { setTaskToEdit } = useContext(TaskContext);
 
   const handleOpenModal = () => {
-    const modal = document.getElementById("my_modal") as HTMLDialogElement;
+    const modal = document.getElementById("my_modal_2") as HTMLDialogElement;
     if (modal) {
       modal.showModal();
     }
   };
 
   const handleEdit = () => {
-    setProjectToEdit(project);
+    setTaskToEdit(task);
     handleOpenModal();
   };
 
   const handleDelete = () => {
-    deleteProject(String(project.id)).then(() => {
-      toast.success("Project deleted successfully");
+    deleteTask(String(task.id)).then(() => {
+      toast.success("Task deleted successfully");
     });
     (document.activeElement as HTMLElement)?.blur();
   };
 
-  const finishProject = () => {
+  const finishTask = () => {
     console.log("finish project");
   };
 
   return (
     <tr>
-      <td>{truncateString(project.name, 38)}</td>
-      <td>{truncateString(project.description, 20)}</td>
-      <td>{formatDate(project.creationDate)}</td>
+      <td>{truncateString(task.name, 38)}</td>
+      <td>{truncateString(task.description, 20)}</td>
+      <td>{formatDate(task.creationDate)}</td>
       <td
         className={clsx({
-          "text-secondary": !project.terminationDate,
+          "text-secondary": !task.terminationDate,
         })}
       >
-        {project.terminationDate
-          ? formatDate(project.terminationDate)
+        {task.terminationDate
+          ? formatDate(task.terminationDate)
           : "The project is still active"}
       </td>
       <td>
         <div
           className={clsx("dropdown", {
             "dropdown-left dropdown-bottom": index === 0,
-            "dropdown-left dropdown-top": index === numberOfProjects - 1,
+            "dropdown-left dropdown-top": index === numberOfTasks - 1,
             "dropdown-end dropdown-left":
-              index !== 0 && index !== numberOfProjects - 1,
+              index !== 0 && index !== numberOfTasks - 1,
           })}
         >
           <div tabIndex={0} role="button" className="btn btn-xs m-1">
@@ -79,8 +72,7 @@ export default function Project({
           >
             <li>
               <Link
-                // href={`/projects/${project.id}`}
-                href={`/project/${project.id}`}
+                href={`/task/${task.id}`}
               >
                 <p>Details</p>
               </Link>
@@ -91,9 +83,9 @@ export default function Project({
             <li>
               <button onClick={handleDelete}>Delete</button>
             </li>
-            {project.terminationDate ? null : (
+            {task.terminationDate ? null : (
               <li>
-                <button className="text-error" onClick={finishProject}>
+                <button className="text-error" onClick={finishTask}>
                   Finish Project
                 </button>
               </li>
