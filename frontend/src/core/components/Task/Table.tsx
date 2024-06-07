@@ -15,15 +15,13 @@ export default async function TableTasks({
   const tasks = await getTasksByProjectId(projectId);
   return (
     <>
-      <h3 className="text-xl font-bold">List of Tasks</h3>
-      <div className="relative overflow-x-auto overflow-y-hidden">
+      <h3 className="text-center text-xl font-bold">List of Tasks</h3>
+      <div className="relative mt-6 overflow-x-auto overflow-y-hidden">
         <table className="table">
           <thead>
             <tr>
               <th>Name</th>
-              <th>Description</th>
-              <th>Creation Date</th>
-              <th>Termination Date</th>
+              <th>Status</th>
               <th>Actions</th>
             </tr>
           </thead>

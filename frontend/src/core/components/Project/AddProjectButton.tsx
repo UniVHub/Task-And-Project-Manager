@@ -6,7 +6,7 @@ import { FolderPlusIcon } from "@heroicons/react/24/outline";
  * Renders a button component for adding a project.
  * @returns The rendered AddButton component.
  */
-export default function AddButton() {
+export default function AddProjectButton() {
   const handleOpenModal = () => {
     const modal = document.getElementById("my_modal") as HTMLDialogElement;
     if (modal) {
@@ -15,7 +15,7 @@ export default function AddButton() {
   };
   return (
     <button
-      className="btn bg-indigo-600 hover:bg-indigo-700"
+      className="btn btn-secondary"
       onClick={handleOpenModal}
     >
       Add Project

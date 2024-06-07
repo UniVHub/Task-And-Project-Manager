@@ -11,14 +11,12 @@ export default async function Projects({
 }) {
   const projects = await getPaginatedProjects(currentPage);
   return (
-    <div className="relative overflow-x-auto overflow-y-hidden">
+    <div className="overflow-x-auto overflow-y-hidden mt-8">
       <table className="table">
         <thead>
           <tr>
             <th>Name</th>
-            <th>Description</th>
-            <th>Creation Date</th>
-            <th>Termination Date</th>
+            <th>Status</th>
             <th>Actions</th>
           </tr>
         </thead>

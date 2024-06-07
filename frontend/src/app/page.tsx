@@ -1,4 +1,4 @@
-import AddButton from "@/core/components/Project/AddButton";
+import AddProjectButton from "@/core/components/Project/AddProjectButton";
 import Search from "@/core/components/Project/Search";
 import ModalNewProject from "@/core/components/Project/ModalNewProject";
 import { Suspense } from "react";
@@ -22,9 +22,9 @@ export default async function Home({
 
   return (
     <>
-      <div className="mb-6 mt-4 flex items-center justify-between gap-2 md:mt-8">
-        <Search placeholder="Search invoices..." />
-        <AddButton />
+      <div className="flex items-center justify-between gap-2 mt-12">
+        <Search placeholder="Search projects..." />
+        <AddProjectButton />
       </div>
 
       <Suspense key={query + currentPage} fallback={<TableSkeleton />}>

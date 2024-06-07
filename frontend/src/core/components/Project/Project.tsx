@@ -4,9 +4,10 @@ import { formatDate, truncateString } from "@/core/utils";
 import clsx from "clsx";
 import Link from "next/link";
 import { toast } from "sonner";
-import { deleteProject } from "@/core/api";
+import { deleteProject, updateProject } from "@/core/api";
 import { useContext } from "react";
 import { ProjectContext } from "@/core/context/projectToEditContext";
+import BadgeStatus from "../General/BadgeStatus";
 
 /**
  * Represents the props for the Project component.
@@ -44,22 +45,25 @@ export default function Project({
   };
 
   const finishProject = () => {
-    console.log("finish project");
+    const updatedProject = {
+      ...project,
+      terminationDate: new Date().toISOString(),
+    };
+    updateProject(updatedProject).then(() => {
+      toast.success("Project finished successfully");
+    });
+    (document.activeElement as HTMLElement)?.blur();
   };
 
   return (
     <tr>
-      <td>{truncateString(project.name, 38)}</td>
-      <td>{truncateString(project.description, 20)}</td>
-      <td>{formatDate(project.creationDate)}</td>
-      <td
-        className={clsx({
-          "text-secondary": !project.terminationDate,
-        })}
-      >
-        {project.terminationDate
-          ? formatDate(project.terminationDate)
-          : "The project is still active"}
+      <td className="max-w-44">{truncateString(project.name, 60)}</td>
+      <td>
+        {
+          <BadgeStatus
+            type={project.terminationDate ? "finished" : "progress"}
+          />
+        }
       </td>
       <td>
         <div
@@ -78,10 +82,7 @@ export default function Project({
             className="menu dropdown-content z-[1] w-52 rounded-box bg-base-100 p-2 shadow"
           >
             <li>
-              <Link
-                // href={`/projects/${project.id}`}
-                href={`/project/${project.id}`}
-              >
+              <Link href={`/project/${project.id}`}>
                 <p>Details</p>
               </Link>
             </li>

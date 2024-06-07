@@ -14,10 +14,7 @@ export default function AddTaskButton() {
     }
   };
   return (
-    <button
-      className="btn bg-indigo-600 hover:bg-indigo-700"
-      onClick={handleOpenModal}
-    >
+    <button className="btn btn-secondary" onClick={handleOpenModal}>
       Add Task
       <FolderPlusIcon className="h-5" />
     </button>

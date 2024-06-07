@@ -47,7 +47,7 @@ export default function ModalNewProject() {
     <div>
       <dialog id="my_modal" className="modal modal-bottom sm:modal-middle">
         <div className="modal-box">
-          <h3 className="text-lg font-bold capitalize">
+          <h3 className="text-lg font-bold capitalize text-center">
             {Object.keys(projectToEdit).length > 0
               ? "Edit Project"
               : "Create new project"}

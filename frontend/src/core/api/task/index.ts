@@ -66,7 +66,7 @@ export const createTask = async (task: TaskFormInterface) => {
       },
       body: JSON.stringify(validTask),
     });
-    revalidatePath("/");
+    revalidatePath(`/project/${task.projectId}`);
     return response.json();
   } catch (error) {
     console.error(error);
@@ -90,7 +90,7 @@ export const updateTask = async (task: TaskFormInterface) => {
       },
       body: JSON.stringify(validTask),
     });
-    revalidatePath("/");
+    revalidatePath(`/project/${task.projectId}`);
     return response.json();
   } catch (error) {
     console.error(error);
@@ -108,7 +108,7 @@ export const deleteTask = async (id: string) => {
     const response = await fetch(`${baseUrlProject}/task/${id}`, {
       method: "DELETE",
     });
-    revalidatePath("/");
+    revalidatePath(`/project/${id}`);
     return response.json();
   } catch (error) {
     console.error(error);
@@ -126,13 +126,13 @@ export const getTasksByName = async (query: string) => {
   return response.json();
 };
 
-
 export const getTasksByProjectId = async (projectId: number) => {
   try {
     const response = await fetch(
       `${baseUrlProject}/task?projectId=${projectId}`,
     );
-    return response.json();
+    const response2 = await response.json();
+    return response2;
   } catch (error) {
     console.error(error);
     throw new Error("Error fetching tasks");

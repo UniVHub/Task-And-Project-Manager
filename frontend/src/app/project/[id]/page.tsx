@@ -1,5 +1,4 @@
-import { getProject, getTasksByProjectId } from "@/core/api";
-import { FinishButton } from "@/core/components/Project/FinishButton";
+import { getProject } from "@/core/api";
 import Search from "@/core/components/Project/Search";
 import AddTaskButton from "@/core/components/Task/AddTaskButton";
 import ModalNewTask from "@/core/components/Task/ModalNewTask";
@@ -44,7 +43,7 @@ export default async function Page({
         </Suspense>
       </div>
 
-      <ModalNewTask projectId={project.id}/>
+      <ModalNewTask projectId={project.id} />
     </>
   );
 }

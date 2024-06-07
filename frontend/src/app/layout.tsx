@@ -2,12 +2,12 @@ import "./globals.css";
 import Header from "../core/components/Header/Header";
 import { Metadata } from "next";
 import { Toaster } from "sonner";
-import { inter } from "@/core/fonts";
+import { openSans } from "@/core/fonts";
 import { ProjectProvider } from "@/core/context/projectToEditContext";
 import { TaskProvider } from "@/core/context/taskToEditContext";
 
 export const metadata: Metadata = {
-  title: "Project Manager",
+  title: "Projects Manager",
   description: "Application to manage projects and tasks",
 };
 
@@ -24,14 +24,14 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" data-theme="dracula">
-      <body className={`${inter.className} antialiased`}>
-        <div className="flex min-h-screen flex-col overflow-y-auto px-5 py-10">
-          <Toaster />
-          <Header />
-          <ProjectProvider>
-            <TaskProvider>{children}</TaskProvider>
-          </ProjectProvider>
-        </div>
+      <body
+        className={`${openSans.className} min-h-screen overflow-y-auto px-5 py-10 antialiased bg-base-100 text-base-content`}
+      >
+        <Toaster />
+        <Header />
+        <ProjectProvider>
+          <TaskProvider>{children}</TaskProvider>
+        </ProjectProvider>
       </body>
     </html>
   );

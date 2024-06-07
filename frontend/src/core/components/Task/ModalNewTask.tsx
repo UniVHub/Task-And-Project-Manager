@@ -52,7 +52,7 @@ export default function ModalNewTask({ projectId }: ModalNewTaskProps) {
     <div>
       <dialog id="my_modal_2" className="modal modal-bottom sm:modal-middle">
         <div className="modal-box">
-          <h3 className="text-lg font-bold capitalize">
+          <h3 className="text-lg font-bold capitalize text-center">
             {Object.keys(taskToEdit).length > 0
               ? "Edit Task"
               : "Create New Task"}

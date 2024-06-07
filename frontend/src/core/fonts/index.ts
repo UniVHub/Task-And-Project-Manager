@@ -1,8 +1,8 @@
 import { Open_Sans, Lusitana } from "next/font/google";
 
-export const inter = Open_Sans({
+export const openSans = Open_Sans({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
+  weight: ["300","400", "500", "600", "700"],
 });
 
 export const lusitana = Lusitana({

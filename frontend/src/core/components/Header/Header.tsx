@@ -13,7 +13,7 @@ export default function Header() {
           className="hidden w-20"
         />
       </div>
-      <h1 className="flex justify-center text-3xl font-bold capitalize text-center">
+      <h1 className="text-center text-4xl font-bold capitalize tracking-tighter">
         Project and Task Managament
       </h1>
     </header>
