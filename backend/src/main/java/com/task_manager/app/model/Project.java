@@ -9,6 +9,8 @@ import lombok.ToString;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 
 @Entity
 @NoArgsConstructor
@@ -32,6 +34,7 @@ public class Project {
 	private LocalDateTime termination_date;
 
 	@OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
+	@JsonManagedReference
 	private List <Task> tasks;
 
 

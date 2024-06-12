@@ -60,16 +60,18 @@ public class ProjectController {
 		log.setEntity_id(String.valueOf(id));
 		log.setTimestamp(LocalDateTime.now());
 
-		Optional <Project> project = project_service.find_by_id(id);
+		Optional <Project> possible_project = project_service.find_by_id(id);
+		Project project = null;
 
-		if (project.isPresent()) {
+		if (possible_project.isPresent()) {
+			project = possible_project.get();
 			log.setWas_successful(true);
 		} else
 			log.setWas_successful(false);
 
 		log_service.save(log);
 
-		return log.getWas_successful() ? new ResponseEntity <>(HttpStatus.OK) :
+		return log.getWas_successful() ? new ResponseEntity <>(project, HttpStatus.OK) :
 										new ResponseEntity <>(HttpStatus.NOT_FOUND);
 
 	}
@@ -103,6 +105,7 @@ public class ProjectController {
 		Log log = new Log();
 		log.setOperation("PUT");
 		log.setEntity("project");
+		log.setEntity_id(Integer.toString(id));
 		log.setTimestamp(LocalDateTime.now());
 
 		try {

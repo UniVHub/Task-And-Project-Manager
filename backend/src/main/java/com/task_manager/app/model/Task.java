@@ -8,6 +8,8 @@ import lombok.ToString;
 
 import java.time.LocalDateTime;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 
 @Entity
 @NoArgsConstructor
@@ -21,6 +23,7 @@ public class Task {
 
 	@ManyToOne
 	@JoinColumn(name = "project_id", nullable = false)
+	@JsonBackReference
 	private Project project;
 
 	@Column(nullable = false)

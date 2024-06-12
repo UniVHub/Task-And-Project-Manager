@@ -81,17 +81,6 @@ POST /api/projects/{id}
 
 - `termination_date`: the date when the project is terminated.
 
-#### Example (project update)
-
-```JSON
-{
-    "name": "name",
-    "description": "description",
-    "cration_date": null,
-    "termination_date": null
-}
-```
-
 #### Log (project update)
 
 - `operation`: `"POST"`.
@@ -99,6 +88,17 @@ POST /api/projects/{id}
 - `entity`: `"project"`.
 
 - `entity_id`: `"<project ID>"`.
+
+#### Example (project update)
+
+```JSON
+{
+    "name": "name",
+    "description": "description",
+    "creation_date": "2022-12-31T23:59:59",
+    "termination_date": "2023-12-31T23:59:59"
+}
+```
 
 ### Delete a project
 
@@ -117,7 +117,7 @@ DELTE /api/projects/{id}
 ### Delete all project
 
 ```
-DELTE /api/projects/delete_all_projects
+DELTE /api/projects
 ```
 
 #### Log (all project deletion)
@@ -211,9 +211,15 @@ POST /api/tasks/{id}
 {
     "name": "name",
     "description": "description",
-    "cration_date": null,
-    "termination_date": null
+    "creation_date": "2022-12-31T23:59:59",
+    "termination_date": "2023-12-31T23:59:59"
 }
+```
+
+### Delete all tasks
+
+```
+DELTE /api/tasks
 ```
 
 ## Doing a petition with `curl`

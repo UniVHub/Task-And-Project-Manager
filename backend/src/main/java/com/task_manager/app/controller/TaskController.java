@@ -32,19 +32,20 @@ public class TaskController {
 
 
 	@GetMapping("/by_project_id/{id}")
-	public ResponseEntity <List <Task>> get_all(@PathVariable int project_id) {
+	public ResponseEntity <List <Task>> get_all(@PathVariable int id) {
 		Log log = new Log();
 		log.setOperation("GET");
 		log.setEntity("task");
-		log.setEntity_id("all tasks associate with the project with the ID: " + Integer.toString(project_id));
+		log.setEntity_id("all tasks associate with the project with the ID: " + Integer.toString(id));
 		log.setTimestamp(LocalDateTime.now());
 
 		try {
-			Optional <Project> possbile_project = project_service.find_by_id(project_id);
+			Optional <Project> possbile_project = project_service.find_by_id(id);
+			List <Task> tasks = null;
 
 			if (possbile_project.isPresent()) {
 				Project project = possbile_project.get();
-				List <Task> tasks = project.getTasks();
+				tasks = project.getTasks();
 
 				if (tasks.isEmpty())
 					return new ResponseEntity <>(HttpStatus.NO_CONTENT);
@@ -55,7 +56,7 @@ public class TaskController {
 
 			log_service.save(log);
 
-			return log.getWas_successful() ? new ResponseEntity <>(HttpStatus.OK)
+			return log.getWas_successful() ? new ResponseEntity <>(tasks, HttpStatus.OK)
 					: new ResponseEntity <>(HttpStatus.NOT_FOUND);
 
 		} catch (Exception exception) {
@@ -73,16 +74,18 @@ public class TaskController {
 		log.setEntity_id(Integer.toString(id));
 		log.setTimestamp(LocalDateTime.now());
 
-		Optional <Task> task = task_service.find_by_id(id);
+		Optional <Task> possible_task = task_service.find_by_id(id);
+		Task task = null;
 
-		if (task.isPresent()) {
+		if (possible_task.isPresent()) {
+			task = possible_task.get();
 			log.setWas_successful(true);
 		} else
 			log.setWas_successful(false);
 
 		log_service.save(log);
 
-		return log.getWas_successful() ? new ResponseEntity <>(HttpStatus.OK) :
+		return log.getWas_successful() ? new ResponseEntity <>(task, HttpStatus.OK) :
 				 						new ResponseEntity <>(HttpStatus.NOT_FOUND);
 
 	}
@@ -108,10 +111,7 @@ public class TaskController {
 				created_task.setDescription(task.getDescription());
 				created_task.setCreation_date(LocalDateTime.now());
 
-				project.add_task(task);
-				project_service.save(project);
-
-				saved_task = task_service.save(task);
+				saved_task = task_service.save(created_task);
 
 				log.setWas_successful(true);
 			} else
@@ -165,7 +165,7 @@ public class TaskController {
 		}
 	}
 
-	@DeleteMapping("/{id}")
+	@DeleteMapping
 	public ResponseEntity <HttpStatus> delete(@PathVariable int id) {
 		Log log = new Log();
 		log.setOperation("DELETE");
