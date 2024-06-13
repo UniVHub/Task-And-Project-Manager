@@ -1,15 +1,20 @@
 "use client";
 import FormNewProject from "./FormNewProject";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { ProjectFormInterface } from "@/core/types";
 import { ProjectContext } from "@/core/context/projectToEditContext";
 import { createProject, updateProject } from "@/core/api";
 import { toast } from "sonner";
+import BadgeDate from "../General/BadgeDate";
+import BadgeDateSmall from "../General/BadgeDateSmall";
+import { getTasksByProjectId } from "@/core/api";
 
 export default function ModalNewProject() {
   const { projectToEdit, setProjectToEdit } = useContext(ProjectContext);
 
   const [isClosed, setIsClosed] = useState(false);
+
+  const [numTasks, setNumTasks] = useState(0)
 
   const handleCloseModal = () => {
     setProjectToEdit({});
@@ -43,15 +48,40 @@ export default function ModalNewProject() {
     handleCloseModal();
   };
 
+  useEffect(() => {
+    if(Object.keys(projectToEdit).length > 0){
+    }
+  },[])
+
   return (
     <div>
       <dialog id="my_modal" className="modal modal-bottom sm:modal-middle">
         <div className="modal-box">
-          <h3 className="text-lg font-bold capitalize text-center">
+          <span className="badge indicator-item badge-primary indicator-start indicator-top">
+            Tasks: {numTasks}
+          </span>
+          <h3 className="text-center text-lg font-bold capitalize">
             {Object.keys(projectToEdit).length > 0
               ? "Edit Project"
               : "Create new project"}
           </h3>
+          {Object.keys(projectToEdit).length > 0 && (
+            <div className="mt-2 flex justify-around">
+              {"creationDate" in projectToEdit && (
+                <BadgeDateSmall
+                  type="creation"
+                  date={projectToEdit.creationDate}
+                />
+              )}
+              {"terminationDate" in projectToEdit &&
+                projectToEdit.terminationDate && (
+                  <BadgeDateSmall
+                    type="termination"
+                    date={projectToEdit.terminationDate}
+                  />
+                )}
+            </div>
+          )}
           <div className="py-4">
             <FormNewProject
               saveProject={saveProject}
