@@ -5,13 +5,19 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.task_manager.app.model.Log;
+import com.task_manager.app.model.LogEntityType;
+import com.task_manager.app.model.LogPetitionType;
 import com.task_manager.app.model.Project;
 import com.task_manager.app.service.LogService;
 import com.task_manager.app.service.ProjectService;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 
 @RestController
@@ -30,9 +36,9 @@ public class ProjectController {
 	@GetMapping
 	public ResponseEntity <List <Project>> get_all() {
 		Log log = new Log();
-		log.setOperation("GET");
-		log.setEntity("project");
-		log.setEntity_id("all");
+		log.setOperation(LogPetitionType.GET);
+		log.setEntity(LogEntityType.PROJECT);
+		log.setDescription("all");
 		log.setTimestamp(LocalDateTime.now());
 
 		try {
@@ -55,9 +61,9 @@ public class ProjectController {
 	@GetMapping("/{id}")
 	public ResponseEntity <Project> get_by_id(@PathVariable int id) {
 		Log log = new Log();
-		log.setOperation("GET");
-		log.setEntity("project");
-		log.setEntity_id(String.valueOf(id));
+		log.setOperation(LogPetitionType.GET);
+		log.setEntity(LogEntityType.PROJECT);
+		log.setDescription(String.valueOf(id));
 		log.setTimestamp(LocalDateTime.now());
 
 		Optional <Project> possible_project = project_service.find_by_id(id);
@@ -79,8 +85,8 @@ public class ProjectController {
 	@PostMapping
 	public ResponseEntity <Project> create(@RequestBody Project project) {
 		Log log = new Log();
-		log.setOperation("POST");
-		log.setEntity("project");
+		log.setOperation(LogPetitionType.POST);
+		log.setEntity(LogEntityType.PROJECT);
 		log.setTimestamp(LocalDateTime.now());
 
 		try {
@@ -88,7 +94,7 @@ public class ProjectController {
 			Project saved_project = project_service.save(project);
 
 			log.setWas_successful(true);
-			log.setEntity_id(Integer.toString(saved_project.getId()));
+			log.setDescription(Integer.toString(saved_project.getId()));
 			log_service.save(log);
 
 			return new ResponseEntity <>(saved_project, HttpStatus.CREATED);
@@ -103,9 +109,9 @@ public class ProjectController {
 	public ResponseEntity <Project> update(@PathVariable int id,
 											@RequestBody Project input_project) {
 		Log log = new Log();
-		log.setOperation("PUT");
-		log.setEntity("project");
-		log.setEntity_id(Integer.toString(id));
+		log.setOperation(LogPetitionType.PUT);
+		log.setEntity(LogEntityType.PROJECT);
+		log.setDescription(Integer.toString(id));
 		log.setTimestamp(LocalDateTime.now());
 
 		try {
@@ -121,7 +127,7 @@ public class ProjectController {
 				project.setTermination_date(input_project.getTermination_date());
 
 				saved_project = project_service.save(project);
-				log.setEntity_id(Integer.toString(saved_project.getId()));
+				log.setDescription(Integer.toString(saved_project.getId()));
 				log.setWas_successful(true);
 			} else
 				log.setWas_successful(false);
@@ -140,15 +146,15 @@ public class ProjectController {
 	@DeleteMapping("/{id}")
 	public ResponseEntity <HttpStatus> delete(@PathVariable int id) {
 		Log log = new Log();
-		log.setOperation("DELETE");
-		log.setEntity("project");
+		log.setOperation(LogPetitionType.DELETE);
+		log.setEntity(LogEntityType.PROJECT);
 		log.setTimestamp(LocalDateTime.now());
 
 		try {
 			project_service.delete_by_id(id);
 
 			log.setWas_successful(true);
-			log.setEntity_id(Integer.toString(id));
+			log.setDescription(Integer.toString(id));
 		} catch (Exception exception) {
 			log.setWas_successful(false);
 		} finally {
@@ -162,15 +168,15 @@ public class ProjectController {
 	@DeleteMapping
 	public ResponseEntity <HttpStatus> delete_all() {
 		Log log = new Log();
-		log.setOperation("DELETE");
-		log.setEntity("project");
+		log.setOperation(LogPetitionType.DELETE);
+		log.setEntity(LogEntityType.PROJECT);
 		log.setTimestamp(LocalDateTime.now());
 
 		try {
 			project_service.delete_all();
 
 			log.setWas_successful(true);
-			log.setEntity_id("all");
+			log.setDescription("all");
 		} catch (Exception exception) {
 			log.setWas_successful(false);
 		} finally {
@@ -179,6 +185,62 @@ public class ProjectController {
 
 		return log.getWas_successful() ? new ResponseEntity <>(HttpStatus.OK) :
 										new ResponseEntity <>(HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+
+
+	@GetMapping("/get_page/{page}")
+	public ResponseEntity <List <Project>> get_page(@PathVariable int page) {
+		Log log = new Log();
+		log.setOperation(LogPetitionType.GET);
+		log.setEntity(LogEntityType.PROJECT);
+		log.setDescription("all projects in the page " + Integer.toString(page));
+		log.setTimestamp(LocalDateTime.now());
+
+		List <Project> filtered_projects = new ArrayList <>();
+		int projects_per_page = 1;
+
+		try {
+			List <Project> projects = project_service.find_all();
+			filtered_projects = projects.subList((page - 1) * projects_per_page, projects.size());
+
+			log.setWas_successful(true);
+		} catch (Exception exception) {
+			log.setWas_successful(false);
+		} finally {
+			log_service.save(log);
+		}
+
+		return log.getWas_successful() ? new ResponseEntity <>(filtered_projects, HttpStatus.OK)
+				: new ResponseEntity <>(HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+
+	@GetMapping("/search/{name}")
+	public ResponseEntity <List <Project>> search(@PathVariable String name) {
+		Log log = new Log();
+		log.setOperation(LogPetitionType.GET);
+		log.setEntity(LogEntityType.PROJECT);
+		log.setDescription("all projects with \"" + name + "\" in its name");
+		log.setTimestamp(LocalDateTime.now());
+
+		List <Project> filtered_projects = new ArrayList <>();
+
+		try {
+			List <Project> projects = project_service.find_all();
+
+			for (Project project : projects)
+				if (project.getName().contains(name))
+					filtered_projects.add(project);
+
+
+			log.setWas_successful(true);
+		} catch (Exception exception) {
+			log.setWas_successful(false);
+		} finally {
+			log_service.save(log);
+		}
+
+		return log.getWas_successful() ? new ResponseEntity <>(filtered_projects, HttpStatus.OK) :
+											new ResponseEntity <>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 }
 

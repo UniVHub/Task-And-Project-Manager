@@ -6,6 +6,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import com.task_manager.app.model.Log;
+import com.task_manager.app.model.LogEntityType;
+import com.task_manager.app.model.LogPetitionType;
 import com.task_manager.app.model.Project;
 import com.task_manager.app.model.Task;
 import com.task_manager.app.service.LogService;
@@ -13,8 +15,12 @@ import com.task_manager.app.service.ProjectService;
 import com.task_manager.app.service.TaskService;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @RestController
 @RequestMapping("/api/tasks")
@@ -34,9 +40,9 @@ public class TaskController {
 	@GetMapping("/by_project_id/{id}")
 	public ResponseEntity <List <Task>> get_all(@PathVariable int id) {
 		Log log = new Log();
-		log.setOperation("GET");
-		log.setEntity("task");
-		log.setEntity_id("all tasks associate with the project with the ID: " + Integer.toString(id));
+		log.setOperation(LogPetitionType.GET);
+		log.setEntity(LogEntityType.TASK);
+		log.setDescription("all tasks associate with the project with the ID: " + Integer.toString(id));
 		log.setTimestamp(LocalDateTime.now());
 
 		try {
@@ -69,9 +75,9 @@ public class TaskController {
 	@GetMapping("/{id}")
 	public ResponseEntity <Task> get_by_id(@PathVariable int id) {
 		Log log = new Log();
-		log.setOperation("GET");
-		log.setEntity("task");
-		log.setEntity_id(Integer.toString(id));
+		log.setOperation(LogPetitionType.GET);
+		log.setEntity(LogEntityType.TASK);
+		log.setDescription(Integer.toString(id));
 		log.setTimestamp(LocalDateTime.now());
 
 		Optional <Task> possible_task = task_service.find_by_id(id);
@@ -93,9 +99,9 @@ public class TaskController {
 	@PostMapping("/{project_id}")
 	public ResponseEntity <Task> create(@RequestBody Task task, @PathVariable int project_id) {
 		Log log = new Log();
-		log.setOperation("POST");
-		log.setEntity("task");
-		log.setEntity_id(Integer.toString(project_id));
+		log.setOperation(LogPetitionType.POST);
+		log.setEntity(LogEntityType.TASK);
+		log.setDescription(Integer.toString(project_id));
 		log.setTimestamp(LocalDateTime.now());
 
 		try {
@@ -132,9 +138,9 @@ public class TaskController {
 	@PutMapping("/{id}")
 	public ResponseEntity <Task> update(@PathVariable int id, @RequestBody Task task) {
 		Log log = new Log();
-		log.setOperation("PUT");
-		log.setEntity("task");
-		log.setEntity_id(Integer.toString(id));
+		log.setOperation(LogPetitionType.PUT);
+		log.setEntity(LogEntityType.TASK);
+		log.setDescription(Integer.toString(id));
 		log.setTimestamp(LocalDateTime.now());
 
 		try {
@@ -168,9 +174,9 @@ public class TaskController {
 	@DeleteMapping
 	public ResponseEntity <HttpStatus> delete(@PathVariable int id) {
 		Log log = new Log();
-		log.setOperation("DELETE");
-		log.setEntity("task");
-		log.setEntity_id(Integer.toString(id));
+		log.setOperation(LogPetitionType.DELETE);
+		log.setEntity(LogEntityType.TASK);
+		log.setDescription(Integer.toString(id));
 		log.setTimestamp(LocalDateTime.now());
 
 		try {
@@ -189,9 +195,9 @@ public class TaskController {
 	@DeleteMapping("/delete_all_tasks")
 	public ResponseEntity <HttpStatus> delete_all() {
 		Log log = new Log();
-		log.setOperation("DELETE");
-		log.setEntity("task");
-		log.setEntity_id("all");
+		log.setOperation(LogPetitionType.DELETE);
+		log.setEntity(LogEntityType.TASK);
+		log.setDescription("all");
 		log.setTimestamp(LocalDateTime.now());
 
 		try {
@@ -205,5 +211,32 @@ public class TaskController {
 
 		return log.getWas_successful() ? new ResponseEntity <>(HttpStatus.OK) :
 										new ResponseEntity <>(HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+
+	@GetMapping("/search/{name}")
+	public ResponseEntity <List <Task>> search(@RequestParam String name) {
+		Log log = new Log();
+		log.setOperation(LogPetitionType.GET);
+		log.setEntity(LogEntityType.TASK);
+		log.setDescription("all");
+		log.setTimestamp(LocalDateTime.now());
+
+		List <Task> filtered_tasks = new ArrayList <>();
+
+		try {
+			List <Task> tasks = task_service.find_all();
+
+			for (Task task : tasks)
+				if (task.getName().contains(name))
+					filtered_tasks.add(task);
+
+			log.setWas_successful(true);
+		} catch (Exception exception) {
+			log.setWas_successful(false);
+		} finally {
+			log_service.save(log);
+		}
+		return log.getWas_successful() ? new ResponseEntity <>(filtered_tasks, HttpStatus.OK) :
+											new ResponseEntity <>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 }

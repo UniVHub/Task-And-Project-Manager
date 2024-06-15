@@ -128,6 +128,18 @@ DELTE /api/projects
 
 - `entity_id`: `"all"`.
 
+### Get a projects page
+
+```
+GET /api/projects/get_page/{page}
+```
+
+### Search a project by its name
+
+```
+GET /api/projects/search/{name}
+```
+
 ## Tasks
 
 ### Get all tasks associated with a project
