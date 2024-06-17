@@ -204,7 +204,10 @@ public class ProjectController {
 				if (project.getName().contains(name))
 					filtered_projects.add(project);
 
-			filtered_projects = projects.subList(page * page_size, projects.size());
+			int start = Math.min(page * page_size, filtered_projects.size());
+			int end = Math.min(start + page_size, filtered_projects.size());
+
+			filtered_projects = projects.subList(start, end);
 
 			log.setWas_successful(true);
 		} catch (Exception exception) {

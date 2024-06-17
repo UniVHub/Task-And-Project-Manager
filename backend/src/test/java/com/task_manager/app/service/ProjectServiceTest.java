@@ -27,7 +27,7 @@ public class ProjectServiceTest {
 
 
 	@BeforeEach
-	void set_up() {
+	public void set_up() {
 		project = new Project();
 		project.setName("project");
 		project.setDescription("project description");

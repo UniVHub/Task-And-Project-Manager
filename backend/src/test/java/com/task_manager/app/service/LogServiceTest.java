@@ -29,7 +29,7 @@ public class LogServiceTest {
 
 
 	@BeforeEach
-	void set_up() {
+	public void set_up() {
 		log = new Log();
 		log.setOperation(LogPetitionType.DELETE);
 		log.setEntity(LogEntityType.PROJECT);

@@ -85,7 +85,7 @@ public class TaskControllerTest {
 	}
 
 	@Test
-	void get_by_id() throws Exception {
+	public void get_by_id() throws Exception {
 		when(task_service.find_by_id(anyInt())).thenReturn(Optional.of(task));
 
 		mvc.perform(get("/api/tasks/1"))
@@ -94,7 +94,7 @@ public class TaskControllerTest {
 	}
 
 	@Test
-	void create() throws Exception {
+	public void create() throws Exception {
 		when(project_service.find_by_id(anyInt())).thenReturn(Optional.of(project));
 		when(task_service.save(any(Task.class))).thenReturn(task);
 
@@ -109,7 +109,7 @@ public class TaskControllerTest {
 	}
 
 	@Test
-	void update() throws Exception {
+	public void update() throws Exception {
 		when(task_service.find_by_id(anyInt())).thenReturn(Optional.of(task));
 		when(task_service.save(any(Task.class))).thenReturn(task);
 
@@ -124,7 +124,7 @@ public class TaskControllerTest {
 	}
 
 	@Test
-	void delete_task() throws Exception {
+	public void delete_task() throws Exception {
 		doNothing().when(task_service).delete_by_id(anyInt());
 
 		mvc.perform(delete("/api/tasks/1"))
@@ -132,7 +132,7 @@ public class TaskControllerTest {
 	}
 
 	@Test
-	void delete_all() throws Exception {
+	public void delete_all() throws Exception {
 		when(project_service.find_by_id(anyInt())).thenReturn(Optional.of(project));
 		doNothing().when(task_service).delete_by_id(anyInt());
 
@@ -141,7 +141,7 @@ public class TaskControllerTest {
 	}
 
 	@Test
-	void search() throws Exception {
+	public void search() throws Exception {
 		when(project_service.find_by_id(anyInt())).thenReturn(Optional.of(project));
 
 		ObjectMapper object_mapper = new ObjectMapper();

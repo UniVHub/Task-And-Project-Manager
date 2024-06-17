@@ -30,7 +30,7 @@ public class TaskServiceTest {
 
 
 	@BeforeEach
-	void set_up() {
+	public void set_up() {
 		Project project = new Project();
 		project.setName("project");
 		project.setDescription("project description");

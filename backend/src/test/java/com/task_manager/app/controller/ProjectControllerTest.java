@@ -14,6 +14,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.Optional;
+import java.util.concurrent.ExecutionException;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -67,7 +68,7 @@ public class ProjectControllerTest {
 	}
 
 	@Test
-	void get_by_id() throws Exception {
+	public void get_by_id() throws Exception {
 		when(service.find_by_id(anyInt())).thenReturn(Optional.of(project));
 
 		mvc.perform(get("/api/projects/1"))
@@ -76,7 +77,7 @@ public class ProjectControllerTest {
 	}
 
 	@Test
-	void create() throws Exception {
+	public void create() throws Exception {
 		when(service.save(any(Project.class))).thenReturn(project);
 
 		ObjectMapper object_mapper = new ObjectMapper();
@@ -90,7 +91,7 @@ public class ProjectControllerTest {
 	}
 
 	@Test
-	void update() throws Exception {
+	public void update() throws Exception {
 		when(service.find_by_id(anyInt())).thenReturn(Optional.of(project));
 		when(service.save(any(Project.class))).thenReturn(project);
 
@@ -105,7 +106,7 @@ public class ProjectControllerTest {
 	}
 
 	@Test
-	void delete_project() throws Exception {
+	public void delete_project() throws Exception {
 		doNothing().when(service).delete_by_id(anyInt());
 
 		mvc.perform(delete("/api/projects/1"))
@@ -113,10 +114,24 @@ public class ProjectControllerTest {
 	}
 
 	@Test
-	void delete_all() throws Exception {
+	public void delete_all() throws Exception {
 		doNothing().when(service).delete_all();
 
 		mvc.perform(delete("/api/projects"))
 				.andExpect(status().isOk());
+	}
+
+	@Test
+	public void search() throws Exception {
+		when(service.find_all()).thenReturn(Collections.singletonList(project));
+
+		ObjectMapper object_mapper = new ObjectMapper();
+		object_mapper.registerModule(new JavaTimeModule());
+
+		mvc.perform(get("/api/projects/search/project/8/0")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(object_mapper.writeValueAsString(project)))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$[0].name").value("project"));
 	}
 }
