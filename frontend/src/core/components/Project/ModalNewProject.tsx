@@ -1,7 +1,7 @@
 "use client";
 import FormNewProject from "./FormNewProject";
 import { useContext, useEffect, useState } from "react";
-import { ProjectFormInterface } from "@/core/types";
+import { ProjectFormInterface, ProjectInterface } from "@/core/types";
 import { ProjectContext } from "@/core/context/projectToEditContext";
 import { createProject, updateProject } from "@/core/api";
 import { toast } from "sonner";
@@ -12,9 +12,9 @@ import { getTasksByProjectId } from "@/core/api";
 export default function ModalNewProject() {
   const { projectToEdit, setProjectToEdit } = useContext(ProjectContext);
 
-  const [isClosed, setIsClosed] = useState(false);
+  const [isClosed, setIsClosed] = useState<boolean>(false);
 
-  const [numTasks, setNumTasks] = useState(0)
+  const [numTasks, setNumTasks] = useState<number>(0);
 
   const handleCloseModal = () => {
     setProjectToEdit({});
@@ -49,9 +49,16 @@ export default function ModalNewProject() {
   };
 
   useEffect(() => {
-    if(Object.keys(projectToEdit).length > 0){
-    }
-  },[])
+    const setNumberTasks = async () => {
+      if (Object.keys(projectToEdit).length > 0) {
+        const listTasks = await getTasksByProjectId(
+          (projectToEdit as ProjectInterface).id,
+        );
+        setNumTasks(listTasks.length);
+      }
+    };
+    setNumberTasks();
+  }, [projectToEdit]);
 
   return (
     <div>
