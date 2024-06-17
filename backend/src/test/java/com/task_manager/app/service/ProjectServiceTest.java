@@ -1,4 +1,4 @@
-package com.task_manager.app;
+package com.task_manager.app.service;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -15,12 +15,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.task_manager.app.model.Project;
-import com.task_manager.app.service.ProjectService;
 
 
 //@ActiveProfiles("testing")
 @SpringBootTest
-public class ProjectServiceTests {
+public class ProjectServiceTest {
 	@Autowired
 	ProjectService service;
 
@@ -30,8 +29,8 @@ public class ProjectServiceTests {
 	@BeforeEach
 	void set_up() {
 		project = new Project();
-		project.setName("test project");
-		project.setDescription("description of test project");
+		project.setName("project");
+		project.setDescription("project description");
 		project.setCreation_date(LocalDateTime.now());
 	}
 
@@ -42,7 +41,7 @@ public class ProjectServiceTests {
 
 		assertNotNull(projects);
 		assertEquals(1, projects.size());
-		assertEquals("test project", projects.get(0).getName());
+		assertEquals("project", projects.get(0).getName());
 	}
 
 	@Test
@@ -59,7 +58,7 @@ public class ProjectServiceTests {
 		Project saved_project = service.save(project);
 
 		assertNotNull(saved_project);
-		assertEquals("test project", saved_project.getName());
+		assertEquals("project", saved_project.getName());
 	}
 
 	@Test

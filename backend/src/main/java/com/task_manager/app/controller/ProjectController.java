@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 
 
@@ -144,7 +143,7 @@ public class ProjectController {
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity <HttpStatus> delete(@PathVariable int id) {
+	public ResponseEntity <HttpStatus> delete_project(@PathVariable int id) {
 		Log log = new Log();
 		log.setOperation(LogPetitionType.DELETE);
 		log.setEntity(LogEntityType.PROJECT);
@@ -187,39 +186,13 @@ public class ProjectController {
 										new ResponseEntity <>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 
-
-	@GetMapping("/get_page/{page}")
-	public ResponseEntity <List <Project>> get_page(@PathVariable int page) {
+	@GetMapping("/search/{name}/{page_size}/{page}")
+	public ResponseEntity <List <Project>> search(@PathVariable String name, @PathVariable int page_size,
+													@PathVariable int page) {
 		Log log = new Log();
 		log.setOperation(LogPetitionType.GET);
 		log.setEntity(LogEntityType.PROJECT);
-		log.setDescription("all projects in the page " + Integer.toString(page));
-		log.setTimestamp(LocalDateTime.now());
-
-		List <Project> filtered_projects = new ArrayList <>();
-		int projects_per_page = 1;
-
-		try {
-			List <Project> projects = project_service.find_all();
-			filtered_projects = projects.subList((page - 1) * projects_per_page, projects.size());
-
-			log.setWas_successful(true);
-		} catch (Exception exception) {
-			log.setWas_successful(false);
-		} finally {
-			log_service.save(log);
-		}
-
-		return log.getWas_successful() ? new ResponseEntity <>(filtered_projects, HttpStatus.OK)
-				: new ResponseEntity <>(HttpStatus.INTERNAL_SERVER_ERROR);
-	}
-
-	@GetMapping("/search/{name}")
-	public ResponseEntity <List <Project>> search(@PathVariable String name) {
-		Log log = new Log();
-		log.setOperation(LogPetitionType.GET);
-		log.setEntity(LogEntityType.PROJECT);
-		log.setDescription("all projects with \"" + name + "\" in its name");
+		log.setDescription("Name: " + name + " Page size: " + page_size + " Page: " + page);
 		log.setTimestamp(LocalDateTime.now());
 
 		List <Project> filtered_projects = new ArrayList <>();
@@ -231,6 +204,7 @@ public class ProjectController {
 				if (project.getName().contains(name))
 					filtered_projects.add(project);
 
+			filtered_projects = projects.subList(page * page_size, projects.size());
 
 			log.setWas_successful(true);
 		} catch (Exception exception) {

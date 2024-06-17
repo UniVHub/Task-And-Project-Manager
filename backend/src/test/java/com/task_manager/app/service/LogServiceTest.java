@@ -1,4 +1,4 @@
-package com.task_manager.app;
+package com.task_manager.app.service;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -17,11 +17,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import com.task_manager.app.model.Log;
 import com.task_manager.app.model.LogEntityType;
 import com.task_manager.app.model.LogPetitionType;
-import com.task_manager.app.service.LogService;
+
 
 //@ActiveProfiles("testing")
 @SpringBootTest
-public class LogServiceTests {
+public class LogServiceTest {
 	@Autowired
 	LogService service;
 

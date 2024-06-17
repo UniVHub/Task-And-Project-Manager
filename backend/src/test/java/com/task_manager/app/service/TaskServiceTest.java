@@ -1,4 +1,4 @@
-package com.task_manager.app;
+package com.task_manager.app.service;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -16,12 +16,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import com.task_manager.app.model.Project;
 import com.task_manager.app.model.Task;
-import com.task_manager.app.service.ProjectService;
-import com.task_manager.app.service.TaskService;
 
 
 @SpringBootTest
-public class TaskServiceTests {
+public class TaskServiceTest {
 	@Autowired
 	ProjectService project_service;
 
@@ -34,8 +32,8 @@ public class TaskServiceTests {
 	@BeforeEach
 	void set_up() {
 		Project project = new Project();
-		project.setName("test project");
-		project.setDescription("description of test project");
+		project.setName("project");
+		project.setDescription("project description");
 		project.setCreation_date(LocalDateTime.now());
 		project_service.save(project);
 
@@ -83,7 +81,7 @@ public class TaskServiceTests {
 	}
 
 	@Test
-	public void testDeleteAll() {
+	public void deleteAll() {
 		task_service.save(task);
 		task_service.delete_all();
 

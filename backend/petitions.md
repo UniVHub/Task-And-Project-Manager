@@ -46,6 +46,10 @@ GET /api/projects/{id}
 
 ### Create a project
 
+```
+POST /api/project
+```
+
 - `name`: the name of the project.
 
 - `description`: a brief description of the project.
@@ -103,7 +107,7 @@ POST /api/projects/{id}
 ### Delete a project
 
 ```
-DELTE /api/projects/{id}
+DELETE /api/projects/{id}
 ```
 
 #### Log (project deletion)
@@ -117,7 +121,7 @@ DELTE /api/projects/{id}
 ### Delete all project
 
 ```
-DELTE /api/projects
+DELETE /api/projects
 ```
 
 #### Log (all project deletion)
@@ -128,16 +132,10 @@ DELTE /api/projects
 
 - `entity_id`: `"all"`.
 
-### Get a projects page
-
-```
-GET /api/projects/get_page/{page}
-```
-
 ### Search a project by its name
 
 ```
-GET /api/projects/search/{name}
+GET /api/projects/search/{name}/{page_size}/{page}
 ```
 
 ## Tasks
@@ -145,7 +143,7 @@ GET /api/projects/search/{name}
 ### Get all tasks associated with a project
 
 ```
-GET /api/tasks/by_project_id/{id}
+GET /api/tasks/by_project/{id}
 ```
 
 #### Log (Get all tasks associated with a project)
@@ -199,6 +197,10 @@ POST /api/tasks/{id}
 
 ### Update a task
 
+```
+PUT /api/tasks/{id}
+```
+
 - `id`: the ID of the task to be updated.
 
 - `name`: the name of the task.
@@ -228,10 +230,22 @@ POST /api/tasks/{id}
 }
 ```
 
-### Delete all tasks
+### Delete a task
 
 ```
-DELTE /api/tasks
+DELETE /api/tasks/{id}
+```
+
+### Delete all tasks associated with a project
+
+```
+DELETE /api/tasks/by_project/{id}
+```
+
+### Search a task by its name
+
+```
+GET /api/tasks/search/{id}/{name}
 ```
 
 ## Doing a petition with `curl`

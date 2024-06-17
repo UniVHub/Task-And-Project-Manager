@@ -37,7 +37,7 @@ public class TaskController {
 	}
 
 
-	@GetMapping("/by_project_id/{id}")
+	@GetMapping("/by_project/{id}")
 	public ResponseEntity <List <Task>> get_all(@PathVariable int id) {
 		Log log = new Log();
 		log.setOperation(LogPetitionType.GET);
@@ -171,8 +171,8 @@ public class TaskController {
 		}
 	}
 
-	@DeleteMapping
-	public ResponseEntity <HttpStatus> delete(@PathVariable int id) {
+	@DeleteMapping("/{id}")
+	public ResponseEntity <HttpStatus> delete_task(@PathVariable int id) {
 		Log log = new Log();
 		log.setOperation(LogPetitionType.DELETE);
 		log.setEntity(LogEntityType.TASK);
@@ -192,17 +192,30 @@ public class TaskController {
 										new ResponseEntity <>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 
-	@DeleteMapping("/delete_all_tasks")
-	public ResponseEntity <HttpStatus> delete_all() {
+	@DeleteMapping("/by_project/{id}")
+	public ResponseEntity <HttpStatus> delete_all(@PathVariable int id) {
 		Log log = new Log();
 		log.setOperation(LogPetitionType.DELETE);
 		log.setEntity(LogEntityType.TASK);
-		log.setDescription("all");
+		log.setDescription("all tasks associated with the project with an ID of " + Integer.toString(id));
 		log.setTimestamp(LocalDateTime.now());
 
 		try {
-			task_service.delete_all();
-			log.setWas_successful(true);
+			Optional <Project> possible_project = project_service.find_by_id(id);
+
+			if (possible_project.isPresent()) {
+				Project project = possible_project.get();
+				List <Task> project_tasks = project.getTasks();
+
+				for (Task task : project_tasks)
+					task_service.delete_by_id(task.getId());
+
+				log.setWas_successful(true);
+			} else {
+				log.setWas_successful(false);
+				return new ResponseEntity <>(HttpStatus.NOT_FOUND);
+			}
+
 		} catch (Exception exception) {
 			log.setWas_successful(false);
 		} finally {
@@ -213,8 +226,8 @@ public class TaskController {
 										new ResponseEntity <>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 
-	@GetMapping("/search/{name}")
-	public ResponseEntity <List <Task>> search(@RequestParam String name) {
+	@GetMapping("/search/{id}/{name}")
+	public ResponseEntity <List <Task>> search(@PathVariable int id, @PathVariable String name) {
 		Log log = new Log();
 		log.setOperation(LogPetitionType.GET);
 		log.setEntity(LogEntityType.TASK);
@@ -224,11 +237,21 @@ public class TaskController {
 		List <Task> filtered_tasks = new ArrayList <>();
 
 		try {
-			List <Task> tasks = task_service.find_all();
+			Optional <Project> possible_project = project_service.find_by_id(id);
 
-			for (Task task : tasks)
-				if (task.getName().contains(name))
-					filtered_tasks.add(task);
+			if (possible_project.isPresent()) {
+				Project project = possible_project.get();
+				List <Task> tasks = project.getTasks();
+
+				for (Task task : tasks)
+					if (task.getName().contains(name))
+						filtered_tasks.add(task);
+
+				log.setWas_successful(true);
+			} else {
+				log.setWas_successful(false);
+				return new ResponseEntity <>(HttpStatus.NOT_FOUND);
+			}
 
 			log.setWas_successful(true);
 		} catch (Exception exception) {
