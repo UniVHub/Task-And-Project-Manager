@@ -37,8 +37,6 @@ export default function ModalNewTask({ projectId }: ModalNewTaskProps) {
     } else {
       const newTask = {
         ...task,
-        creationDate: new Date().toISOString(),
-        terminationDate: null,
         projectId: Number(projectId),
       };
       createTask(newTask).then(() => {

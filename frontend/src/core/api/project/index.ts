@@ -17,7 +17,9 @@ const CreateProjectSchema = ProjectFormSchema.omit({ id: true });
 /**
  * The base URL for the project API.
  */
-const baseUrlProject = "https://retoolapi.dev/wbgTjE";
+// const BASEURLPROJECT= "https://retoolapi.dev/wbgTjE";
+const BASEURLPROJECT = process.env.NEXT_PUBLIC_PROJECTS_URL;
+
 
 /**
  * Retrieves a list of projects from the server.
@@ -25,7 +27,7 @@ const baseUrlProject = "https://retoolapi.dev/wbgTjE";
  */
 export const getProjects = async () => {
   try {
-    const response = await fetch(`${baseUrlProject}/data`);
+    const response = await fetch(`${BASEURLPROJECT}`);
     return response.json();
   } catch (error) {
     console.error(error);
@@ -40,9 +42,8 @@ export const getProjects = async () => {
  */
 export const getProject = async (id: string) => {
   try {
-    const response = await fetch(`${baseUrlProject}/data/${id}`);
+    const response = await fetch(`${BASEURLPROJECT}/${id}`);
     const data = await response.json();
-    console.log(data);
     return data;
   } catch (error) {
     console.error(error);
@@ -59,7 +60,7 @@ export const createProject = async (project: ProjectFormInterface) => {
   const validProject = CreateProjectSchema.parse(project);
 
   try {
-    const response = await fetch(`${baseUrlProject}/data`, {
+    const response = await fetch(`${BASEURLPROJECT}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -83,7 +84,7 @@ export const updateProject = async (project: ProjectFormInterface) => {
   const validProject = ProjectFormSchema.parse(project);
 
   try {
-    const response = await fetch(`${baseUrlProject}/data/${project.id}`, {
+    const response = await fetch(`${BASEURLPROJECT}/${project.id}`, {
       method: "PUT",
       headers: {
         "Content-Type": "application/json",
@@ -105,7 +106,7 @@ export const updateProject = async (project: ProjectFormInterface) => {
  */
 export const deleteProject = async (id: string) => {
   try {
-    const response = await fetch(`${baseUrlProject}/data/${id}`, {
+    const response = await fetch(`${BASEURLPROJECT}/${id}`, {
       method: "DELETE",
     });
     revalidatePath("/");
@@ -117,16 +118,32 @@ export const deleteProject = async (id: string) => {
 };
 
 /**
+ * Deletes all projects.
+ * @returns A promise that resolves to the response JSON.
+ * @throws An error if there is an error deleting the project.
+ */
+export const deleteAllProjects = async () => {
+  try {
+    const response = await fetch(`${BASEURLPROJECT}`, {
+      method: "DELETE",
+    });
+    revalidatePath("/");
+    return response.json();
+  } catch (error) {
+    console.error(error);
+    throw new Error("Error deleting project");
+  }
+}
+
+/**
  * Retrieves filtered projects based on the provided query.
  * @param query - The search query to filter projects by name.
  * @returns A Promise that resolves to the JSON response containing the filtered projects.
  */
-export const getFilteredProjects = async (query: string) => {
-  const response = await fetch(`${baseUrlProject}/data?name=${query}`);
+export const getFilteredProjectsByName = async (query: string) => {
+  const response = await fetch(`${BASEURLPROJECT}/search/${query}`);
   return response.json();
 };
-
-const ITEMS_PER_PAGE = 8;
 
 /**
  * Retrieves a paginated list of projects from the server.
@@ -135,7 +152,7 @@ const ITEMS_PER_PAGE = 8;
  * @returns A Promise that resolves to the JSON response containing the paginated projects.
  */
 export const getPaginatedProjects = async (page: number) => {
-  const response = await fetch(`${baseUrlProject}/data?_page=${page}&_limit=${ITEMS_PER_PAGE}`);
+  const response = await fetch(`${BASEURLPROJECT}/get_page/${page}`);
   return response.json();
 };
 
@@ -147,7 +164,7 @@ export const getPaginatedProjects = async (page: number) => {
 export const getFilteredProjectsPages = async () => {
   try {
     const projects = await getProjects();
-    const totalPages = Math.ceil(projects.length / ITEMS_PER_PAGE);
+    const totalPages = Math.ceil(projects.length / 1);
     return totalPages;
   } catch (error) {
     console.error(error);

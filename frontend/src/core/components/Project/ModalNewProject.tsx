@@ -36,12 +36,7 @@ export default function ModalNewProject() {
         toast.success("Project updated successfully");
       });
     } else {
-      const newProject = {
-        ...project,
-        creationDate: new Date().toISOString(),
-        terminationDate: null,
-      };
-      createProject(newProject).then(() => {
+      createProject(project).then(() => {
         toast.success("Project created successfully");
       });
     }
