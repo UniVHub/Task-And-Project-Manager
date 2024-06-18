@@ -13,16 +13,16 @@ export default async function Home({
   searchParams?: {
     query?: string;
     page?: string;
-  };
+  };  
 }) {
   const query = searchParams?.query || "";
   const currentPage = Number(searchParams?.page) || 1;
 
-  const totalPages = await getFilteredProjectsPages();
+  const totalPages = await getFilteredProjectsPages(query);
 
   return (
     <>
-      <div className="flex items-center justify-between gap-2 mt-12">
+      <div className="mt-12 flex items-center justify-between gap-2">
         <Search placeholder="Search projects..." />
         <AddProjectButton />
       </div>

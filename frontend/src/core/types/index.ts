@@ -5,8 +5,8 @@ export interface ProjectInterface {
   id: number;
   name: string;
   description: string;
-  creationDate: string;
-  terminationDate: string | null;
+  creation_date: string;
+  termination_date: string | null;
 }
 
 /**
@@ -24,8 +24,8 @@ export interface TaskInterface {
   id: number;
   name: string;
   description: string;
-  creationDate: string;
-  terminationDate: string | null;
+  creation_date: string;
+  termination_date: string | null;
   projectId: number;
 }
 

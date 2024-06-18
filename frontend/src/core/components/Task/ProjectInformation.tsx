@@ -18,10 +18,10 @@ export default function ProjectInformation({
       </h2>
       <p className="mt-4 text-center">{project.description}</p>
       <div className="mt-4 flex items-center justify-center gap-2">
-        <BadgeDate type="creation" date={project.creationDate} />
+        <BadgeDate type="creation" date={project.creation_date} />
         <div>
-          {project.terminationDate ? (
-            <BadgeDate type="termination" date={project.terminationDate} />
+          {project.termination_date ? (
+            <BadgeDate type="termination" date={project.termination_date} />
           ) : (
             <FinishProjectButton project={project} />
           )}

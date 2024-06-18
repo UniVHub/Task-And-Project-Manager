@@ -12,10 +12,11 @@ import BadgeStatus from "../General/BadgeStatus";
 interface TaskProps {
   task: TaskInterface;
   index: number;
+  projectId: number;
   numberOfTasks: number;
 }
 
-export default function Task({ task, index, numberOfTasks }: TaskProps) {
+export default function Task({ task, index, numberOfTasks, projectId }: TaskProps) {
   const { setTaskToEdit } = useContext(TaskContext);
 
   const handleOpenModal = () => {
@@ -40,11 +41,13 @@ export default function Task({ task, index, numberOfTasks }: TaskProps) {
   const finishTask = () => {
     const updatedTask = {
       ...task,
-      terminationDate: new Date().toISOString(),
+      projectId: projectId,
+      termination_date: new Date().toISOString(),
     };
     updateTask(updatedTask).then(() => {
       toast.success("Task finished successfully");
     });
+    console.log(updatedTask);
     (document.activeElement as HTMLElement)?.blur();
   };
 
@@ -52,7 +55,7 @@ export default function Task({ task, index, numberOfTasks }: TaskProps) {
     <tr>
       <td>{truncateString(task.name, 38)}</td>
       <td>
-        {<BadgeStatus type={task.terminationDate ? "finished" : "progress"} />}
+        {<BadgeStatus type={task.termination_date ? "finished" : "progress"} />}
       </td>
       <td>
         <div
@@ -68,7 +71,14 @@ export default function Task({ task, index, numberOfTasks }: TaskProps) {
           </div>
           <ul
             tabIndex={0}
-            className="menu dropdown-content z-[1] w-52 rounded-box bg-base-100 p-2 shadow"
+            className="menu dropdown-content z-[1] h-max w-52 rounded-box bg-base-300 p-2 shadow"
+            style={{
+              position: "fixed",
+              top: "80%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              zIndex: 1000,
+            }}
           >
             {/* <li>
               <Link href={`/task/${task.id}`}>
@@ -81,7 +91,7 @@ export default function Task({ task, index, numberOfTasks }: TaskProps) {
             <li>
               <button onClick={handleDelete}>Delete</button>
             </li>
-            {task.terminationDate ? null : (
+            {task.termination_date ? null : (
               <li>
                 <button className="text-error" onClick={finishTask}>
                   Finish Task

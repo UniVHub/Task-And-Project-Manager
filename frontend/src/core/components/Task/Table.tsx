@@ -1,6 +1,6 @@
 import React from "react";
 import { TaskInterface } from "@/core/types";
-import { getTasksByProjectId } from "@/core/api";
+import { getTasksByName, getTasksByProjectId } from "@/core/api";
 import Task from "./Task";
 
 interface TableTasksProps {
@@ -12,7 +12,7 @@ export default async function TableTasks({
   query,
   projectId,
 }: TableTasksProps) {
-  const tasks = await getTasksByProjectId(projectId);
+  const tasks = await getTasksByName(query,projectId);
   return (
     <>
       <h3 className="text-center text-xl font-bold">List of Tasks</h3>
@@ -32,6 +32,7 @@ export default async function TableTasks({
                 task={task}
                 index={index}
                 numberOfTasks={tasks.length}
+                projectId={projectId}
               />
             ))}
           </tbody>

@@ -3,8 +3,8 @@ Table Project {
   ID int [pk, increment]
   Name varchar [not null]
   Description text
-  CreationDate datetime [not null]
-  TerminationDate datetime
+  creation_date datetime [not null]
+  termination_date datetime
 }
 
 // Task Table
@@ -13,8 +13,8 @@ Table Task {
   ProjectID int [not null, ref: > Project.ID]
   Name varchar [not null]
   Description text
-  CreationDate datetime [not null]
-  TerminationDate datetime
+  creation_date datetime [not null]
+  termination_date datetime
 }
 
 // Log Table

@@ -1,6 +1,6 @@
 import Project from "./Project";
 import { ProjectInterface } from "@/core/types";
-import { getPaginatedProjects, getProjects } from "@/core/api";
+import { getFilteredProjects } from "@/core/api";
 
 export default async function Projects({
   query,
@@ -9,9 +9,15 @@ export default async function Projects({
   query: string;
   currentPage: number;
 }) {
-  const projects = await getPaginatedProjects(currentPage);
+  const projects = await getFilteredProjects(query, currentPage);
+
+  if (Object.keys(projects).length === 0) {
+    console.log(`\n projects: ${projects}`);
+    return null;
+  }
+
   return (
-    <div className="overflow-x-auto overflow-y-hidden mt-8">
+    <div className="mt-8 overflow-x-auto overflow-y-hidden">
       <table className="table">
         <thead>
           <tr>

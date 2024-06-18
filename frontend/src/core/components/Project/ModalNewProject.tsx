@@ -36,7 +36,12 @@ export default function ModalNewProject() {
         toast.success("Project updated successfully");
       });
     } else {
-      createProject(project).then(() => {
+      const newProject = {
+        ...project,
+        creation_date: new Date().toISOString(),
+        termination_date: null,
+      } as ProjectInterface;
+      createProject(newProject).then(() => {
         toast.success("Project created successfully");
       });
     }
@@ -69,17 +74,17 @@ export default function ModalNewProject() {
           </h3>
           {Object.keys(projectToEdit).length > 0 && (
             <div className="mt-2 flex justify-around">
-              {"creationDate" in projectToEdit && (
+              {"creation_date" in projectToEdit && (
                 <BadgeDateSmall
                   type="creation"
-                  date={projectToEdit.creationDate}
+                  date={projectToEdit.creation_date}
                 />
               )}
-              {"terminationDate" in projectToEdit &&
-                projectToEdit.terminationDate && (
+              {"termination_date" in projectToEdit &&
+                projectToEdit.termination_date && (
                   <BadgeDateSmall
                     type="termination"
-                    date={projectToEdit.terminationDate}
+                    date={projectToEdit.termination_date}
                   />
                 )}
             </div>

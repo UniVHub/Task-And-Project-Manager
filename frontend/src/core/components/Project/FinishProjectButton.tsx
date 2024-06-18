@@ -12,7 +12,7 @@ export const FinishProjectButton = ({ project }: FinishButtonProps) => {
   const handlefinish = () => {
     const updatedProject = {
       ...project,
-      terminationDate: new Date().toISOString(),
+      termination_date: new Date().toISOString(),
     };
     updateProject(updatedProject).then(() => {
       toast.success("Project finished successfully");

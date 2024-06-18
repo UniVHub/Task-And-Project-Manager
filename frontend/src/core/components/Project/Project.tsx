@@ -47,7 +47,7 @@ export default function Project({
   const finishProject = () => {
     const updatedProject = {
       ...project,
-      terminationDate: new Date().toISOString(),
+      termination_date: new Date().toISOString(),
     };
     updateProject(updatedProject).then(() => {
       toast.success("Project finished successfully");
@@ -61,7 +61,7 @@ export default function Project({
       <td>
         {
           <BadgeStatus
-            type={project.terminationDate ? "finished" : "progress"}
+            type={project.termination_date ? "finished" : "progress"}
           />
         }
       </td>
@@ -79,7 +79,14 @@ export default function Project({
           </div>
           <ul
             tabIndex={0}
-            className="menu dropdown-content z-[1] w-52 rounded-box bg-base-100 p-2 shadow"
+            className="menu dropdown-content z-[1] h-max w-52 rounded-box bg-base-300 p-2 shadow"
+            style={{
+              position: "fixed",
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)",
+              zIndex: 1000,
+            }}
           >
             <li>
               <Link href={`/project/${project.id}`}>
@@ -92,7 +99,7 @@ export default function Project({
             <li>
               <button onClick={handleDelete}>Delete</button>
             </li>
-            {project.terminationDate ? null : (
+            {project.termination_date ? null : (
               <li>
                 <button className="text-error" onClick={finishProject}>
                   Finish Project

@@ -31,12 +31,18 @@ export default function ModalNewTask({ projectId }: ModalNewTaskProps) {
 
   const saveTask = (task: TaskFormInterface) => {
     if (task.id) {
-      updateTask(task).then(() => {
+      const newTask = {
+        ...task,
+        projectId: Number(projectId),
+      }
+      updateTask(newTask).then(() => {
         toast.success("Task updated successfully");
       });
     } else {
       const newTask = {
         ...task,
+        creation_date: new Date().toISOString(),
+        termination_date: null,
         projectId: Number(projectId),
       };
       createTask(newTask).then(() => {

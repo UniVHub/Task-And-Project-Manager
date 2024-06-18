@@ -8,18 +8,13 @@ const ProjectFormSchema = z.object({
   id: z.number(),
   name: z.string(),
   description: z.string(),
-  creationDate: z.string(),
-  terminationDate: z.string().nullable(),
+  creation_date: z.string(),
+  termination_date: z.string().nullable(),
 });
 
 const CreateProjectSchema = ProjectFormSchema.omit({ id: true });
 
-/**
- * The base URL for the project API.
- */
-// const BASEURLPROJECT= "https://retoolapi.dev/wbgTjE";
 const BASEURLPROJECT = process.env.NEXT_PUBLIC_PROJECTS_URL;
-
 
 /**
  * Retrieves a list of projects from the server.
@@ -28,7 +23,8 @@ const BASEURLPROJECT = process.env.NEXT_PUBLIC_PROJECTS_URL;
 export const getProjects = async () => {
   try {
     const response = await fetch(`${BASEURLPROJECT}`);
-    return response.json();
+    if (!response.ok) throw new Error("Error fetching projects");
+    return response.status !== 204 ? await response.json() : null;
   } catch (error) {
     console.error(error);
     throw new Error("Error fetching projects");
@@ -110,7 +106,6 @@ export const deleteProject = async (id: string) => {
       method: "DELETE",
     });
     revalidatePath("/");
-    return response.json();
   } catch (error) {
     console.error(error);
     throw new Error("Error deleting project");
@@ -133,27 +128,42 @@ export const deleteAllProjects = async () => {
     console.error(error);
     throw new Error("Error deleting project");
   }
-}
-
-/**
- * Retrieves filtered projects based on the provided query.
- * @param query - The search query to filter projects by name.
- * @returns A Promise that resolves to the JSON response containing the filtered projects.
- */
-export const getFilteredProjectsByName = async (query: string) => {
-  const response = await fetch(`${BASEURLPROJECT}/search/${query}`);
-  return response.json();
 };
 
+export const getFilteredProjectsByName = async (name: string) => {
+  try {
+    const response = await fetch(`${BASEURLPROJECT}/search/${name}`);
+    return response.json();
+  } catch (error) {
+    console.error(error);
+    throw new Error("Error fetching filtered projects");
+  }
+};
+
+const ITEMS_PER_PAGE = 6;
+
 /**
- * Retrieves a paginated list of projects from the server.
+ * Fetches filtered projects from the server.
  *
- * @param page - The page number to retrieve.
- * @returns A Promise that resolves to the JSON response containing the paginated projects.
+ * @param query - The search query string.
+ * @param page - The page number to fetch.
+ * @returns A Promise that resolves to the fetched data.
+ * @throws An error if there is an issue fetching the projects.
  */
-export const getPaginatedProjects = async (page: number) => {
-  const response = await fetch(`${BASEURLPROJECT}/get_page/${page}`);
-  return response.json();
+export const getFilteredProjects = async (query: string, page: number) => {
+  try {
+    const url =
+      query === ""
+        ? `${BASEURLPROJECT}/search/""/${ITEMS_PER_PAGE}/${page - 1}`
+        : `${BASEURLPROJECT}/search/${query}/${ITEMS_PER_PAGE}/${page - 1}`;
+
+    const response = await fetch(url);
+
+    return response.json();
+  } catch (error) {
+    console.error(error);
+    throw new Error("Error fetching filtered projects");
+  }
 };
 
 /**
@@ -161,11 +171,16 @@ export const getPaginatedProjects = async (page: number) => {
  * @returns The total number of pages.
  * @throws An error if there is an issue fetching the project pages.
  */
-export const getFilteredProjectsPages = async () => {
+export const getFilteredProjectsPages = async (query: string) => {
   try {
-    const projects = await getProjects();
-    const totalPages = Math.ceil(projects.length / 1);
-    return totalPages;
+    const url =
+      query === ""
+        ? `${BASEURLPROJECT}/search/""/${ITEMS_PER_PAGE}`
+        : `${BASEURLPROJECT}/search/${query}/${ITEMS_PER_PAGE}`;
+
+    const response = await fetch(url);
+
+    return response.json();
   } catch (error) {
     console.error(error);
     throw new Error("Error fetching project pages");

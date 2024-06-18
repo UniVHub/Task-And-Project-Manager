@@ -8,17 +8,13 @@ const TaskFormSchema = z.object({
   id: z.number(),
   name: z.string(),
   description: z.string(),
-  creationDate: z.string(),
-  terminationDate: z.string().nullable(),
+  creation_date: z.string(),
+  termination_date: z.string().nullable(),
   projectId: z.number(),
 });
 
 const CreateTaskSchema = TaskFormSchema.omit({ id: true });
 
-/**
- * The base URL for the task API.
- */
-// const BASEURLTASKS = "https://retoolapi.dev/Y0adP6";
 const BASEURLTASKS = process.env.NEXT_PUBLIC_TASKS_URL;
 
 /**
@@ -29,12 +25,13 @@ const BASEURLTASKS = process.env.NEXT_PUBLIC_TASKS_URL;
  */
 export const getTasksByProjectId = async (projectId: number) => {
   try {
-    const response = await fetch(`${BASEURLTASKS}/by_project_id/${projectId}`);
-    const data = await response.json();
-    return data;
+    const response = await fetch(`${BASEURLTASKS}/by_project/${projectId}`);
+    if (!response.ok) throw new Error("Error fetching tasks");
+    if (response.status === 404) return [];
+    return response.status !== 204 ? await response.json() : [];
   } catch (error) {
     console.error(error);
-    throw new Error("Error fetching task");
+    throw new Error("Error fetching tasks");
   }
 };
 
@@ -113,7 +110,6 @@ export const deleteTask = async (id: string) => {
       method: "DELETE",
     });
     revalidatePath(`/project/${id}`);
-    return response.json();
   } catch (error) {
     console.error(error);
     throw new Error("Error deleting task");
@@ -126,19 +122,30 @@ export const deleteAllTasks = async (projectId: number) => {
       method: "DELETE",
     });
     revalidatePath(`/project/${projectId}`);
-    return response.json();
   } catch (error) {
     console.error(error);
     throw new Error("Error deleting tasks");
   }
-}
+};
 
 /**
  * Retrieves filtered tasks based on the provided query.
  * @param query - The search query to filter tasks by name.
  * @returns A Promise that resolves to the JSON response containing the filtered tasks.
  */
-export const getTasksByName = async (query: string) => {
-  const response = await fetch(`${BASEURLTASKS}/task?name=${query}`);
-  return response.json();
+export const getTasksByName = async (query: string, projectId: number) => {
+  try {
+    const url =
+      query === ""
+        ? `${BASEURLTASKS}/search/${projectId}/""`
+        : `${BASEURLTASKS}/search/${projectId}/${query}`;
+
+    const response = await fetch(url);
+
+    return response.json();
+
+  } catch (error) {
+    console.error(error);
+    throw new Error("Error fetching tasks by name");
+  }
 };
