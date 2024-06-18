@@ -12,6 +12,6 @@ RUN mvn dependency:go-offline -B
 
 COPY ./src ${BASE_DIR}/src
 
-RUN mvn clean package
+RUN mvn clean package -P production
 
 ENTRYPOINT ["java", "-jar", "target/backend-0.0.1-SNAPSHOT.jar"]

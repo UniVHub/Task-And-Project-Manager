@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 
 @RestController
@@ -36,17 +35,30 @@ public class TaskController {
 		this.task_service = task_service;
 	}
 
+	private List <Task> filter_tasks(List <Task> tasks, String name) {
+		List <Task> filtered_tasks = new ArrayList <>();
 
-	@GetMapping("/by_project/{id}")
-	public ResponseEntity <List <Task>> get_all(@PathVariable int id) {
+		if (name.equals("*"))
+			filtered_tasks = tasks;
+		else
+			for (Task task : tasks)
+				if (task.getName().contains(name))
+					filtered_tasks.add(task);
+
+		return filtered_tasks;
+	}
+
+
+	@GetMapping("/by_project/{project_id}")
+	public ResponseEntity <List <Task>> get_all(@PathVariable int project_id) {
 		Log log = new Log();
 		log.setOperation(LogPetitionType.GET);
 		log.setEntity(LogEntityType.TASK);
-		log.setDescription("all tasks associate with the project with the ID: " + Integer.toString(id));
+		log.setDescription("Entity: all Project ID: " + Integer.toString(project_id));
 		log.setTimestamp(LocalDateTime.now());
 
 		try {
-			Optional <Project> possbile_project = project_service.find_by_id(id);
+			Optional <Project> possbile_project = project_service.find_by_id(project_id);
 			List <Task> tasks = null;
 
 			if (possbile_project.isPresent()) {
@@ -77,7 +89,7 @@ public class TaskController {
 		Log log = new Log();
 		log.setOperation(LogPetitionType.GET);
 		log.setEntity(LogEntityType.TASK);
-		log.setDescription(Integer.toString(id));
+		log.setDescription("ID: " + Integer.toString(id));
 		log.setTimestamp(LocalDateTime.now());
 
 		Optional <Task> possible_task = task_service.find_by_id(id);
@@ -101,7 +113,7 @@ public class TaskController {
 		Log log = new Log();
 		log.setOperation(LogPetitionType.POST);
 		log.setEntity(LogEntityType.TASK);
-		log.setDescription(Integer.toString(project_id));
+		log.setDescription("ID: " + Integer.toString(project_id));
 		log.setTimestamp(LocalDateTime.now());
 
 		try {
@@ -140,7 +152,7 @@ public class TaskController {
 		Log log = new Log();
 		log.setOperation(LogPetitionType.PUT);
 		log.setEntity(LogEntityType.TASK);
-		log.setDescription(Integer.toString(id));
+		log.setDescription("ID: " + Integer.toString(id));
 		log.setTimestamp(LocalDateTime.now());
 
 		try {
@@ -176,7 +188,7 @@ public class TaskController {
 		Log log = new Log();
 		log.setOperation(LogPetitionType.DELETE);
 		log.setEntity(LogEntityType.TASK);
-		log.setDescription(Integer.toString(id));
+		log.setDescription("ID: " + Integer.toString(id));
 		log.setTimestamp(LocalDateTime.now());
 
 		try {
@@ -192,16 +204,16 @@ public class TaskController {
 										new ResponseEntity <>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 
-	@DeleteMapping("/by_project/{id}")
-	public ResponseEntity <HttpStatus> delete_all(@PathVariable int id) {
+	@DeleteMapping("/by_project/{project_id}")
+	public ResponseEntity <HttpStatus> delete_all(@PathVariable int project_id) {
 		Log log = new Log();
 		log.setOperation(LogPetitionType.DELETE);
 		log.setEntity(LogEntityType.TASK);
-		log.setDescription("all tasks associated with the project with an ID of " + Integer.toString(id));
+		log.setDescription("Entity: all Project ID: " + Integer.toString(project_id));
 		log.setTimestamp(LocalDateTime.now());
 
 		try {
-			Optional <Project> possible_project = project_service.find_by_id(id);
+			Optional <Project> possible_project = project_service.find_by_id(project_id);
 
 			if (possible_project.isPresent()) {
 				Project project = possible_project.get();
@@ -226,26 +238,24 @@ public class TaskController {
 										new ResponseEntity <>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 
-	@GetMapping("/search/{id}/{name}")
-	public ResponseEntity <List <Task>> search(@PathVariable int id, @PathVariable String name) {
+	@GetMapping("/search/{project_id}/{name}")
+	public ResponseEntity <List <Task>> search(@PathVariable int project_id, @PathVariable String name) {
 		Log log = new Log();
 		log.setOperation(LogPetitionType.GET);
 		log.setEntity(LogEntityType.TASK);
-		log.setDescription("all");
+		log.setDescription("Entity: all Project ID: " + Integer.toString(project_id) + " Name: " + name);
 		log.setTimestamp(LocalDateTime.now());
 
 		List <Task> filtered_tasks = new ArrayList <>();
 
 		try {
-			Optional <Project> possible_project = project_service.find_by_id(id);
+			Optional <Project> possible_project = project_service.find_by_id(project_id);
 
 			if (possible_project.isPresent()) {
 				Project project = possible_project.get();
 				List <Task> tasks = project.getTasks();
 
-				for (Task task : tasks)
-					if (task.getName().contains(name))
-						filtered_tasks.add(task);
+				filtered_tasks = filter_tasks(tasks, name);
 
 				log.setWas_successful(true);
 			} else {

@@ -15,7 +15,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import org.springframework.web.bind.annotation.GetMapping;
 
 
 
@@ -25,10 +24,25 @@ public class ProjectController {
 	private final LogService log_service;
 	private final ProjectService project_service;
 
+	private List <Project> projects = null;
+
 	public ProjectController(LogService log_service,
 								ProjectService project_service) {
 		this.log_service= log_service;
 		this.project_service = project_service;
+	}
+
+	private List <Project> filter_projects(List <Project> projects, String name) {
+		List <Project> filtered_projects = new ArrayList<>();
+
+		if (name.equals("*"))
+			filtered_projects = projects;
+		else
+			for (Project project : projects)
+				if (project.getName().contains(name))
+					filtered_projects.add(project);
+
+		return filtered_projects;
 	}
 
 
@@ -62,7 +76,7 @@ public class ProjectController {
 		Log log = new Log();
 		log.setOperation(LogPetitionType.GET);
 		log.setEntity(LogEntityType.PROJECT);
-		log.setDescription(String.valueOf(id));
+		log.setDescription("ID: " + String.valueOf(id));
 		log.setTimestamp(LocalDateTime.now());
 
 		Optional <Project> possible_project = project_service.find_by_id(id);
@@ -93,7 +107,7 @@ public class ProjectController {
 			Project saved_project = project_service.save(project);
 
 			log.setWas_successful(true);
-			log.setDescription(Integer.toString(saved_project.getId()));
+			log.setDescription("ID: " + Integer.toString(saved_project.getId()));
 			log_service.save(log);
 
 			return new ResponseEntity <>(saved_project, HttpStatus.CREATED);
@@ -110,7 +124,7 @@ public class ProjectController {
 		Log log = new Log();
 		log.setOperation(LogPetitionType.PUT);
 		log.setEntity(LogEntityType.PROJECT);
-		log.setDescription(Integer.toString(id));
+		log.setDescription("ID: " + Integer.toString(id));
 		log.setTimestamp(LocalDateTime.now());
 
 		try {
@@ -153,7 +167,7 @@ public class ProjectController {
 			project_service.delete_by_id(id);
 
 			log.setWas_successful(true);
-			log.setDescription(Integer.toString(id));
+			log.setDescription("ID: " + Integer.toString(id));
 		} catch (Exception exception) {
 			log.setWas_successful(false);
 		} finally {
@@ -186,6 +200,33 @@ public class ProjectController {
 										new ResponseEntity <>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 
+	@GetMapping("/pages/{name}/{page_size}")
+	public ResponseEntity <Integer> pages(@PathVariable String name, @PathVariable int page_size) {
+		Log log = new Log();
+		log.setOperation(LogPetitionType.GET);
+		log.setEntity(LogEntityType.PROJECT);
+		log.setDescription("Name: " + name + " Page size: " + Integer.toString(0));
+		log.setTimestamp(LocalDateTime.now());
+
+		Integer pages = null;
+
+		try {
+			projects = project_service.find_all();
+			projects = filter_projects(projects, name);
+
+			pages = (int) Math.ceil((double) projects.size() / page_size);
+
+			log.setWas_successful(true);
+		} catch (Exception exception) {
+			log.setWas_successful(false);
+		} finally {
+			log_service.save(log);
+		}
+
+		return log.getWas_successful() ? new ResponseEntity <>(pages, HttpStatus.OK) :
+				 							new ResponseEntity <>(HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+
 	@GetMapping("/search/{name}/{page_size}/{page}")
 	public ResponseEntity <List <Project>> search(@PathVariable String name, @PathVariable int page_size,
 													@PathVariable int page) {
@@ -195,19 +236,14 @@ public class ProjectController {
 		log.setDescription("Name: " + name + " Page size: " + page_size + " Page: " + page);
 		log.setTimestamp(LocalDateTime.now());
 
-		List <Project> filtered_projects = new ArrayList <>();
-
 		try {
-			List <Project> projects = project_service.find_all();
+			projects = project_service.find_all();
+			projects = filter_projects(projects, name);
 
-			for (Project project : projects)
-				if (project.getName().contains(name))
-					filtered_projects.add(project);
+			int start = Math.min(page * page_size, projects.size());
+			int end = Math.min(start + page_size, projects.size());
 
-			int start = Math.min(page * page_size, filtered_projects.size());
-			int end = Math.min(start + page_size, filtered_projects.size());
-
-			filtered_projects = projects.subList(start, end);
+			projects = projects.subList(start, end);
 
 			log.setWas_successful(true);
 		} catch (Exception exception) {
@@ -216,7 +252,7 @@ public class ProjectController {
 			log_service.save(log);
 		}
 
-		return log.getWas_successful() ? new ResponseEntity <>(filtered_projects, HttpStatus.OK) :
+		return log.getWas_successful() ? new ResponseEntity <>(projects, HttpStatus.OK) :
 											new ResponseEntity <>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 }

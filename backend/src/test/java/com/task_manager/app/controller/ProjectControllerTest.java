@@ -14,7 +14,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.Optional;
-import java.util.concurrent.ExecutionException;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -22,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -32,6 +32,7 @@ import com.task_manager.app.service.LogService;
 import com.task_manager.app.service.ProjectService;
 
 
+@ActiveProfiles("test")
 @WebMvcTest(ProjectController.class)
 public class ProjectControllerTest {
 	@Autowired
@@ -122,13 +123,23 @@ public class ProjectControllerTest {
 	}
 
 	@Test
+	public void pages() throws Exception {
+		when(service.find_all()).thenReturn(Collections.singletonList(project));
+
+		mvc.perform(get("/api/projects/pages/*/1")
+					.contentType(MediaType.APPLICATION_JSON))
+					.andExpect(status().isOk())
+					.andExpect(jsonPath("$").value("1"));
+	}
+
+	@Test
 	public void search() throws Exception {
 		when(service.find_all()).thenReturn(Collections.singletonList(project));
 
 		ObjectMapper object_mapper = new ObjectMapper();
 		object_mapper.registerModule(new JavaTimeModule());
 
-		mvc.perform(get("/api/projects/search/project/8/0")
+		mvc.perform(get("/api/projects/search/*/8/0")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(object_mapper.writeValueAsString(project)))
 				.andExpect(status().isOk())

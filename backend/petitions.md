@@ -26,7 +26,7 @@ GET /api/projects
 
 - `operation`: `"GET"`.
 
-- `entity`: `"project"`.
+- `entity`: `"PROJECT"`.
 
 - `entity_id`: `"all"`.
 
@@ -40,9 +40,9 @@ GET /api/projects/{id}
 
 - `operation`: `"GET"`.
 
-- `entity`: `"project"`.
+- `entity`: `"PROJECT"`.
 
-- `entity_id`: `"<project ID>"`.
+- `entity_id`: `"ID: <project ID>"`.
 
 ### Create a project
 
@@ -58,16 +58,16 @@ POST /api/project
 
 - `operation`: `"POST"`.
 
-- `entity`: `"project"`.
+- `entity`: `"PROJECT"`.
 
-- `entity_id`: `"<project ID>"`.
+- `entity_id`: `"ID: <project ID>"`.
 
 #### Example (project creation)
 
 ```JSON
 {
-    "name": "name",
-    "description": "description"
+    "name": "project name",
+    "description": "project description"
 }
 ```
 
@@ -89,16 +89,16 @@ POST /api/projects/{id}
 
 - `operation`: `"POST"`.
 
-- `entity`: `"project"`.
+- `entity`: `"PROJECT"`.
 
-- `entity_id`: `"<project ID>"`.
+- `entity_id`: `"ID: <project ID>"`.
 
 #### Example (project update)
 
 ```JSON
 {
-    "name": "name",
-    "description": "description",
+    "name": "new project name",
+    "description": "new project description",
     "creation_date": "2022-12-31T23:59:59",
     "termination_date": "2023-12-31T23:59:59"
 }
@@ -114,9 +114,9 @@ DELETE /api/projects/{id}
 
 - `operation`: `"DELETE"`.
 
-- `entity`: `"project"`.
+- `entity`: `"PROJECT"`.
 
-- `entity_id`: `"<project ID>"`.
+- `entity_id`: `"ID: <project ID>"`.
 
 ### Delete all project
 
@@ -128,9 +128,23 @@ DELETE /api/projects
 
 - `operation`: `"DELETE"`.
 
-- `entity`: `"project"`.
+- `entity`: `"PROJECT"`.
 
 - `entity_id`: `"all"`.
+
+### Get the pages of a search
+
+```
+GET /api/projects/pages/{name}/{page_size}
+```
+
+#### Log (get the pages of a search)
+
+- `operation`: `"GET"`.
+
+- `entity`: `"PROJECT"`.
+
+- `entity_id`: `"Name: <name>" Page size: <page_size>`.
 
 ### Search a project by its name
 
@@ -138,21 +152,29 @@ DELETE /api/projects
 GET /api/projects/search/{name}/{page_size}/{page}
 ```
 
+#### Log (search a project by its name)
+
+- `operation`: `"GET"`.
+
+- `entity`: `"PROJECT"`.
+
+- `entity_id`: `"Name: <name>" Page size: <page_size> Page: <page>`.
+
 ## Tasks
 
 ### Get all tasks associated with a project
 
 ```
-GET /api/tasks/by_project/{id}
+GET /api/tasks/by_project/{project_id}
 ```
 
 #### Log (Get all tasks associated with a project)
 
 - `operation`: `"GET"`.
 
-- `entity`: `"task"`.
+- `entity`: `"TASK"`.
 
-- `entity_id`: `"all tasks associate with the project with the ID: <project ID>"`.
+- `entity_id`: `"Entity: all Project ID: <project ID>"`.
 
 ### Get a task by its ID
 
@@ -164,9 +186,9 @@ GET /api/tasks/{id}
 
 - `operation`: `"GET"`.
 
-- `entity`: `"task"`.
+- `entity`: `"TASK"`.
 
-- `entity_id`: `"<task ID>"`.
+- `entity_id`: `"ID: <task ID>"`.
 
 ### Create a task associated with a project
 
@@ -182,16 +204,16 @@ POST /api/tasks/{id}
 
 - `operation`: `"POST"`.
 
-- `entity`: `"task"`.
+- `entity`: `"TASK"`.
 
-- `entity_id`: `"<task ID>"`.
+- `entity_id`: `"ID: <task ID>"`.
 
 #### Example (task creation)
 
 ```JSON
 {
-    "name": "name",
-    "description": "description",
+    "name": "task name",
+    "description": "task description",
 }
 ```
 
@@ -215,9 +237,9 @@ PUT /api/tasks/{id}
 
 - `operation`: `"PUT"`.
 
-- `entity`: `"task"`.
+- `entity`: `"TASK"`.
 
-- `entity_id`: `"<task ID>"`.
+- `entity_id`: `"ID: <task ID>"`.
 
 #### Example (task update)
 
@@ -236,17 +258,41 @@ PUT /api/tasks/{id}
 DELETE /api/tasks/{id}
 ```
 
+#### Log (delete a task)
+
+- `operation`: `"DELETE"`.
+
+- `entity`: `"TASK"`.
+
+- `entity_id`: `"ID: <task ID>"`.
+
 ### Delete all tasks associated with a project
 
 ```
-DELETE /api/tasks/by_project/{id}
+DELETE /api/tasks/by_project/{project_id}
 ```
+
+#### Log (delete all tasks associated with a project)
+
+- `operation`: `"DELETE"`.
+
+- `entity`: `"TASK"`.
+
+- `entity_id`: `"Entity: all Project ID: <project ID>"`.
 
 ### Search a task by its name
 
 ```
-GET /api/tasks/search/{id}/{name}
+GET /api/tasks/search/{project_id}/{name}
 ```
+
+#### Log (search a task by its name)
+
+- `operation`: `"GET"`.
+
+- `entity`: `"TASK"`.
+
+- `entity_id`: `"Entity: all Project ID: <project ID> Name: <name>"`.
 
 ## Doing a petition with `curl`
 

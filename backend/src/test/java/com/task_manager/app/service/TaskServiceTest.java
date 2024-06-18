@@ -13,11 +13,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 
 import com.task_manager.app.model.Project;
 import com.task_manager.app.model.Task;
 
 
+@ActiveProfiles("test")
 @SpringBootTest
 public class TaskServiceTest {
 	@Autowired

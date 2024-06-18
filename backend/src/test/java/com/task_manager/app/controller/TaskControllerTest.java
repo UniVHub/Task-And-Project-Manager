@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -33,6 +34,8 @@ import com.task_manager.app.service.LogService;
 import com.task_manager.app.service.ProjectService;
 import com.task_manager.app.service.TaskService;
 
+
+@ActiveProfiles("test")
 @WebMvcTest(TaskController.class)
 public class TaskControllerTest {
 	@Autowired
@@ -147,7 +150,7 @@ public class TaskControllerTest {
 		ObjectMapper object_mapper = new ObjectMapper();
 		object_mapper.registerModule(new JavaTimeModule());
 
-		mvc.perform(get("/api/tasks/search/1/task")
+		mvc.perform(get("/api/tasks/search/1/*")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(object_mapper.writeValueAsString(task)))
 				.andExpect(status().isOk())
