@@ -154,7 +154,7 @@ export const getFilteredProjects = async (query: string, page: number) => {
   try {
     const url =
       query === ""
-        ? `${BASEURLPROJECT}/search/""/${ITEMS_PER_PAGE}/${page - 1}`
+        ? `${BASEURLPROJECT}/search/*/${ITEMS_PER_PAGE}/${page - 1}`
         : `${BASEURLPROJECT}/search/${query}/${ITEMS_PER_PAGE}/${page - 1}`;
 
     const response = await fetch(url);
@@ -175,8 +175,8 @@ export const getFilteredProjectsPages = async (query: string) => {
   try {
     const url =
       query === ""
-        ? `${BASEURLPROJECT}/search/""/${ITEMS_PER_PAGE}`
-        : `${BASEURLPROJECT}/search/${query}/${ITEMS_PER_PAGE}`;
+        ? `${BASEURLPROJECT}/pages/*/${ITEMS_PER_PAGE}`
+        : `${BASEURLPROJECT}/pages/${query}/${ITEMS_PER_PAGE}`;
 
     const response = await fetch(url);
 

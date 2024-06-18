@@ -137,7 +137,7 @@ export const getTasksByName = async (query: string, projectId: number) => {
   try {
     const url =
       query === ""
-        ? `${BASEURLTASKS}/search/${projectId}/""`
+        ? `${BASEURLTASKS}/search/${projectId}/*`
         : `${BASEURLTASKS}/search/${projectId}/${query}`;
 
     const response = await fetch(url);

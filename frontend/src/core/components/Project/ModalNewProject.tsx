@@ -64,9 +64,13 @@ export default function ModalNewProject() {
     <div>
       <dialog id="my_modal" className="modal modal-bottom sm:modal-middle">
         <div className="modal-box">
-          <span className="badge indicator-item badge-primary indicator-start indicator-top">
+          {
+            Object.keys(projectToEdit).length > 0 && (
+              <span className="badge indicator-item badge-primary indicator-start indicator-top">
             Tasks: {numTasks}
           </span>
+            )
+          }
           <h3 className="text-center text-lg font-bold capitalize">
             {Object.keys(projectToEdit).length > 0
               ? "Edit Project"
