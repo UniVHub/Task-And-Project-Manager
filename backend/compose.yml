@@ -1,0 +1,16 @@
+version: '3.8'
+services:
+  postgresql:
+    image: postgres:14-alpine
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: task_manager
+    # ports:
+    #   - "5432:5432"
+    # volumes:
+    #   - ./data:/var/lib/postgresql/data
+  task_manager:
+    image: br4z/task_manager-backend
+    ports:
+      - "8000:8000"

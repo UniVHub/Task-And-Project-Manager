@@ -31,6 +31,8 @@ public class LogServiceTest {
 
 	@BeforeEach
 	public void set_up() {
+		service.delete_all();
+
 		log = new Log();
 		log.setOperation(LogPetitionType.DELETE);
 		log.setEntity(LogEntityType.PROJECT);

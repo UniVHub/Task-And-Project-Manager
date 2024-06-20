@@ -32,7 +32,7 @@ public class LogController {
 			if (logs.isEmpty())
 				return new ResponseEntity <>(HttpStatus.NO_CONTENT);
 
-			return new ResponseEntity <>(HttpStatus.OK);
+			return new ResponseEntity <>(logs, HttpStatus.OK);
 		} catch (Exception exception) {
 			return new ResponseEntity <>(HttpStatus.INTERNAL_SERVER_ERROR);
 		}

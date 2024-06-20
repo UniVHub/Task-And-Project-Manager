@@ -33,6 +33,9 @@ public class TaskServiceTest {
 
 	@BeforeEach
 	public void set_up() {
+		project_service.delete_all();
+		task_service.delete_all();
+
 		Project project = new Project();
 		project.setName("project");
 		project.setDescription("project description");

@@ -29,6 +29,8 @@ public class ProjectServiceTest {
 
 	@BeforeEach
 	public void set_up() {
+		service.delete_all();
+
 		project = new Project();
 		project.setName("project");
 		project.setDescription("project description");
