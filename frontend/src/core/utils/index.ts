@@ -1,3 +1,7 @@
+import { LogsInterface } from "../types";
+
+
+
 /**
  * Truncates a string if it exceeds a specified length.
  * @param str - The string to truncate.
@@ -27,6 +31,26 @@ export const formatDate = (date: string) => {
   };
 
   return newDate.toLocaleDateString("es-ES", options);
+};
+
+/**
+ * Formats a date string with time according to the specified options.
+ * @param date - The date string to format.
+ * @returns The formatted date string with time.
+ */
+export const formatDateWithTime = (date: string) => {
+  const newDate = new Date(date);
+  const options: Intl.DateTimeFormatOptions = {
+    year: "numeric",
+    month: "long",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+    hour12: false,
+  };
+
+  return newDate.toLocaleString("es-ES", options);
 };
 
 
@@ -62,3 +86,5 @@ export const generatePagination = (currentPage: number, totalPages: number) => {
     totalPages,
   ];
 };
+
+

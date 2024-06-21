@@ -11,11 +11,6 @@ export default async function Projects({
 }) {
   const projects = await getFilteredProjects(query, currentPage);
 
-  if (Object.keys(projects).length === 0) {
-    console.log(`\n projects: ${projects}`);
-    return null;
-  }
-
   return (
     <div className="mt-8 overflow-x-auto overflow-y-hidden">
       <table className="table">

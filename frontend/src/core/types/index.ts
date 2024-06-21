@@ -29,6 +29,7 @@ export interface TaskInterface {
   projectId: number;
 }
 
+
 /**
  * Represents the interface for a task form.
  * It extends the `TaskInterface` interface and includes additional properties for creating or updating a task.
@@ -36,4 +37,16 @@ export interface TaskInterface {
 export interface TaskFormInterface extends Partial<TaskInterface> {
   name: string;
   description: string;
+}
+
+/**
+ * Represents the interface for logs.
+ */
+export interface LogsInterface {
+  id: number;
+  operation: string;
+  entity: string;
+  description: string;
+  timestamp: string;
+  was_succesful: boolean;
 }

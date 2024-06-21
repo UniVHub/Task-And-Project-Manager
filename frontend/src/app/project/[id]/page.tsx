@@ -28,8 +28,6 @@ export default async function Page({
     return notFound();
   }
 
-  console.log(project)
-
   return (
     <>
       <div className="mt-14">

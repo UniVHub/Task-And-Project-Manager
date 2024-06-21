@@ -47,7 +47,6 @@ export default function Task({ task, index, numberOfTasks, projectId }: TaskProp
     updateTask(updatedTask).then(() => {
       toast.success("Task finished successfully");
     });
-    console.log(updatedTask);
     (document.activeElement as HTMLElement)?.blur();
   };
 

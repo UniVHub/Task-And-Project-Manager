@@ -5,6 +5,7 @@ import { Toaster } from "sonner";
 import { openSans } from "@/core/fonts";
 import { ProjectProvider } from "@/core/context/projectToEditContext";
 import { TaskProvider } from "@/core/context/taskToEditContext";
+import GoButton from "@/core/components/General/GoButton";
 
 export const metadata: Metadata = {
   title: "Projects Manager",
@@ -25,13 +26,14 @@ export default function RootLayout({
   return (
     <html lang="en" data-theme="dracula">
       <body
-        className={`${openSans.className} min-h-screen overflow-y-auto px-5 py-10 antialiased bg-base-100 text-base-content`}
+        className={`${openSans.className} min-h-screen overflow-y-auto bg-base-100 px-5 py-10 text-base-content antialiased`}
       >
         <Toaster />
         <Header />
         <ProjectProvider>
           <TaskProvider>{children}</TaskProvider>
         </ProjectProvider>
+        <GoButton />
       </body>
     </html>
   );
