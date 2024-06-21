@@ -28,7 +28,7 @@ export default function RootLayout({
       <body
         className={`${openSans.className} min-h-screen overflow-y-auto bg-base-100 px-5 py-10 text-base-content antialiased`}
       >
-        <Toaster />
+        <Toaster position="bottom-left" />
         <Header />
         <ProjectProvider>
           <TaskProvider>{children}</TaskProvider>
