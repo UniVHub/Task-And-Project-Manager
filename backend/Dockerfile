@@ -12,6 +12,7 @@ RUN mvn dependency:go-offline -B
 
 COPY ./src ${BASE_DIR}/src
 
+# -DskipTests
 RUN mvn clean package
 
 ENTRYPOINT ["java", "-Dspring.profiles.active=production", "-jar", "target/backend-0.0.1-SNAPSHOT.jar"]

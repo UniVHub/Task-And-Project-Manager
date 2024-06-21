@@ -1,4 +1,3 @@
-version: '3.8'
 services:
   postgresql:
     image: postgres:14-alpine
@@ -11,6 +10,14 @@ services:
     # volumes:
     #   - ./data:/var/lib/postgresql/data
   task_manager:
-    image: br4z/task_manager-backend
+    image: br4z/task_manager-backend # br4z/task_manager-backend
+    environment:
+      PORT: 8000
+      DB_HOST: postgresql:5432
+      DB_DATABASE: task_manager
+      DB_USERNAME: user
+      DB_PASSWORD: password
+    depends_on:
+      - postgresql
     ports:
       - "8000:8000"
