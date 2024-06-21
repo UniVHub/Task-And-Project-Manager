@@ -28,6 +28,7 @@ export const getTasksByProjectId = async (projectId: number) => {
     const response = await fetch(`${BASEURLTASKS}/by_project/${projectId}`);
     if (!response.ok) throw new Error("Error fetching tasks");
     if (response.status === 404) return [];
+    revalidatePath(`/logs`);
     return response.status !== 204 ? await response.json() : [];
   } catch (error) {
     console.error(error);
@@ -44,6 +45,7 @@ export const getTask = async (id: string) => {
   try {
     const response = await fetch(`${BASEURLTASKS}/${id}`);
     const data = await response.json();
+    revalidatePath(`/logs`);
     return data;
   } catch (error) {
     console.error(error);
@@ -68,6 +70,7 @@ export const createTask = async (task: TaskFormInterface) => {
       body: JSON.stringify(validTask),
     });
     revalidatePath(`/project/${task.projectId}`);
+    revalidatePath(`/logs`);
     return response.json();
   } catch (error) {
     console.error(error);
@@ -92,6 +95,7 @@ export const updateTask = async (task: TaskFormInterface) => {
       body: JSON.stringify(validTask),
     });
     revalidatePath(`/project/${task.projectId}`);
+    revalidatePath(`/logs`);
     return response.json();
   } catch (error) {
     console.error(error);
@@ -110,6 +114,7 @@ export const deleteTask = async (id: string) => {
       method: "DELETE",
     });
     revalidatePath(`/project/${id}`);
+    revalidatePath(`/logs`);
   } catch (error) {
     console.error(error);
     throw new Error("Error deleting task");
@@ -122,6 +127,7 @@ export const deleteAllTasks = async (projectId: number) => {
       method: "DELETE",
     });
     revalidatePath(`/project/${projectId}`);
+    revalidatePath(`/logs`);
   } catch (error) {
     console.error(error);
     throw new Error("Error deleting tasks");
@@ -141,9 +147,9 @@ export const getTasksByName = async (query: string, projectId: number) => {
         : `${BASEURLTASKS}/search/${projectId}/${query}`;
 
     const response = await fetch(url);
+    revalidatePath(`/logs`);
 
     return response.json();
-
   } catch (error) {
     console.error(error);
     throw new Error("Error fetching tasks by name");

@@ -48,5 +48,5 @@ export interface LogsInterface {
   entity: string;
   description: string;
   timestamp: string;
-  was_succesful: boolean;
+  was_successful: boolean;
 }

@@ -24,6 +24,7 @@ export const getProjects = async () => {
   try {
     const response = await fetch(`${BASEURLPROJECT}`);
     if (!response.ok) throw new Error("Error fetching projects");
+    revalidatePath(`/logs`);
     return response.status !== 204 ? await response.json() : null;
   } catch (error) {
     console.error(error);
@@ -40,6 +41,7 @@ export const getProject = async (id: string) => {
   try {
     const response = await fetch(`${BASEURLPROJECT}/${id}`);
     const data = await response.json();
+    revalidatePath(`/logs`);
     return data;
   } catch (error) {
     console.error(error);
@@ -64,6 +66,7 @@ export const createProject = async (project: ProjectFormInterface) => {
       body: JSON.stringify(validProject),
     });
     revalidatePath("/");
+    revalidatePath(`/logs`);
     return response.json();
   } catch (error) {
     console.error(error);
@@ -88,6 +91,7 @@ export const updateProject = async (project: ProjectFormInterface) => {
       body: JSON.stringify(validProject),
     });
     revalidatePath("/");
+    revalidatePath(`/logs`);
     return response.json();
   } catch (error) {
     console.error(error);
@@ -106,6 +110,7 @@ export const deleteProject = async (id: string) => {
       method: "DELETE",
     });
     revalidatePath("/");
+    revalidatePath(`/logs`);
   } catch (error) {
     console.error(error);
     throw new Error("Error deleting project");
@@ -123,6 +128,7 @@ export const deleteAllProjects = async () => {
       method: "DELETE",
     });
     revalidatePath("/");
+    revalidatePath(`/logs`);
     return response.json();
   } catch (error) {
     console.error(error);
@@ -133,6 +139,7 @@ export const deleteAllProjects = async () => {
 export const getFilteredProjectsByName = async (name: string) => {
   try {
     const response = await fetch(`${BASEURLPROJECT}/search/${name}`);
+    revalidatePath(`/logs`);
     return response.json();
   } catch (error) {
     console.error(error);
@@ -159,6 +166,8 @@ export const getFilteredProjects = async (query: string, page: number) => {
 
     const response = await fetch(url);
 
+    revalidatePath(`/logs`);
+
     return response.json();
   } catch (error) {
     console.error(error);
@@ -179,6 +188,8 @@ export const getFilteredProjectsPages = async (query: string) => {
         : `${BASEURLPROJECT}/pages/${query}/${ITEMS_PER_PAGE}`;
 
     const response = await fetch(url);
+
+    revalidatePath(`/logs`);
 
     return response.json();
   } catch (error) {
