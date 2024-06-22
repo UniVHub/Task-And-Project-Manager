@@ -1,6 +1,3 @@
-import { LogsInterface } from "../types";
-
-
 
 /**
  * Truncates a string if it exceeds a specified length.
@@ -10,9 +7,7 @@ import { LogsInterface } from "../types";
  */
 export function truncateString(str: string, num: number) {
   if (str.length <= num) {
-    return (
-      str
-    );
+    return str;
   }
   return str.slice(0, num) + "...";
 }
@@ -53,7 +48,6 @@ export const formatDateWithTime = (date: string) => {
   return newDate.toLocaleString("es-ES", options);
 };
 
-
 export const generatePagination = (currentPage: number, totalPages: number) => {
   // If the total number of pages is 7 or less,
   // display all pages without any ellipsis.
@@ -86,5 +80,4 @@ export const generatePagination = (currentPage: number, totalPages: number) => {
     totalPages,
   ];
 };
-
 

@@ -990,5 +990,421 @@
     "description": "Name: * Page size: 6 Page: 0",
     "timestamp": "2024-06-21T22:40:18.156857",
     "was_successful": true
+  },
+  {
+    "id": 125,
+    "operation": "GET",
+    "entity": "PROJECT",
+    "description": "Name: * Page size: 0",
+    "timestamp": "2024-06-21T22:43:08.463591",
+    "was_successful": true
+  },
+  {
+    "id": 126,
+    "operation": "GET",
+    "entity": "PROJECT",
+    "description": "Name: * Page size: 6 Page: 0",
+    "timestamp": "2024-06-21T22:43:08.502465",
+    "was_successful": true
+  },
+  {
+    "id": 127,
+    "operation": "POST",
+    "entity": "PROJECT",
+    "description": "ID: 7",
+    "timestamp": "2024-06-21T22:43:11.505437",
+    "was_successful": true
+  },
+  {
+    "id": 128,
+    "operation": "GET",
+    "entity": "PROJECT",
+    "description": "Name: * Page size: 0",
+    "timestamp": "2024-06-21T22:43:11.522342",
+    "was_successful": true
+  },
+  {
+    "id": 129,
+    "operation": "GET",
+    "entity": "PROJECT",
+    "description": "Name: * Page size: 6 Page: 0",
+    "timestamp": "2024-06-21T22:43:11.552954",
+    "was_successful": true
+  },
+  {
+    "id": 130,
+    "operation": "GET",
+    "entity": "PROJECT",
+    "description": "Name: * Page size: 0",
+    "timestamp": "2024-06-22T00:27:52.780864",
+    "was_successful": true
+  },
+  {
+    "id": 131,
+    "operation": "POST",
+    "entity": "PROJECT",
+    "description": "ID: 8",
+    "timestamp": "2024-06-22T01:21:23.359077",
+    "was_successful": true
+  },
+  {
+    "id": 132,
+    "operation": "GET",
+    "entity": "PROJECT",
+    "description": "Name: * Page size: 0",
+    "timestamp": "2024-06-22T01:21:23.440749",
+    "was_successful": true
+  },
+  {
+    "id": 133,
+    "operation": "GET",
+    "entity": "PROJECT",
+    "description": "Name: * Page size: 0",
+    "timestamp": "2024-06-22T01:21:52.728793",
+    "was_successful": true
+  },
+  {
+    "id": 134,
+    "operation": "POST",
+    "entity": "PROJECT",
+    "description": "ID: 9",
+    "timestamp": "2024-06-22T01:22:00.465433",
+    "was_successful": true
+  },
+  {
+    "id": 135,
+    "operation": "GET",
+    "entity": "PROJECT",
+    "description": "Name: * Page size: 0",
+    "timestamp": "2024-06-22T01:22:00.504323",
+    "was_successful": true
+  },
+  {
+    "id": 136,
+    "operation": "GET",
+    "entity": "PROJECT",
+    "description": "Name: * Page size: 0",
+    "timestamp": "2024-06-22T01:23:15.170786",
+    "was_successful": true
+  },
+  {
+    "id": 137,
+    "operation": "GET",
+    "entity": "PROJECT",
+    "description": "Name: * Page size: 6 Page: 0",
+    "timestamp": "2024-06-22T01:23:15.345219",
+    "was_successful": true
+  },
+  {
+    "id": 138,
+    "operation": "POST",
+    "entity": "PROJECT",
+    "description": "ID: 10",
+    "timestamp": "2024-06-22T01:23:23.230095",
+    "was_successful": true
+  },
+  {
+    "id": 139,
+    "operation": "GET",
+    "entity": "PROJECT",
+    "description": "Name: * Page size: 0",
+    "timestamp": "2024-06-22T01:23:23.282503",
+    "was_successful": true
+  },
+  {
+    "id": 140,
+    "operation": "GET",
+    "entity": "PROJECT",
+    "description": "Name: * Page size: 6 Page: 0",
+    "timestamp": "2024-06-22T01:23:23.309985",
+    "was_successful": true
+  },
+  {
+    "id": 141,
+    "operation": "GET",
+    "entity": "PROJECT",
+    "description": "Name: * Page size: 0",
+    "timestamp": "2024-06-22T01:23:31.278533",
+    "was_successful": true
+  },
+  {
+    "id": 142,
+    "operation": "GET",
+    "entity": "PROJECT",
+    "description": "Name: * Page size: 6 Page: 1",
+    "timestamp": "2024-06-22T01:23:31.297102",
+    "was_successful": true
+  },
+  {
+    "id": 143,
+    "operation": "GET",
+    "entity": "PROJECT",
+    "description": "Name: * Page size: 6 Page: 1",
+    "timestamp": "2024-06-22T01:24:48.246724",
+    "was_successful": true
+  },
+  {
+    "id": 144,
+    "operation": "POST",
+    "entity": "PROJECT",
+    "description": "ID: 11",
+    "timestamp": "2024-06-22T01:24:53.045122",
+    "was_successful": true
+  },
+  {
+    "id": 145,
+    "operation": "GET",
+    "entity": "PROJECT",
+    "description": "Name: * Page size: 0",
+    "timestamp": "2024-06-22T01:24:53.063639",
+    "was_successful": true
+  },
+  {
+    "id": 146,
+    "operation": "GET",
+    "entity": "PROJECT",
+    "description": "Name: * Page size: 6 Page: 1",
+    "timestamp": "2024-06-22T01:24:53.089338",
+    "was_successful": true
+  },
+  {
+    "id": 147,
+    "operation": "GET",
+    "entity": "PROJECT",
+    "description": "Name: * Page size: 0",
+    "timestamp": "2024-06-22T01:47:53.528215",
+    "was_successful": true
+  },
+  {
+    "id": 148,
+    "operation": "GET",
+    "entity": "PROJECT",
+    "description": "Name: * Page size: 6 Page: 0",
+    "timestamp": "2024-06-22T01:47:54.34697",
+    "was_successful": true
+  },
+  {
+    "id": 149,
+    "operation": "POST",
+    "entity": "PROJECT",
+    "description": "ID: 12",
+    "timestamp": "2024-06-22T01:48:04.469228",
+    "was_successful": true
+  },
+  {
+    "id": 150,
+    "operation": "GET",
+    "entity": "PROJECT",
+    "description": "Name: * Page size: 0",
+    "timestamp": "2024-06-22T01:48:04.664774",
+    "was_successful": true
+  },
+  {
+    "id": 151,
+    "operation": "GET",
+    "entity": "PROJECT",
+    "description": "Name: * Page size: 6 Page: 0",
+    "timestamp": "2024-06-22T01:48:04.737423",
+    "was_successful": true
+  },
+  {
+    "id": 152,
+    "operation": "GET",
+    "entity": "PROJECT",
+    "description": "Name: * Page size: 6 Page: 0",
+    "timestamp": "2024-06-22T01:48:05.075284",
+    "was_successful": true
+  },
+  {
+    "id": 153,
+    "operation": "GET",
+    "entity": "PROJECT",
+    "description": "Name: * Page size: 0",
+    "timestamp": "2024-06-22T01:48:05.997109",
+    "was_successful": true
+  },
+  {
+    "id": 154,
+    "operation": "GET",
+    "entity": "PROJECT",
+    "description": "Name: * Page size: 6 Page: 1",
+    "timestamp": "2024-06-22T01:48:06.026943",
+    "was_successful": true
+  },
+  {
+    "id": 155,
+    "operation": "PUT",
+    "entity": "PROJECT",
+    "description": "12",
+    "timestamp": "2024-06-22T01:48:08.537988",
+    "was_successful": true
+  },
+  {
+    "id": 156,
+    "operation": "GET",
+    "entity": "PROJECT",
+    "description": "Name: * Page size: 0",
+    "timestamp": "2024-06-22T01:48:08.674973",
+    "was_successful": true
+  },
+  {
+    "id": 157,
+    "operation": "GET",
+    "entity": "PROJECT",
+    "description": "Name: * Page size: 6 Page: 1",
+    "timestamp": "2024-06-22T01:48:08.724125",
+    "was_successful": true
+  },
+  {
+    "id": 158,
+    "operation": "DELETE",
+    "entity": "PROJECT",
+    "description": "ID: 12",
+    "timestamp": "2024-06-22T01:48:11.878238",
+    "was_successful": true
+  },
+  {
+    "id": 159,
+    "operation": "GET",
+    "entity": "PROJECT",
+    "description": "Name: * Page size: 0",
+    "timestamp": "2024-06-22T01:48:11.903256",
+    "was_successful": true
+  },
+  {
+    "id": 160,
+    "operation": "GET",
+    "entity": "PROJECT",
+    "description": "Name: * Page size: 6 Page: 1",
+    "timestamp": "2024-06-22T01:48:11.919461",
+    "was_successful": true
+  },
+  {
+    "id": 161,
+    "operation": "GET",
+    "entity": "PROJECT",
+    "description": "Name: * Page size: 6 Page: 0",
+    "timestamp": "2024-06-22T01:48:18.749445",
+    "was_successful": true
+  },
+  {
+    "id": 162,
+    "operation": "GET",
+    "entity": "PROJECT",
+    "description": "ID: 4",
+    "timestamp": "2024-06-22T01:48:31.530877",
+    "was_successful": true
+  },
+  {
+    "id": 163,
+    "operation": "GET",
+    "entity": "TASK",
+    "description": "Entity: all Project ID: 4 Name: *",
+    "timestamp": "2024-06-22T01:48:31.647418",
+    "was_successful": true
+  },
+  {
+    "id": 164,
+    "operation": "POST",
+    "entity": "TASK",
+    "description": "ID: 4",
+    "timestamp": "2024-06-22T01:48:35.460759",
+    "was_successful": true
+  },
+  {
+    "id": 165,
+    "operation": "GET",
+    "entity": "PROJECT",
+    "description": "ID: 4",
+    "timestamp": "2024-06-22T01:48:35.516436",
+    "was_successful": true
+  },
+  {
+    "id": 166,
+    "operation": "GET",
+    "entity": "TASK",
+    "description": "Entity: all Project ID: 4 Name: *",
+    "timestamp": "2024-06-22T01:48:35.645322",
+    "was_successful": true
+  },
+  {
+    "id": 167,
+    "operation": "PUT",
+    "entity": "TASK",
+    "description": "ID: 6",
+    "timestamp": "2024-06-22T01:48:38.326433",
+    "was_successful": true
+  },
+  {
+    "id": 168,
+    "operation": "GET",
+    "entity": "PROJECT",
+    "description": "ID: 4",
+    "timestamp": "2024-06-22T01:48:38.345605",
+    "was_successful": true
+  },
+  {
+    "id": 169,
+    "operation": "GET",
+    "entity": "TASK",
+    "description": "Entity: all Project ID: 4 Name: *",
+    "timestamp": "2024-06-22T01:48:38.361159",
+    "was_successful": true
+  },
+  {
+    "id": 170,
+    "operation": "DELETE",
+    "entity": "TASK",
+    "description": "ID: 3",
+    "timestamp": "2024-06-22T01:48:40.355232",
+    "was_successful": true
+  },
+  {
+    "id": 171,
+    "operation": "GET",
+    "entity": "PROJECT",
+    "description": "ID: 4",
+    "timestamp": "2024-06-22T01:48:40.373567",
+    "was_successful": true
+  },
+  {
+    "id": 172,
+    "operation": "GET",
+    "entity": "TASK",
+    "description": "Entity: all Project ID: 4 Name: *",
+    "timestamp": "2024-06-22T01:48:40.390399",
+    "was_successful": true
+  },
+  {
+    "id": 173,
+    "operation": "GET",
+    "entity": "PROJECT",
+    "description": "Name: * Page size: 0",
+    "timestamp": "2024-06-22T01:53:54.639338",
+    "was_successful": true
+  },
+  {
+    "id": 174,
+    "operation": "GET",
+    "entity": "PROJECT",
+    "description": "Name: * Page size: 6 Page: 0",
+    "timestamp": "2024-06-22T01:53:54.874149",
+    "was_successful": true
+  },
+  {
+    "id": 175,
+    "operation": "GET",
+    "entity": "PROJECT",
+    "description": "Name: * Page size: 0",
+    "timestamp": "2024-06-22T01:55:08.486318",
+    "was_successful": true
+  },
+  {
+    "id": 176,
+    "operation": "GET",
+    "entity": "PROJECT",
+    "description": "Name: * Page size: 6 Page: 0",
+    "timestamp": "2024-06-22T01:55:08.610903",
+    "was_successful": true
   }
 ]
