@@ -1,7 +1,13 @@
 #!/bin/bash
 
 
-declare -a files=("config_map.yaml" "PostgreSQL.yaml" "task_manager-backend.yaml")
+declare -a files=(
+	"config_map.yaml"
+	"PostgreSQL.yaml"
+	"PostgreSQL-storage.yaml"
+	"task_manager-backend.yaml"
+	"task_manager-storage.yaml"
+)
 
 for file in "${files[@]}"; do
 	if [ ! -f $file ]; then

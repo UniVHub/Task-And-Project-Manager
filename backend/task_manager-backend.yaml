@@ -17,9 +17,6 @@ spec:
         image: br4z/task_manager-backend
         ports:
         - containerPort: 8000
-        # volumeMounts:
-        # - mountPath: /usr/app/logs
-        #   name: logs
         env:
           - name: PORT
             valueFrom:
@@ -46,36 +43,13 @@ spec:
               configMapKeyRef:
                 name: task-manager-backend
                 key: DB_PASSWORD
-      # volumes:
-      # - name: logs
-      #   persistentVolumeClaim:
-      #     claimName: task-manager-backend-pvc
-# ---
-
-# apiVersion: v1
-# kind: PersistentVolume
-# metadata:
-#   name: task-manager-backend-pv
-# spec:
-#   capacity:
-#     storage: 1Gi
-#   accessModes:
-#     - ReadWriteOnce
-#   hostPath:
-#     path: /path/to/logs  # TODO: check this path
-
-# ---
-
-# apiVersion: v1
-# kind: PersistentVolumeClaim
-# metadata:
-#   name: task-manager-backend-pvc
-# spec:
-#   accessModes:
-#     - ReadWriteOnce
-#   resources:
-#     requests:
-#       storage: 1Gi
+        volumeMounts:
+        - mountPath: /usr/app/logs
+          name: logs
+      volumes:
+      - name: logs
+        persistentVolumeClaim:
+          claimName: task-manager-backend-pvc
 
 ---
 

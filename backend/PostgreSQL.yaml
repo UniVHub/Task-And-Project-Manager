@@ -33,6 +33,13 @@ spec:
                 configMapKeyRef:
                   name: task-manager-backend
                   key: DB_DATABASE
+        volumeMounts:
+        - mountPath: /var/lib/postgresql/data
+          name: database
+      volumes:
+      - name: database
+        persistentVolumeClaim:
+          claimName: postgresql-pvc
 
 ---
 
