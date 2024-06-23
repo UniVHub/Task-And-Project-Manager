@@ -20,4 +20,4 @@ export {
 } from "./task";
 export {
 getLog, getLogs
-} from "./logs"
+} from "./loggging"
