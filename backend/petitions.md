@@ -47,7 +47,7 @@ GET /api/projects/{id}
 ### Create a project
 
 ```
-POST /api/project
+POST /api/projects
 ```
 
 - `name`: the name of the project.
@@ -74,7 +74,7 @@ POST /api/project
 ### Update a project
 
 ```
-POST /api/projects/{id}
+PUT /api/projects/{id}
 ```
 
 - `name`: the name of the project.
@@ -87,7 +87,7 @@ POST /api/projects/{id}
 
 #### Log (project update)
 
-- `operation`: `"POST"`.
+- `operation`: `"PUT"`.
 
 - `entity`: `"PROJECT"`.
 
