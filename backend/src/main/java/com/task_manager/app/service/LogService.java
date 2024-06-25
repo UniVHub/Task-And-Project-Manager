@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.task_manager.app.model.Log;
 import com.task_manager.app.repository.LogRepository;
 
+
 @Service
 public class LogService {
 	private static final Logger logger = LoggerFactory.getLogger(LogService.class);
@@ -20,13 +21,14 @@ public class LogService {
 		this.log_repository = log_repository;
 	}
 
+
 	@Transactional(readOnly = true)
 	public List <Log> find_all() {
 		return log_repository.findAll();
 	}
 
 	@Transactional(readOnly = true)
-	public Optional <Log> find_by_id(int id) {
+	public Optional <Log> find_by_id(Integer id) {
 		return log_repository.findById(id);
 	}
 
@@ -40,7 +42,7 @@ public class LogService {
 	}
 
 	@Transactional
-	public void delete_by_id(int id) {
+	public void delete_by_id(Integer id) {
 		log_repository.deleteById(id);
 	}
 

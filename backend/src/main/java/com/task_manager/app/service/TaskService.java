@@ -18,13 +18,14 @@ public class TaskService {
 		this.task_repository = task_repository;
 	}
 
+
 	@Transactional(readOnly = true)
 	public List <Task> find_all() {
 		return task_repository.findAll();
 	}
 
 	@Transactional(readOnly = true)
-	public Optional <Task> find_by_id(int id) {
+	public Optional <Task> find_by_id(Integer id) {
 		return task_repository.findById(id);
 	}
 
@@ -34,7 +35,7 @@ public class TaskService {
 	}
 
 	@Transactional
-	public void delete_by_id(int id) {
+	public void delete_by_id(Integer id) {
 		task_repository.deleteById(id);
 	}
 

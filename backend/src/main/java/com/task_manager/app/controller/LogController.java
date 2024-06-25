@@ -39,7 +39,7 @@ public class LogController {
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity <Log> get_by_id(@PathVariable int id) {
+	public ResponseEntity <Log> get_by_id(@PathVariable Integer id) {
 		Optional <Log> log = log_service.find_by_id(id);
 
 		if (log.isPresent())

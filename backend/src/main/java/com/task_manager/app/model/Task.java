@@ -19,15 +19,16 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 
 
 @AllArgsConstructor
-@Entity
 @Getter
 @NoArgsConstructor
 @Setter
 @ToString
+
+@Entity
 public class Task {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private Integer id;
 
 	@ManyToOne
 	@JoinColumn(name = "project_id", nullable = false)
@@ -44,5 +45,4 @@ public class Task {
 	private LocalDateTime creation_date;
 
 	private LocalDateTime termination_date;
-
 }

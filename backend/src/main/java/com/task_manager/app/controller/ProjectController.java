@@ -72,7 +72,7 @@ public class ProjectController {
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity <Project> get_by_id(@PathVariable int id) {
+	public ResponseEntity <Project> get_by_id(@PathVariable Integer id) {
 		Log log = new Log();
 		log.setOperation(LogPetitionType.GET);
 		log.setEntity(LogEntityType.PROJECT);
@@ -119,7 +119,7 @@ public class ProjectController {
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity <Project> update(@PathVariable int id,
+	public ResponseEntity <Project> update(@PathVariable Integer id,
 											@RequestBody Project input_project) {
 		Log log = new Log();
 		log.setOperation(LogPetitionType.PUT);
@@ -157,7 +157,7 @@ public class ProjectController {
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity <HttpStatus> delete_project(@PathVariable int id) {
+	public ResponseEntity <HttpStatus> delete_project(@PathVariable Integer id) {
 		Log log = new Log();
 		log.setOperation(LogPetitionType.DELETE);
 		log.setEntity(LogEntityType.PROJECT);
