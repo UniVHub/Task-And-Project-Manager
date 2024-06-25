@@ -20,15 +20,16 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 
 @AllArgsConstructor
-@Entity
 @Getter
 @NoArgsConstructor
 @Setter
 @ToString
+
+@Entity
 public class Project {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private Integer id;
 
 	@Column(nullable = false)
 	private String name;

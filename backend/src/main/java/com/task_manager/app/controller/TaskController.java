@@ -50,7 +50,7 @@ public class TaskController {
 
 
 	@GetMapping("/by_project/{project_id}")
-	public ResponseEntity <List <Task>> get_all(@PathVariable int project_id) {
+	public ResponseEntity <List <Task>> get_all(@PathVariable Integer project_id) {
 		Log log = new Log();
 		log.setOperation(LogPetitionType.GET);
 		log.setEntity(LogEntityType.TASK);
@@ -85,7 +85,7 @@ public class TaskController {
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity <Task> get_by_id(@PathVariable int id) {
+	public ResponseEntity <Task> get_by_id(@PathVariable Integer id) {
 		Log log = new Log();
 		log.setOperation(LogPetitionType.GET);
 		log.setEntity(LogEntityType.TASK);
@@ -109,7 +109,7 @@ public class TaskController {
 	}
 
 	@PostMapping("/{project_id}")
-	public ResponseEntity <Task> create(@RequestBody Task task, @PathVariable int project_id) {
+	public ResponseEntity <Task> create(@RequestBody Task task, @PathVariable Integer project_id) {
 		Log log = new Log();
 		log.setOperation(LogPetitionType.POST);
 		log.setEntity(LogEntityType.TASK);
@@ -148,7 +148,7 @@ public class TaskController {
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity <Task> update(@PathVariable int id, @RequestBody Task task) {
+	public ResponseEntity <Task> update(@PathVariable Integer id, @RequestBody Task task) {
 		Log log = new Log();
 		log.setOperation(LogPetitionType.PUT);
 		log.setEntity(LogEntityType.TASK);
@@ -184,7 +184,7 @@ public class TaskController {
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity <HttpStatus> delete_task(@PathVariable int id) {
+	public ResponseEntity <HttpStatus> delete_task(@PathVariable Integer id) {
 		Log log = new Log();
 		log.setOperation(LogPetitionType.DELETE);
 		log.setEntity(LogEntityType.TASK);
@@ -205,7 +205,7 @@ public class TaskController {
 	}
 
 	@DeleteMapping("/by_project/{project_id}")
-	public ResponseEntity <HttpStatus> delete_all(@PathVariable int project_id) {
+	public ResponseEntity <HttpStatus> delete_all(@PathVariable Integer project_id) {
 		Log log = new Log();
 		log.setOperation(LogPetitionType.DELETE);
 		log.setEntity(LogEntityType.TASK);
@@ -239,7 +239,7 @@ public class TaskController {
 	}
 
 	@GetMapping("/search/{project_id}/{name}")
-	public ResponseEntity <List <Task>> search(@PathVariable int project_id, @PathVariable String name) {
+	public ResponseEntity <List <Task>> search(@PathVariable Integer project_id, @PathVariable String name) {
 		Log log = new Log();
 		log.setOperation(LogPetitionType.GET);
 		log.setEntity(LogEntityType.TASK);

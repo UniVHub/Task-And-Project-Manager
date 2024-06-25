@@ -25,7 +25,7 @@ public class ProjectService {
 	}
 
 	@Transactional(readOnly = true)
-	public Optional <Project> find_by_id(int id) {
+	public Optional <Project> find_by_id(Integer id) {
 		return project_repository.findById(id);
 	}
 
@@ -35,7 +35,7 @@ public class ProjectService {
 	}
 
 	@Transactional
-	public void delete_by_id(int id) {
+	public void delete_by_id(Integer id) {
 		project_repository.deleteById(id);
 	}
 

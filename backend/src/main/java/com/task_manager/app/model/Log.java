@@ -19,15 +19,16 @@ import jakarta.persistence.Id;
 
 
 @AllArgsConstructor
-@Entity
 @Getter
 @NoArgsConstructor
 @Setter
 @ToString
+
+@Entity
 public class Log {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
+	private Integer id;
 
 	@Enumerated(EnumType.STRING)
 	@Column(nullable = false)
