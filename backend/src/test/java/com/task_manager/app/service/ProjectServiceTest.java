@@ -74,11 +74,20 @@ public class ProjectServiceTest {
 	}
 
 	@Test
-	public void testDeleteAll() {
+	public void delete_all() {
 		service.save(project);
 		service.delete_all();
 
 		List <Project> projects = service.find_all();
 		assertTrue(projects.isEmpty());
+	}
+
+	@Test
+	public void find_top() {
+		Project saved_project = service.save(project);
+		Optional <Project> found_project = service.find_top();
+
+		assertTrue(found_project.isPresent());
+		assertEquals(saved_project.getId(), found_project.get().getId());
 	}
 }

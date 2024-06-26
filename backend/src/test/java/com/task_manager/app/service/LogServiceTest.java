@@ -78,7 +78,7 @@ public class LogServiceTest {
 	}
 
 	@Test
-	public void testDeleteAll() {
+	public void delete_all() {
 		service.save(log);
 		service.delete_all();
 

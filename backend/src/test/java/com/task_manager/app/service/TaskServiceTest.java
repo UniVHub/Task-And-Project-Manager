@@ -86,11 +86,20 @@ public class TaskServiceTest {
 	}
 
 	@Test
-	public void deleteAll() {
+	public void delete_all() {
 		task_service.save(task);
 		task_service.delete_all();
 
 		List <Task> tasks = task_service.find_all();
 		assertTrue(tasks.isEmpty());
+	}
+
+	@Test
+	public void find_top() {
+		Task saved_task = task_service.save(task);
+		Optional <Task> found_task = task_service.find_top();
+
+		assertTrue(found_task.isPresent());
+		assertEquals(saved_task.getId(), found_task.get().getId());
 	}
 }
