@@ -1,22 +1,14 @@
 from locust import HttpUser, task, between, SequentialTaskSet
 import itertools
-import requests
+from utils import execute_functions, create_entity, get_last_project_id
 
-# URL del servidor
-server_url = "http://192.168.59.106:30697"
+# Crear un nuevo proyecto para las pruebas
+new_project_for_testing = create_entity("api/projects")
+id_project = get_last_project_id("api/projects/last_created_id")
 
-# Obtener el último ID de tarea creado antes de ejecutar las pruebas
-def get_last_task_id():
-    response = requests.get(f"{server_url}/api/tasks/last_created_id")  # Ajusta la ruta según tu API
-    if response.status_code == 200:
-        return response.json().get('last_id', 0)
-    else:
-        raise Exception("No se pudo obtener el último ID de tarea")
-    
-id_project = 4
-# Inicializar el contador global con el último ID más uno
-last_task_id = get_last_task_id()
-project_counter = itertools.count(last_task_id + 1)
+# Obtener el último ID de tarea creada antes de ejecutar las pruebas
+last_task_id = execute_functions(f"api/tasks/{id_project}","api/tasks/last_created_id","api/tasks")
+task_counter = itertools.count(last_task_id + 1)
 
 class ProjectTasks(SequentialTaskSet):
 
@@ -26,7 +18,7 @@ class ProjectTasks(SequentialTaskSet):
 
     def on_start(self):
         """ Esta función se ejecuta al inicio de cada usuario para crear su propia tarea """
-        task_id = next(project_counter)
+        task_id = next(task_counter)
         task_name = f"Test Task {task_id}"
         response = self.client.post(f"/api/tasks/{id_project}", json={
             "name": task_name,
@@ -67,9 +59,3 @@ class WebsiteUser(HttpUser):
     # Define que el usuario esperará entre 1 y 5 segundos entre la ejecución de cada tarea
     wait_time = between(1, 5)
 
-
-# locust -f pruebas_locust_tasks.py --host http://192.168.59.107:31648 -u 50 -r 5 --run-time 3m
-# http://192.168.59.107:31648 es la URL del back de la aplicación
-# -u 50: 50 usuarios concurrentes
-# -r 5: 5 usuarios por segundo
-# --run-time 1m: tiempo de ejecución de 3 minuto
