@@ -160,6 +160,21 @@ GET /api/projects/search/{name}/{page_size}/{page}
 
 - `entity_id`: `"Name: <name>" Page size: <page_size> Page: <page>`.
 
+### Get the ID of the last project created
+
+```
+GET /api/project/last_created_id
+```
+
+#### Log (get the ID of the last project created)
+
+- `operation`: `"GET"`.
+
+- `entity`: `"PROJECT"`.
+
+- `entity_id`: `"ID: <project ID>"`.
+
+
 ## Tasks
 
 ### Get all tasks associated with a project
@@ -294,8 +309,22 @@ GET /api/tasks/search/{project_id}/{name}
 
 - `entity_id`: `"Entity: all Project ID: <project ID> Name: <name>"`.
 
-## Doing a petition with `curl`
+### Get the ID of the last task created
+
+```
+GET /api/tasks/last_created_id
+```
+
+#### Log (get the ID of the last task created)
+
+- `operation`: `"GET"`.
+
+- `entity`: `"TASK"`.
+
+- `entity_id`: `"ID: <task ID>"`.
+
+## Doing a request with `curl`
 
 ```BASH
-curl -X <TYPE OF PETITION> -H "Content-Type: application/json" -d @petition.json <URL>
+curl -X <TYPE OF PETITION> -H "Content-Type: application/json" -d @request.json <URL>
 ```

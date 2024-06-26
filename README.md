@@ -26,7 +26,7 @@ This application is designed to facilitate the management of tasks and projects.
 
 - Modular design: the application is designed with modular components to facilitate deployment in containers using Kubernetes.
 
-## Diagrams
+## Model
 
 ```mermaid
 erDiagram
@@ -65,4 +65,4 @@ To run the project in k8s run the `run.sh` script. The script will create the "b
 
 > First you will have to give it execution permissions.
 
-If you want to play only with the backend you can find information associated to the requests in this [file](./backend/requests.md)
+If you want to play only with the backend you can find information associated to the requests in this [file](./backend/requests.md).

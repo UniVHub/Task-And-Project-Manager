@@ -43,4 +43,9 @@ public class TaskService {
 	public void delete_all() {
 		task_repository.deleteAll();
 	}
+
+	@Transactional
+	public Optional <Task> find_top() {
+		return task_repository.findTopByOrderByIdDesc();
+	}
 }
