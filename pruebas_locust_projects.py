@@ -1,13 +1,28 @@
 from locust import HttpUser, task, between, SequentialTaskSet
 import itertools
+import requests
 
-# Contador global para generar nombres únicos de proyectos
-id_first_project = 68 # Debe ser el número donde va el contador de id de la base de datos
-project_counter = itertools.count(id_first_project)
+# URL del servidor
+server_url = "http://192.168.59.106:30697"
+
+# Obtener el último ID de tarea creado antes de ejecutar las pruebas
+def get_last_task_id():
+    response = requests.get(f"{server_url}/api/project/last_created_id")  # Ajusta la ruta según tu API
+    if response.status_code == 200:
+        return response.json().get('last_id', 0)
+    else:
+        raise Exception("No se pudo obtener el último ID de tarea")
+    
+# Inicializar el contador global con el último ID más uno
+last_project_id = get_last_task_id()
+project_counter = itertools.count(last_project_id + 1)
 
 # Define una clase que hereda de SequentialTaskSet y define las tareas que ejecutará el usuario
 # para casos donde las tareas deben ejecutarse en un orden específico.
 class Projects(SequentialTaskSet):
+    def __init__(self, parent):
+        super().__init__(parent)
+        self.project_id = None
 
     # El decorador @task se utiliza para marcar métodos como tareas que Locust ejecutará durante las pruebas de carga
     # Create project

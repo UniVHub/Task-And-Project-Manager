@@ -3,7 +3,7 @@ import itertools
 import requests
 
 # URL del servidor
-server_url = "http://192.168.59.107:31648"
+server_url = "http://192.168.59.106:30697"
 
 # Obtener el último ID de tarea creado antes de ejecutar las pruebas
 def get_last_task_id():

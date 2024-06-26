@@ -1,13 +1,28 @@
 from locust import HttpUser, task, between, SequentialTaskSet
 import itertools
+import requests
 
-# Contador global para generar nombres únicos de proyectos
-id_first_project = 68 # Debe ser el número donde va el contador de id de la base de datos
-project_counter = itertools.count(id_first_project)
+# URL del servidor
+server_url = "http://192.168.59.106:30697"
+
+# Obtener el último ID de tarea creado antes de ejecutar las pruebas
+def get_last_task_id():
+    response = requests.get(f"{server_url}/api/project/last_created_id")  # Ajusta la ruta según tu API
+    if response.status_code == 200:
+        return response.json().get('last_id', 0)
+    else:
+        raise Exception("No se pudo obtener el último ID de tarea")
+    
+# Inicializar el contador global con el último ID más uno
+last_project_id = get_last_task_id()
+project_counter = itertools.count(last_project_id + 1)
 
 # Define una clase que hereda de SequentialTaskSet y define las tareas que ejecutará el usuario
 # para casos donde las tareas deben ejecutarse en un orden específico.
 class ProjectsWrong(SequentialTaskSet):
+    def __init__(self, parent):
+        super().__init__(parent)
+        self.project_id = None
 
     # El decorador @task se utiliza para marcar métodos como tareas que Locust ejecutará durante las pruebas de carga
     # Create project
@@ -85,7 +100,7 @@ class WebsiteUser(HttpUser):
     wait_time = between(1, 5)
 
 
-# locust -f pruebas_locust_projects.py --host http://192.168.59.107:31648 -u 50 -r 5 --run-time 3m
+# locust -f pruebas_locust_projects_wrong.py --host http://192.168.59.106:30697 -u 50 -r 5 --run-time 3m
 # http://192.168.59.107:31648 es la URL del back de la aplicación
 # -u 50: 50 usuarios concurrentes
 # -r 5: 5 usuarios por segundo
@@ -93,7 +108,7 @@ class WebsiteUser(HttpUser):
 
 
 # 1. Pruebas de carga con Locust
-# locust -f pruebas_locust_projects.py --host http://192.168.59.107:31648 -u 100 -r 10 --run-time 10m
+# locust -f pruebas_locust_projects.py --host http://192.168.59.106:30697 -u 100 -r 10 --run-time 10m
 # locust -f pruebas_locust_tasks.py --host http://192.168.59.107:31648 -u 100 -r 10 --run-time 10m
 # 2. Pruebas de Estrés con Locust
 # locust -f pruebas_locust_projects.py --host http://192.168.59.107:31648 -u 1000 -r 50 --run-time 20m

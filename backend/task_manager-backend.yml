@@ -58,7 +58,7 @@ kind: Service
 metadata:
   name: task-manager-backend
 spec:
-  type: ClusterIP
+  type: NodePort
   selector:
     app: task-manager-backend
   ports:
