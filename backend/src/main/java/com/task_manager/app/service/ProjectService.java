@@ -43,4 +43,9 @@ public class ProjectService {
 	public void delete_all() {
 		project_repository.deleteAll();
 	}
+
+	@Transactional
+	public Optional <Project> find_top() {
+		return project_repository.findTopByOrderByIdDesc();
+	}
 }

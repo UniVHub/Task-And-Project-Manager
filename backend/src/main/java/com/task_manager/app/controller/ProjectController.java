@@ -15,6 +15,8 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import org.springframework.web.bind.annotation.GetMapping;
+
 
 
 
@@ -255,5 +257,33 @@ public class ProjectController {
 		return log.getWas_successful() ? new ResponseEntity <>(projects, HttpStatus.OK) :
 											new ResponseEntity <>(HttpStatus.INTERNAL_SERVER_ERROR);
 	}
-}
 
+	@GetMapping("/last_created_id")
+	public ResponseEntity <Integer> last_created_id() {
+		Log log = new Log();
+		log.setOperation(LogPetitionType.GET);
+		log.setEntity(LogEntityType.PROJECT);
+		log.setTimestamp(LocalDateTime.now());
+
+		Integer id = null;
+
+		try {
+			Optional <Project> possible_project = project_service.find_top();
+
+			if (possible_project.isPresent()) {
+				id = possible_project.get().getId();
+				log.setDescription("ID " + Integer.toString(id));
+				log.setWas_successful(true);
+			} else
+				new ResponseEntity <>(HttpStatus.NOT_FOUND);
+
+		} catch (Exception exception) {
+			log.setWas_successful(false);
+		} finally {
+			log_service.save(log);
+		}
+
+		return log.getWas_successful() ? new ResponseEntity <>(id, HttpStatus.OK) :
+				 							new ResponseEntity <>(HttpStatus.INTERNAL_SERVER_ERROR);
+	}
+}
