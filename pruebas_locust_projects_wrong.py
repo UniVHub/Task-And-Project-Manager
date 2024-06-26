@@ -7,7 +7,7 @@ project_counter = itertools.count(id_first_project)
 
 # Define una clase que hereda de SequentialTaskSet y define las tareas que ejecutará el usuario
 # para casos donde las tareas deben ejecutarse en un orden específico.
-class Projects(SequentialTaskSet):
+class ProjectsWrong(SequentialTaskSet):
 
     # El decorador @task se utiliza para marcar métodos como tareas que Locust ejecutará durante las pruebas de carga
     # Create project
@@ -20,50 +20,67 @@ class Projects(SequentialTaskSet):
             "description": f"Description of {project_name}"
         })
         self.project_id = response.json().get('id')
-        
-    # Get all projects
-    @task(1)
-    def get_all_projects(self):
-        self.client.get("/api/projects")
 
     # Get all projects wrong
     @task(1)
-    def get_all_projects(self):
-        self.client.get("/api/projectsX")
-
-    # Get project by ID
-    @task(1)
-    def get_project_by_id(self):
-        if self.project_id:
-            self.client.get(f"/api/projects/{self.project_id}")
+    def get_all_projects_wrong(self):
+        response = self.client.get("/api/projectsX")
+        if response.status_code != 200:
+            print(f"Error: {response.status_code} - {response.text}")
 
     # Get project by ID wrong
     @task(1)
-    def get_project_by_id(self):
+    def get_project_by_id_wrong(self):
         if self.project_id:
-            self.client.get(f"/api/projects/11")
+            response = self.client.get(f"/api/projects/11")
+            if response.status_code != 200:
+                print(f"Error: {response.status_code} - {response.text}")
 
-    # Update project
+    # Update project wrong with incorrect data type
     @task(1)
-    def update_project(self):
+    def update_project_wrong_data_type(self):
         if self.project_id:
-            self.client.put(f"/api/projects/{self.project_id}", json={
+            response = self.client.put(f"/api/projects/{self.project_id}", json={
                 "name": f"Updated Project {self.project_id}",
-                "description": "Updated description",
+                "description": 10,  # Incorrect data type
                 "creation_date": "2022-12-31T23:59:00",
                 "termination_date": "2023-12-31T23:59:00"
             })
+            if response.status_code != 200:
+                print(f"Error: {response.status_code} - {response.text}")
 
-    # Delete project
+    # Update project wrong with incorrect date format
     @task(1)
-    def delete_project(self):
+    def update_project_wrong_date_format(self):
         if self.project_id:
-            self.client.delete(f"/api/projects/{self.project_id}")
-            self.project_id = None
+            response = self.client.put(f"/api/projects/{self.project_id}", json={
+                "name": f"Updated Project {self.project_id}",
+                "description": "Updated description",
+                "creation_date": "2022-12-31T23:59:00",
+                "termination_date": "2023-12-31"  # Incorrect date format
+            })
+            if response.status_code != 200:
+                print(f"Error: {response.status_code} - {response.text}")
+
+    # Delete project wrong ID
+    @task(1)
+    def delete_project_wrong_id(self):
+        if self.project_id:
+            response = self.client.delete(f"/api/projects/23")  # Non-existent ID
+            if response.status_code != 200:
+                print(f"Error: {response.status_code} - {response.text}")
+
+    # Delete project with negative ID
+    @task(1)
+    def delete_project_negative_id(self):
+        if self.project_id:
+            response = self.client.delete(f"/api/projects/{-self.project_id}")  # Negative ID
+            if response.status_code != 200:
+                print(f"Error: {response.status_code} - {response.text}")    
 
 class WebsiteUser(HttpUser):
     # Define la clase de tareas que ejecutará el usuario
-    tasks = [Projects]
+    tasks = [ProjectsWrong]
     # Define que el usuario esperará entre 1 y 5 segundos entre la ejecución de cada tarea
     wait_time = between(1, 5)
 

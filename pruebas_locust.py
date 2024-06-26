@@ -19,6 +19,11 @@ class ProjectTasks(TaskSet):
     def get_all_projects(self):
         self.client.get("/api/projects")
 
+    # Get all projects wrong
+    @task(1)
+    def get_all_projects(self):
+        self.client.get("/api/projectss")
+
     # Get project by ID
     @task(1)
     def get_project_by_id(self):
