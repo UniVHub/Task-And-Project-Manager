@@ -145,4 +145,14 @@ public class ProjectControllerTest {
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$[0].name").value("project"));
 	}
+
+	@Test
+	public void last_created_id() throws Exception {
+		when(service.find_top()).thenReturn(Optional.of(project));
+
+		mvc.perform(get("/api/projects/last_created_id")
+				.contentType(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$").value(Integer.toString(project.getId())));
+	}
 }

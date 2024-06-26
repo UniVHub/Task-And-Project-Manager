@@ -156,4 +156,14 @@ public class TaskControllerTest {
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$[0].name").value("task"));
 	}
+
+	@Test
+	public void last_created_id() throws Exception {
+		when(task_service.find_top()).thenReturn(Optional.of(task));
+
+		mvc.perform(get("/api/tasks/last_created_id")
+				.contentType(MediaType.APPLICATION_JSON))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$").value(Integer.toString(task.getId())));
+	}
 }
