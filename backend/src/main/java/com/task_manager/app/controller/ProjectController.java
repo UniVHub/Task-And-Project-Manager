@@ -15,7 +15,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import org.springframework.web.bind.annotation.GetMapping;
 
 
 
@@ -160,24 +159,30 @@ public class ProjectController {
 
 	@DeleteMapping("/{id}")
 	public ResponseEntity <HttpStatus> delete_project(@PathVariable Integer id) {
+		ResponseEntity <HttpStatus> response_entity = null;
+
 		Log log = new Log();
 		log.setOperation(LogPetitionType.DELETE);
 		log.setEntity(LogEntityType.PROJECT);
 		log.setTimestamp(LocalDateTime.now());
 
 		try {
-			project_service.delete_by_id(id);
-
-			log.setWas_successful(true);
-			log.setDescription("ID: " + Integer.toString(id));
+			if (!project_service.exists(id)) {
+				log.setWas_successful(false);
+				response_entity = new ResponseEntity <>(HttpStatus.NOT_FOUND);
+			} else {
+				project_service.delete_by_id(id);
+				log.setWas_successful(true);
+				response_entity = new ResponseEntity <>(HttpStatus.OK);
+			}
 		} catch (Exception exception) {
 			log.setWas_successful(false);
+			response_entity = new ResponseEntity <>(HttpStatus.INTERNAL_SERVER_ERROR);
 		} finally {
 			log_service.save(log);
 		}
 
-		return log.getWas_successful() ? new ResponseEntity <>(HttpStatus.OK) :
-										new ResponseEntity <>(HttpStatus.INTERNAL_SERVER_ERROR);
+		return response_entity;
 	}
 
 	@DeleteMapping

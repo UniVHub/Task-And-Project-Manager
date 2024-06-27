@@ -184,6 +184,8 @@ public class TaskController {
 
 	@DeleteMapping("/{id}")
 	public ResponseEntity <HttpStatus> delete_task(@PathVariable Integer id) {
+		ResponseEntity <HttpStatus> response_entity = null;
+
 		Log log = new Log();
 		log.setOperation(LogPetitionType.DELETE);
 		log.setEntity(LogEntityType.TASK);
@@ -191,16 +193,22 @@ public class TaskController {
 		log.setTimestamp(LocalDateTime.now());
 
 		try {
-			task_service.delete_by_id(id);
-			log.setWas_successful(true);
+			if (!task_service.exists(id)) {
+				log.setWas_successful(false);
+				response_entity = new ResponseEntity <>(HttpStatus.NOT_FOUND);
+			} else {
+				task_service.delete_by_id(id);
+				log.setWas_successful(true);
+				response_entity = new ResponseEntity <>(HttpStatus.OK);
+			}
 		} catch (Exception exception) {
 			log.setWas_successful(false);
+			response_entity = new ResponseEntity <>(HttpStatus.INTERNAL_SERVER_ERROR);
 		} finally {
 			log_service.save(log);
 		}
 
-		return log.getWas_successful() ? new ResponseEntity <>(HttpStatus.OK) :
-										new ResponseEntity <>(HttpStatus.INTERNAL_SERVER_ERROR);
+		return response_entity;
 	}
 
 	@DeleteMapping("/by_project/{project_id}")

@@ -83,6 +83,14 @@ public class ProjectServiceTest {
 	}
 
 	@Test
+	public void exists() {
+		Project saved_project = service.save(project);
+		boolean was_found = service.exists(saved_project.getId());
+
+		assertTrue(was_found);
+	}
+
+	@Test
 	public void find_top() {
 		Project saved_project = service.save(project);
 		Optional <Project> found_project = service.find_top();

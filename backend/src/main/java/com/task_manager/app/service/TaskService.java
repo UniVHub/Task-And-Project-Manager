@@ -45,6 +45,11 @@ public class TaskService {
 	}
 
 	@Transactional
+	public boolean exists(Integer id) {
+		return task_repository.existsById(id);
+	}
+
+	@Transactional
 	public Optional <Task> find_top() {
 		return task_repository.findTopByOrderByIdDesc();
 	}

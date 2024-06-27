@@ -95,6 +95,14 @@ public class TaskServiceTest {
 	}
 
 	@Test
+	public void exists() {
+		Task saved_task = task_service.save(task);
+		boolean was_found = task_service.exists(saved_task.getId());
+
+		assertTrue(was_found);
+	}
+
+	@Test
 	public void find_top() {
 		Task saved_task = task_service.save(task);
 		Optional <Task> found_task = task_service.find_top();

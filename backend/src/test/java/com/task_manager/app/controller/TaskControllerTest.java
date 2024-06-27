@@ -128,6 +128,7 @@ public class TaskControllerTest {
 
 	@Test
 	public void delete_task() throws Exception {
+		when(task_service.exists(anyInt())).thenReturn(true);
 		doNothing().when(task_service).delete_by_id(anyInt());
 
 		mvc.perform(delete("/api/tasks/1"))

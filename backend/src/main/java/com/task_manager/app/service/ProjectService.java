@@ -45,6 +45,11 @@ public class ProjectService {
 	}
 
 	@Transactional
+	public boolean exists(Integer id) {
+		return project_repository.existsById(id);
+	}
+
+	@Transactional
 	public Optional <Project> find_top() {
 		return project_repository.findTopByOrderByIdDesc();
 	}

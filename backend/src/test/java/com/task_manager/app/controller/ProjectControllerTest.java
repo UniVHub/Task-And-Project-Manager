@@ -108,6 +108,7 @@ public class ProjectControllerTest {
 
 	@Test
 	public void delete_project() throws Exception {
+		when(service.exists(anyInt())).thenReturn(true);
 		doNothing().when(service).delete_by_id(anyInt());
 
 		mvc.perform(delete("/api/projects/1"))
