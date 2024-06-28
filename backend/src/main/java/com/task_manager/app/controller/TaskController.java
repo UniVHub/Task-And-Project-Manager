@@ -183,7 +183,7 @@ public class TaskController {
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity <HttpStatus> delete_task(@PathVariable Integer id) {
+	public ResponseEntity <HttpStatus> delete(@PathVariable Integer id) {
 		ResponseEntity <HttpStatus> response_entity = null;
 
 		Log log = new Log();

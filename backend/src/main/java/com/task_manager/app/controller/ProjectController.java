@@ -158,12 +158,13 @@ public class ProjectController {
 	}
 
 	@DeleteMapping("/{id}")
-	public ResponseEntity <HttpStatus> delete_project(@PathVariable Integer id) {
+	public ResponseEntity <HttpStatus> delete(@PathVariable Integer id) {
 		ResponseEntity <HttpStatus> response_entity = null;
 
 		Log log = new Log();
 		log.setOperation(LogPetitionType.DELETE);
 		log.setEntity(LogEntityType.PROJECT);
+		log.setDescription("ID: " + Integer.toString(id));
 		log.setTimestamp(LocalDateTime.now());
 
 		try {
