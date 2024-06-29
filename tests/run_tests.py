@@ -8,9 +8,9 @@ def main(test_file):
         "locust",
         "-f", test_file,
         "--host", f"{server_url}",
-        "--users", "15",
-        "-r", "3",
-        "--run-time", "1m"
+        "--users", "100",
+        "-r", "10",
+        "--run-time", "3m"
     ]
     subprocess.run(command)
 

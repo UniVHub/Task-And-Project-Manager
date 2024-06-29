@@ -120,13 +120,13 @@ class ProjectsWrong(SequentialTaskSet):
 
     @task(1)
     def get_logs(self):
-        if self.task_id:
+        if self.project_id:
             with self.client.get(f"/api/logs", catch_response=True) as response:
                 self.handle_response(response)
 
     @task(1)
     def get_logs_by_id(self):
-        if self.task_id:
+        if self.project_id:
             with self.client.get(f"/api/logs/{self.project_id}", catch_response=True) as response:
                 self.handle_response(response)
 
