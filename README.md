@@ -61,8 +61,8 @@ erDiagram
 
 ## Usage information
 
-To run the project in k8s run the `run.sh` script. The script will create the "backend" (a PostgreSQL database and a Spring application) and "frontend" deployments each with a replica. To use the application a "NodePort" has been created for the application ("frontend-service") in the port $80$.
+To run the project in k8s run the `run.sh` script. The script will create the "backend" (a PostgreSQL database and a Spring application) and "frontend" deployments each with a replica. To use the application, a "NodePort" has been created for the application (frontend-service) that exposes the $3000$ port of the application through the $3000$ port of the host.
 
 > First you will have to give it execution permissions.
 
-If you want to play only with the backend you can find information associated to the requests in this [file](./backend/requests.md).
+If you want to play only with the backend you can find information associated to the requests in this [file](./backend/requests.md). To connect to the backend a "NodePort" (task-manager-backend) has been created that exposes the $8000$ port of the application through the $80$ port of the host.
