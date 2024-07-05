@@ -2,11 +2,11 @@
 
 
 declare -a files=(
-	"config_map.yaml"
-	"PostgreSQL.yaml"
-	"PostgreSQL-storage.yaml"
-	"task_manager-backend.yaml"
-	"task_manager-storage.yaml"
+	"config_map.yml"
+	"PostgreSQL-storage.yml"
+	"PostgreSQL.yml"
+	"task_manager-storage.yml"
+	"task_manager-backend.yml"
 )
 
 for file in "${files[@]}"; do
