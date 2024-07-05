@@ -100,7 +100,7 @@ class ProjectsWrong(SequentialTaskSet):
     @task(1)
     def delete_project_wrong_id(self):
         if self.project_id:
-            with self.client.delete(f"/api/projects/23", catch_response=True) as response:
+            with self.client.delete(f"/api/projects/999999", catch_response=True) as response:
                 self.handle_response(response)
 
     @task(1)
