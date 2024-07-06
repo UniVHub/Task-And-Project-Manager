@@ -1,5 +1,6 @@
 #!/bin/bash
 
 
-./backend/stop.sh
-./frontend/stop.sh
+cd backend && ./stop.sh
+cd ..
+cd frontend && ./stop.sh

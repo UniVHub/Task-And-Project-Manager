@@ -1,5 +1,6 @@
 #!/bin/bash
 
 
-./backend/run.sh
-./frontend/run.sh
+cd backend && ./run.sh
+cd ..
+cd frontend && ./run.sh

@@ -1,7 +1,7 @@
 server:
   port: 8000
 
-loggin:
+logging:
   level:
     com.task_manager.app=INFO
   file.name: logs/spring-boot-logging.log

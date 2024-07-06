@@ -3,10 +3,10 @@
 
 declare -a files=(
 	"config_map.yml"
-	"PostgreSQL-storage.yml"
 	"PostgreSQL.yml"
-	"task_manager-storage.yml"
+	"PostgreSQL-storage.yml"
 	"task_manager-backend.yml"
+	"task_manager-storage.yml"
 )
 
 for file in "${files[@]}"; do
